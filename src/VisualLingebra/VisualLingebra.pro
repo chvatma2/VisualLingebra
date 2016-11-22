@@ -16,6 +16,12 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h
 
-DESTDIR=bin #Target file directory
-OBJECTS_DIR=build #Intermediate object files directory
-MOC_DIR=build #Intermediate moc files directory
+CONFIG(release, debug|release) {
+  DESTDIR=$$top_srcdir/bin
+}
+CONFIG(debug, debug|release) {
+  DESTDIR=$$top_srcdir/debug
+}
+ #Target file directory
+OBJECTS_DIR=$$top_srcdir/build #Intermediate object files directory
+MOC_DIR=$$top_srcdir/build #Intermediate moc files directory
