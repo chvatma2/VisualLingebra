@@ -3,9 +3,9 @@
 
 #include "vlutils_global.h"
 #include "tabbar.h"
+#include "menubar.h"
 
 #include <QMainWindow>
-#include <QMenuBar>
 #include <QVBoxLayout>
 #include <QWidget>
 
@@ -14,6 +14,7 @@ class VLUTILSSHARED_EXPORT CMainWindow : public QMainWindow
     Q_OBJECT
 public:
     explicit CMainWindow(QWidget *parent = 0);
+    ~CMainWindow();
 
 signals:
 
@@ -22,13 +23,10 @@ public slots:
 private:
     void setupUi();
 
-    QMenuBar m_menuBar;
-    QMenu m_tools;
-    QMenu m_help;
-    QMenu m_file;
+    CMenuBar m_menuBar;
     CTabBar m_tabBar;
-    QVBoxLayout m_mainLayout;
-    QWidget m_centralWidget;
+    QWidget *m_centralWidget;
+    QVBoxLayout *m_mainLayout;
 };
 
 #endif // CMAINWINDOW_H

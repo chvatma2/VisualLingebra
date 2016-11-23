@@ -13,12 +13,16 @@ DEFINES += VLUTILS_LIBRARY
 
 SOURCES += vlutils.cpp \
     mainwindow.cpp \
-    tabbar.cpp
+    tabbar.cpp \
+    menubar.cpp \
+    newtab.cpp
 
 HEADERS += vlutils.h\
         vlutils_global.h \
     mainwindow.h \
-    tabbar.h
+    tabbar.h \
+    menubar.h \
+    newtab.h
 
 OBJECTS_DIR=$$top_srcdir/build/vlutils #Intermediate object files directory
 MOC_DIR=$$top_srcdir/build/vlutils #Intermediate moc files directory
