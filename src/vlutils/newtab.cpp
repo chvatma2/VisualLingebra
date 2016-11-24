@@ -1,12 +1,27 @@
 #include "newtab.h"
 
 #include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QLabel>
+#include <QTreeView>
 
 CNewTab::CNewTab(QWidget *parent) : QWidget(parent)
 {
-    QHBoxLayout *layout = new QHBoxLayout(this);
-    layout->addWidget(new QLabel("TEST LEFT"));
-    layout->addWidget(new QLabel("TEST CENTER"));
-    layout->addWidget(new QLabel("TEST RIGHT"));
+    QHBoxLayout *layout = new QHBoxLayout;
+    setLayout(layout);
+    QVBoxLayout *leftLayout = new QVBoxLayout;
+    QVBoxLayout *centerLayout = new QVBoxLayout;
+    QVBoxLayout *rightLayout = new QVBoxLayout;
+    layout->addLayout(leftLayout, 1);
+
+    m_selectionLabel.setText(tr("Select a topic"));
+    QFont font;
+    font.setPointSize(18);
+    font.setBold(true);
+    m_selectionLabel.setFont(font);
+    leftLayout->addWidget(&m_selectionLabel);
+    leftLayout->addWidget(new QTreeView);
+    leftLayout->addStretch();
+    layout->addLayout(centerLayout, 1);
+    layout->addLayout(rightLayout, 1);
 }

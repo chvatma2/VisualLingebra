@@ -15,14 +15,18 @@ SOURCES += vlutils.cpp \
     mainwindow.cpp \
     tabbar.cpp \
     menubar.cpp \
-    newtab.cpp
+    newtab.cpp \
+    selectiontreemodel.cpp \
+    selectiontreeitem.cpp
 
 HEADERS += vlutils.h\
         vlutils_global.h \
     mainwindow.h \
     tabbar.h \
     menubar.h \
-    newtab.h
+    newtab.h \
+    selectiontreemodel.h \
+    selectiontreeitem.h
 
 OBJECTS_DIR=$$top_srcdir/build/vlutils #Intermediate object files directory
 MOC_DIR=$$top_srcdir/build/vlutils #Intermediate moc files directory
