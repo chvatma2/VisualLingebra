@@ -24,7 +24,7 @@ private:
     void setupUi();
 
     CMenuBar m_menuBar;
-    CTabBar m_tabBar;
+    CTabBar *m_tabBar;
     QWidget *m_centralWidget;
     QVBoxLayout *m_mainLayout;
 };

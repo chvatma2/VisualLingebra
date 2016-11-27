@@ -14,7 +14,7 @@ CNewTab::CNewTab(QWidget *parent) : QWidget(parent)
     QVBoxLayout *rightLayout = new QVBoxLayout;
     layout->addLayout(leftLayout, 1);
 
-    m_selectionLabel.setText(tr("Select a topic"));
+    m_selectionLabel.setText(tr("Select assignement"));
     QFont font;
     font.setPointSize(18);
     font.setBold(true);
@@ -22,6 +22,6 @@ CNewTab::CNewTab(QWidget *parent) : QWidget(parent)
     leftLayout->addWidget(&m_selectionLabel);
     leftLayout->addWidget(new QTreeView);
     leftLayout->addStretch();
-    layout->addLayout(centerLayout, 1);
+    layout->addLayout(centerLayout, 2);
     layout->addLayout(rightLayout, 1);
 }

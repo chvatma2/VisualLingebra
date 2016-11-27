@@ -18,11 +18,13 @@ void CMainWindow::setupUi()
 {
     setMenuBar(&m_menuBar);
 
+    m_tabBar = new CTabBar(this);
+
     m_centralWidget = new QWidget(this);
     m_mainLayout = new QVBoxLayout(m_centralWidget);
-    m_tabBar.addTab("TEST");
-    m_tabBar.addTab("TEST2");
-    m_mainLayout->addWidget(&m_tabBar);
+    m_tabBar->addTab("TEST");
+    m_tabBar->addTab("TEST2");
+    m_mainLayout->addWidget(m_tabBar);
     CNewTab *newTab = new CNewTab;
     newTab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_mainLayout->addWidget(newTab);
