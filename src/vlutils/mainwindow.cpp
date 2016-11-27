@@ -22,8 +22,7 @@ void CMainWindow::setupUi()
 
     m_centralWidget = new QWidget(this);
     m_mainLayout = new QVBoxLayout(m_centralWidget);
-    m_tabBar->addTab("TEST");
-    m_tabBar->addTab("TEST2");
+    m_tabBar->addTab(tr("New"));
     m_mainLayout->addWidget(m_tabBar);
     CNewTab *newTab = new CNewTab;
     newTab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);

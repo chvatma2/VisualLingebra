@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QLabel>
+#include <QTreeView>
 
 class CNewTab : public QWidget
 {
@@ -11,6 +12,10 @@ public:
 
 private:
     QLabel m_selectionLabel;
+    QTreeView * m_view = nullptr;
+
+private slots:
+    void treeViewItemSelected();
 };
 
 #endif // CNEWTAB_H
