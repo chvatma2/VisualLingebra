@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 
 #include "newtab.h"
+#include "taskwidget.h"
 
 #include <QDebug>
 
@@ -18,15 +19,41 @@ void CMainWindow::setupUi()
 {
     setMenuBar(&m_menuBar);
 
-    m_tabBar = new CTabBar(this);
+    resize(1024, 768);
+    m_tabWidget = new CTabBar(this);
 
-    m_centralWidget = new QWidget(this);
-    m_mainLayout = new QVBoxLayout(m_centralWidget);
-    m_tabBar->addTab(tr("New"));
-    m_mainLayout->addWidget(m_tabBar);
+    addNewTab();
+
+    setCentralWidget(m_tabWidget);
+
+    connect(&m_menuBar, &CMenuBar::newTaskClicked, this, &CMainWindow::addNewTab);
+}
+
+void CMainWindow::addNewTab()
+{
     CNewTab *newTab = new CNewTab;
     newTab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_mainLayout->addWidget(newTab);
+    int index = m_tabWidget->addTab(newTab, QIcon(), "New");
+    connect(newTab, &CNewTab::openTask, this, &CMainWindow::onOpenTask);
+    m_tabWidget->setCurrentIndex(index);
+}
 
-    setCentralWidget(m_centralWidget);
+void CMainWindow::onOpenTask(Tasks task)
+{
+    int index;
+    switch(task) {
+    case Tasks::MOVEMENT2D:
+        index = m_tabWidget->addTab(new CTaskWidget(), QIcon(), tr("2D Movement"));
+        break;
+    case Tasks::INDEPENDENCE:
+        index = m_tabWidget->addTab(new CTaskWidget(), QIcon(), tr("Linear independence"));
+        break;
+    case Tasks::HAMMING:
+        index = m_tabWidget->addTab(new CTaskWidget(), QIcon(), tr("Hamming code"));
+        break;
+    default:
+        qDebug() << "Unhandled task type";
+        break;
+    }
+    m_tabWidget->setCurrentIndex(index);
 }

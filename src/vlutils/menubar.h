@@ -6,6 +6,7 @@
 
 class CMenuBar : public QMenuBar
 {
+    Q_OBJECT
 public:
     CMenuBar(QWidget *parent = 0);
 private:
@@ -16,6 +17,9 @@ private:
     QAction m_exit;
     QAction m_options;
     QAction m_about;
+
+signals:
+    void newTaskClicked();
 };
 
 #endif // CMENUBAR_H

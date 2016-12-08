@@ -4,6 +4,7 @@
 #include "vlutils_global.h"
 #include "tabbar.h"
 #include "menubar.h"
+#include "newtab.h"
 
 #include <QMainWindow>
 #include <QVBoxLayout>
@@ -22,11 +23,13 @@ public slots:
 
 private:
     void setupUi();
+    void addNewTab();
 
     CMenuBar m_menuBar;
-    CTabBar *m_tabBar;
-    QWidget *m_centralWidget;
-    QVBoxLayout *m_mainLayout;
+    CTabBar *m_tabWidget;
+
+private slots:
+    void onOpenTask(Tasks task);
 };
 
 #endif // CMAINWINDOW_H

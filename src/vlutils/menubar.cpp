@@ -21,4 +21,6 @@ CMenuBar::CMenuBar(QWidget *parent) : QMenuBar(parent)
     m_tools.addAction(&m_options);
 
     m_help.addAction(&m_about);
+
+    connect(&m_newAssignement, &QAction::triggered, this, &CMenuBar::newTaskClicked);
 }

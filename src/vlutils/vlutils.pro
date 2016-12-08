@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += widgets
+QT       += widgets webenginewidgets
 
 TARGET = vlutils
 TEMPLATE = lib
@@ -18,7 +18,8 @@ SOURCES += vlutils.cpp \
     newtab.cpp \
     selectiontreemodel.cpp \
     selectiontreeitem.cpp \
-    assignement.cpp
+    assignement.cpp \
+    taskwidget.cpp
 
 HEADERS += vlutils.h\
         vlutils_global.h \
@@ -28,7 +29,8 @@ HEADERS += vlutils.h\
     newtab.h \
     selectiontreemodel.h \
     selectiontreeitem.h \
-    assignement.h
+    assignement.h \
+    taskwidget.h
 
 OBJECTS_DIR=$$top_srcdir/build/vlutils #Intermediate object files directory
 MOC_DIR=$$top_srcdir/build/vlutils #Intermediate moc files directory

@@ -76,12 +76,16 @@ QVariant CSelectionTreeModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (role != Qt::DisplayRole)
-        return QVariant();
-
     CSelectionTreeItem *item = static_cast<CSelectionTreeItem*>(index.internalPointer());
 
-    return item->data(index.column());
+    switch(role) {
+    case Qt::DisplayRole:
+        return item->data(0);
+    case Qt::WhatsThisRole:
+        return item->data(1);
+    default:
+        return QVariant();
+    }
 }
 
 QVariant CSelectionTreeModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -102,16 +106,23 @@ Qt::ItemFlags CSelectionTreeModel::flags(const QModelIndex &index) const
 
 void CSelectionTreeModel::setupModelData()
 {
-    QList<QVariant> data;
-    data << "TEST";
     QList<QVariant> ladata;
-    ladata << "Linear Algebra";
+    ladata << "Linear Algebra" << "";
     QList<QVariant> movdata;
-    movdata << "2D Movement";
+    movdata << "2D Movement" << "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
+                                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+                                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris "
+                                "nisi ut aliquip ex ea commodo consequat.";
     QList<QVariant> hamdata;
-    hamdata << "Hamming Code";
+    hamdata << "Hamming Code" << "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
+                                 "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+                                 "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+                                 "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "
+                                 "Excepteur sint occaecat cupidatat non proident, "
+                                 "sunt in culpa qui officia deserunt mollit anim id est laborum.";
     QList<QVariant> lidata;
-    lidata << "Linear Independence";
+    lidata << "Linear Independence" << "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
+                                       "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
     CSelectionTreeItem* linearAlgebra = new CSelectionTreeItem(ladata, m_rootItem);
     CSelectionTreeItem* movement2D = new CSelectionTreeItem(movdata, linearAlgebra);

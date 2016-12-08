@@ -1,9 +1,10 @@
 #ifndef CTABBAR_H
 #define CTABBAR_H
 
-#include <QTabBar>
+#include <QTabWidget>
+#include <QList>
 
-class CTabBar : public QTabBar
+class CTabBar : public QTabWidget
 {
     Q_OBJECT
 public:
@@ -11,7 +12,8 @@ public:
 
 signals:
 
-public slots:
+private slots:
+    void onTabClosed(int index);
 };
 
 #endif // CTABBAR_H
