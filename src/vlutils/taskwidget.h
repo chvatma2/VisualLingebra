@@ -17,10 +17,17 @@ signals:
 
 public slots:
 private:
+    void setAssignementWidget();
+    void setImplementationWidget();
+    void setOutputWidget();
+
     QWebEngineView m_page;
     QTreeView m_index;
     QStatusBar m_statusBar;
     QTabWidget m_bottomTabs;
+    QWidget *m_assignement = nullptr;
+    QWidget *m_implementation = nullptr;
+    QWidget *m_output = nullptr;
 
 private slots:
 
