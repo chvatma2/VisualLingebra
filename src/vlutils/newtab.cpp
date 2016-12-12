@@ -4,6 +4,7 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QDebug>
+#include <QFileDialog>
 
 #include "selectiontreemodel.h"
 
@@ -23,7 +24,8 @@ CNewTab::CNewTab(QWidget *parent) : QWidget(parent)
     layout->addLayout(&m_rightLayout, 1);
 
     connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &CNewTab::treeViewItemSelected);
-    connect(&m_openTaskButton, &QPushButton::clicked, this, &CNewTab::openTaskClicked);
+    connect(&m_openTaskButton, &QPushButton::clicked, this, &CNewTab::onOpenTaskClicked);
+    connect(&m_loadTaskButton, &QPushButton::clicked, this, &CNewTab::onLoadTaskClicked);
 }
 
 void CNewTab::setupLeftLayout()
@@ -99,7 +101,7 @@ void CNewTab::treeViewItemSelected()
     }
 }
 
-void CNewTab::openTaskClicked()
+void CNewTab::onOpenTaskClicked()
 {
     QModelIndex currentSelection = m_view->selectionModel()->currentIndex();
     QString name = currentSelection.data(Qt::DisplayRole).toString();
@@ -113,4 +115,9 @@ void CNewTab::openTaskClicked()
     } else {
         qDebug() << "Task name not handled yet";
     }
+}
+
+void CNewTab::onLoadTaskClicked()
+{
+    QFileDialog::getOpenFileName(this, "Open local task");
 }

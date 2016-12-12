@@ -40,7 +40,8 @@ private:
 
 private slots:
     void treeViewItemSelected();
-    void openTaskClicked();
+    void onOpenTaskClicked();
+    void onLoadTaskClicked();
 
 signals:
     void openTask(Tasks task);
