@@ -40,16 +40,17 @@ void CMainWindow::addNewTab()
 
 void CMainWindow::onOpenTask(Tasks task)
 {
-    int index;
+    int index = m_tabWidget->currentIndex();
+    m_tabWidget->removeTab(index);
     switch(task) {
     case Tasks::MOVEMENT2D:
-        index = m_tabWidget->addTab(new CTaskWidget(), QIcon(), tr("2D Movement"));
+        m_tabWidget->insertTab(index, new CTaskWidget(), QIcon(), tr("2D Movement"));
         break;
     case Tasks::INDEPENDENCE:
-        index = m_tabWidget->addTab(new CTaskWidget(), QIcon(), tr("Linear independence"));
+        m_tabWidget->insertTab(index, new CTaskWidget(), QIcon(), tr("Linear independence"));
         break;
     case Tasks::HAMMING:
-        index = m_tabWidget->addTab(new CTaskWidget(), QIcon(), tr("Hamming code"));
+        m_tabWidget->insertTab(index, new CTaskWidget(), QIcon(), tr("Hamming code"));
         break;
     default:
         qDebug() << "Unhandled task type";

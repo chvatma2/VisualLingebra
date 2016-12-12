@@ -108,6 +108,7 @@ void CTaskWidget::setImplementationWidget()
 
     connect(uploadSolutionButton, &QPushButton::clicked, this, &CTaskWidget::onUploadSolutionClicked);
     connect(compileSolutionButton, &QPushButton::clicked, this, &CTaskWidget::onCompileSolutionClicked);
+    connect(loadInputsButton, &QPushButton::clicked, this, &CTaskWidget::onLoadInputClicked);
 }
 
 void CTaskWidget::setOutputWidget()
@@ -189,6 +190,11 @@ void CTaskWidget::onUploadSolutionClicked()
     m_uploadSolutionLineEdit.setText(filename);
 }
 
+void CTaskWidget::onLoadInputClicked()
+{
+    QString filename = QFileDialog::getOpenFileName(this, "Select input file");
+}
+
 void CTaskWidget::onCompileSolutionClicked()
 {
     m_console.setText(m_uploadSolutionLineEdit.text() + " Compiled");
@@ -197,7 +203,7 @@ void CTaskWidget::onCompileSolutionClicked()
 void CTaskWidget::onHideButtonClicked()
 {
     QPropertyAnimation *hideToolboxAnimation = new QPropertyAnimation(&m_toolboxArea, "maximumWidth");
-    hideToolboxAnimation->setDuration(500);
+    hideToolboxAnimation->setDuration(200);
     hideToolboxAnimation->setStartValue(m_toolboxArea.width());
     hideToolboxAnimation->setEndValue(40);
     connect(hideToolboxAnimation, &QPropertyAnimation::finished, this, &CTaskWidget::onHideAnimationFinished);
@@ -220,14 +226,9 @@ void CTaskWidget::onShowButtonClicked()
     m_outputLayout.addWidget(&m_toolboxArea);
 
     QPropertyAnimation *showToolboxAnimation = new QPropertyAnimation(&m_toolboxArea, "maximumWidth");
-    showToolboxAnimation->setDuration(500);
+    showToolboxAnimation->setDuration(200);
     showToolboxAnimation->setStartValue(40);
     showToolboxAnimation->setEndValue(m_toolboxArea.sizeHint().width());
     //connect(showToolboxAnimation, &QPropertyAnimation::finished, this, &CTaskWidget::onShowAnimationFinished);
     showToolboxAnimation->start(QAbstractAnimation::DeleteWhenStopped);
-}
-
-void CTaskWidget::onShowAnimationFinished()
-{
-
 }

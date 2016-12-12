@@ -41,6 +41,7 @@ private:
 
 private slots:
     void onUploadSolutionClicked();
+    void onLoadInputClicked();
     void onCompileSolutionClicked();
     void onHideButtonClicked();
     void onHideAnimationFinished();
