@@ -8,6 +8,7 @@
 #include <QListView>
 #include <QFileDialog>
 #include <QPropertyAnimation>
+#include <QSplitter>
 
 CTaskWidget::CTaskWidget(QWidget *parent) : QTabWidget(parent)
 {
@@ -141,6 +142,7 @@ void CTaskWidget::setOutputWidget()
     showPartOfScreenButtonsLayout->addWidget(bothSolutionsButton);
     showPartOfScreenButtonsLayout->addWidget(studentSolutionsButton);
     showPartOfScreenButtonsLayout->addWidget(referenceSolutionsButton);
+
     showPartOfScreenButtonsLayout->addStretch();
     toolsLayout->addWidget(hideToolsButton);
     toolsLayout->addLayout(showPartOfScreenButtonsLayout);
@@ -231,4 +233,9 @@ void CTaskWidget::onShowButtonClicked()
     showToolboxAnimation->setEndValue(m_toolboxArea.sizeHint().width());
     //connect(showToolboxAnimation, &QPropertyAnimation::finished, this, &CTaskWidget::onShowAnimationFinished);
     showToolboxAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+void CTaskWidget::onShowAnimationFinished()
+{
+
 }
