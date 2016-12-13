@@ -36,6 +36,7 @@ private:
 
 private slots:
     void onOpenTask(Tasks task);
+    void onLastTabClosed();
 };
 
 #endif // CMAINWINDOW_H

@@ -28,6 +28,7 @@ void CMainWindow::setupUi()
 
     connect(&m_menuBar, &CMenuBar::newTaskClicked, this, &CMainWindow::addNewTab);
     connect(&m_menuBar, &CMenuBar::closeCurrentClicked, this, &CMainWindow::closeCurrent);
+    connect(m_tabWidget, &CTabBar::lastTabClosed, this, &CMainWindow::onLastTabClosed);
 }
 
 void CMainWindow::addNewTab()
@@ -63,4 +64,9 @@ void CMainWindow::onOpenTask(Tasks task)
         break;
     }
     m_tabWidget->setCurrentIndex(index);
+}
+
+void CMainWindow::onLastTabClosed()
+{
+    addNewTab();
 }

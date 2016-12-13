@@ -16,4 +16,7 @@ void CTabBar::onTabClosed(int index)
     QWidget* tmp = widget(index);
     removeTab(index);
     delete tmp;
+    if(count() == 0) {
+        emit lastTabClosed();
+    }
 }

@@ -11,6 +11,7 @@ public:
     explicit CTabBar(QWidget *parent = 0);
 
 signals:
+    void lastTabClosed();
 
 private slots:
     void onTabClosed(int index);
