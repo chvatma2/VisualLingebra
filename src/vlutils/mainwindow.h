@@ -13,7 +13,6 @@
 //TODO
 //1. Options
 //2. Zmena jazyka
-//3. Zavrit aktualni priklad
 
 class VLUTILSSHARED_EXPORT CMainWindow : public QMainWindow
 {

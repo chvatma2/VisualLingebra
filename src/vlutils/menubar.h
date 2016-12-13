@@ -22,6 +22,9 @@ private:
 signals:
     void newTaskClicked();
     void closeCurrentClicked();
+
+private slots:
+    void onOptionsClicked();
 };
 
 #endif // CMENUBAR_H

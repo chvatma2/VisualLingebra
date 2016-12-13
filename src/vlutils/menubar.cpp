@@ -1,4 +1,5 @@
 #include "menubar.h"
+#include "optionsdialog.h"
 
 CMenuBar::CMenuBar(QWidget *parent) : QMenuBar(parent)
 {
@@ -26,4 +27,11 @@ CMenuBar::CMenuBar(QWidget *parent) : QMenuBar(parent)
 
     connect(&m_newAssignement, &QAction::triggered, this, &CMenuBar::newTaskClicked);
     connect(&m_closeCurrent, &QAction::triggered, this, &CMenuBar::closeCurrentClicked);
+    connect(&m_options, &QAction::triggered, this, &CMenuBar::onOptionsClicked);
+}
+
+void CMenuBar::onOptionsClicked()
+{
+    COptionsDialog dlg;
+    dlg.exec();
 }
