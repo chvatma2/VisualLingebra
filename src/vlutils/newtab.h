@@ -8,6 +8,9 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
+//TODO
+//1. Pri zavreni posledni okna otevri newtab
+
 enum class Tasks {
     MOVEMENT2D,
     HAMMING,

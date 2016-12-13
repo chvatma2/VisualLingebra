@@ -12,21 +12,6 @@
 
 CTaskWidget::CTaskWidget(QWidget *parent) : QTabWidget(parent)
 {
-    //QHBoxLayout *mainLayout = new QHBoxLayout;
-
-    //QFile input("../plugins/test.html");
-    //input.open(QIODevice::ReadOnly);
-
-    //m_page.setHtml(input.readAll());
-    //m_page.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding );
-    //mainLayout->addWidget(&m_page);
-
-    //QVBoxLayout *indexLayout = new QVBoxLayout;
-    //indexLayout->addWidget(new QLabel("Index"));
-    //indexLayout->addWidget(&m_index);
-
-    //mainLayout->addLayout(indexLayout);
-
     setAssignementWidget();
     setImplementationWidget();
     setOutputWidget();
@@ -140,6 +125,7 @@ void CTaskWidget::setOutputWidget()
 
     QHBoxLayout *showPartOfScreenButtonsLayout = new QHBoxLayout;
     showPartOfScreenButtonsLayout->addWidget(bothSolutionsButton);
+    bothSolutionsButton->setDown(true);
     showPartOfScreenButtonsLayout->addWidget(studentSolutionsButton);
     showPartOfScreenButtonsLayout->addWidget(referenceSolutionsButton);
 
@@ -174,8 +160,9 @@ void CTaskWidget::setOutputWidget()
     studentSolutionsButton2->setMaximumWidth(15);
     referenceSolutionsButton2->setMaximumWidth(15);
     minimizedToolboxLayout->addWidget(showToolboxButton);
-    minimizedToolboxLayout->addStretch();
+//    minimizedToolboxLayout->addStretch();
     minimizedToolboxLayout->addWidget(bothSolutionsButton2);
+    bothSolutionsButton2->setDown(true);
     minimizedToolboxLayout->addWidget(studentSolutionsButton2);
     minimizedToolboxLayout->addWidget(referenceSolutionsButton2);
     minimizedToolboxLayout->addStretch();

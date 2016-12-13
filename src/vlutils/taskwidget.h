@@ -12,6 +12,11 @@
 #include <QScrollArea>
 #include <QFrame>
 
+//TODO
+//1. Tooltipy
+//2. Ikonky
+//3. Funkcni tlacitka na zmenu oken
+
 class CTaskWidget : public QTabWidget
 {
     Q_OBJECT
