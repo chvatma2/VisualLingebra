@@ -29,6 +29,7 @@ public slots:
 private:
     void setupUi();
     void addNewTab();
+    void closeCurrent();
 
     CMenuBar m_menuBar;
     CTabBar *m_tabWidget;

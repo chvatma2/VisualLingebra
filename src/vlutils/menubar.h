@@ -16,10 +16,12 @@ private:
     QAction m_newAssignement;
     QAction m_exit;
     QAction m_options;
+    QAction m_closeCurrent;
     QAction m_about;
 
 signals:
     void newTaskClicked();
+    void closeCurrentClicked();
 };
 
 #endif // CMENUBAR_H

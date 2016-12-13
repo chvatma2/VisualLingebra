@@ -27,6 +27,7 @@ void CMainWindow::setupUi()
     setCentralWidget(m_tabWidget);
 
     connect(&m_menuBar, &CMenuBar::newTaskClicked, this, &CMainWindow::addNewTab);
+    connect(&m_menuBar, &CMenuBar::closeCurrentClicked, this, &CMainWindow::closeCurrent);
 }
 
 void CMainWindow::addNewTab()
@@ -36,6 +37,11 @@ void CMainWindow::addNewTab()
     int index = m_tabWidget->addTab(newTab, QIcon(), "New");
     connect(newTab, &CNewTab::openTask, this, &CMainWindow::onOpenTask);
     m_tabWidget->setCurrentIndex(index);
+}
+
+void CMainWindow::closeCurrent()
+{
+    m_tabWidget->removeTab(m_tabWidget->currentIndex());
 }
 
 void CMainWindow::onOpenTask(Tasks task)

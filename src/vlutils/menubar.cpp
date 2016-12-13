@@ -13,8 +13,10 @@ CMenuBar::CMenuBar(QWidget *parent) : QMenuBar(parent)
     m_exit.setText(tr("Exit"));
     m_about.setText(tr("About"));
     m_options.setText(tr("Options"));
+    m_closeCurrent.setText(tr("Close current"));
 
     m_file.addAction(&m_newAssignement);
+    m_file.addAction(&m_closeCurrent);
     m_file.addSeparator();
     m_file.addAction(&m_exit);
 
@@ -23,4 +25,5 @@ CMenuBar::CMenuBar(QWidget *parent) : QMenuBar(parent)
     m_help.addAction(&m_about);
 
     connect(&m_newAssignement, &QAction::triggered, this, &CMenuBar::newTaskClicked);
+    connect(&m_closeCurrent, &QAction::triggered, this, &CMenuBar::closeCurrentClicked);
 }
