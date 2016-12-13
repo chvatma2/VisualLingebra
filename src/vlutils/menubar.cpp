@@ -14,7 +14,7 @@ CMenuBar::CMenuBar(QWidget *parent) : QMenuBar(parent)
     m_exit.setText(tr("Exit"));
     m_about.setText(tr("About"));
     m_options.setText(tr("Options"));
-    m_closeCurrent.setText(tr("Close current"));
+    m_closeCurrent.setText(tr("Close current tab"));
 
     m_file.addAction(&m_newAssignement);
     m_file.addAction(&m_closeCurrent);

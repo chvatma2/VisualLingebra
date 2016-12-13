@@ -35,7 +35,7 @@ void CMainWindow::addNewTab()
 {
     CNewTab *newTab = new CNewTab;
     newTab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    int index = m_tabWidget->addTab(newTab, QIcon(), "New");
+    int index = m_tabWidget->addTab(newTab, QIcon(), tr("New"));
     connect(newTab, &CNewTab::openTask, this, &CMainWindow::onOpenTask);
     m_tabWidget->setCurrentIndex(index);
 }
@@ -43,6 +43,18 @@ void CMainWindow::addNewTab()
 void CMainWindow::closeCurrent()
 {
     m_tabWidget->removeTab(m_tabWidget->currentIndex());
+}
+
+void CMainWindow::loadLanguages()
+{
+
+}
+
+void CMainWindow::retranslateUi()
+{
+    for(int i = 0; i < m_tabWidget->count(); ++i) {
+        m_tabWidget->setTabText(i, tr(qPrintable(m_tabWidget->tabText(i))));
+    }
 }
 
 void CMainWindow::onOpenTask(Tasks task)

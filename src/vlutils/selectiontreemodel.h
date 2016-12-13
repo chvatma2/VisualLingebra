@@ -7,6 +7,7 @@
 
 class CSelectionTreeModel : public QAbstractItemModel
 {
+    Q_OBJECT
 public:
     explicit CSelectionTreeModel(QObject *parent = 0);
     ~CSelectionTreeModel();

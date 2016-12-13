@@ -9,6 +9,8 @@
 #include <QMainWindow>
 #include <QVBoxLayout>
 #include <QWidget>
+#include <QHash>
+#include <QTranslator>
 
 //TODO
 //1. Options
@@ -29,9 +31,12 @@ private:
     void setupUi();
     void addNewTab();
     void closeCurrent();
+    void loadLanguages();
+    void retranslateUi();
 
     CMenuBar m_menuBar;
     CTabBar *m_tabWidget;
+    QHash<QString, QTranslator> m_languageMap;
 
 private slots:
     void onOpenTask(Tasks task);

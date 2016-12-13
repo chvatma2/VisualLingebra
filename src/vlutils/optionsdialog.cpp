@@ -5,6 +5,8 @@
 #include <QPushButton>
 #include <QGroupBox>
 #include <QCheckBox>
+#include <QComboBox>
+
 
 COptionsDialog::COptionsDialog(QWidget *parent)
     : QDialog(parent)
@@ -21,7 +23,7 @@ COptionsDialog::COptionsDialog(QWidget *parent)
     lowerButtonsLayout->addWidget(okButton);
     lowerButtonsLayout->addWidget(cancelButton);
 
-    QGroupBox *optionsGroup = new QGroupBox("Generic options group");
+    QGroupBox *optionsGroup = new QGroupBox(tr("Generic options group"));
     QCheckBox *option1 = new QCheckBox(tr("Option 1"));
     QCheckBox *option2 = new QCheckBox(tr("Option 2"));
     QCheckBox *option3 = new QCheckBox(tr("Option 3"));
@@ -32,7 +34,16 @@ COptionsDialog::COptionsDialog(QWidget *parent)
     optionsLayout->addWidget(option3);
     optionsGroup->setLayout(optionsLayout);
 
+    QGroupBox *languageGroup = new QGroupBox(tr("Language"));
+    QVBoxLayout *languageLayout = new QVBoxLayout;
+    QComboBox *languageBox = new QComboBox;
+    languageBox->addItem("English");
+    languageBox->addItem("Čeština");
+    languageLayout->addWidget(languageBox);
+    languageGroup->setLayout(languageLayout);
+
     mainLayout->addWidget(optionsGroup);
+    mainLayout->addWidget(languageGroup);
     mainLayout->addStretch();
     mainLayout->addLayout(lowerButtonsLayout);
     setLayout(mainLayout);
