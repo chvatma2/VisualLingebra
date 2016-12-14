@@ -73,6 +73,11 @@ private:
     QStringListModel *m_stringModel = nullptr;
     QStringList m_inputs;
 
+    QPushButton *m_upButton = nullptr;
+    QPushButton *m_downButton = nullptr;
+    QPushButton *m_leftButton = nullptr;
+    QPushButton *m_rightButton = nullptr;
+
 private slots:
     void onUploadSolutionClicked();
     void onLoadInputClicked();
@@ -84,6 +89,10 @@ private slots:
     void onBothViewsSelected();
     void onStudentViewSelected();
     void onReferenceViewSelected();
+    void onUpButtonStateChanged(bool isPressed);
+    void onDownButtonStateChanged(bool isPressed);
+    void onLeftButtonStateChanged(bool isPressed);
+    void onRightButtonStateChanged(bool isPressed);
 
 };
 

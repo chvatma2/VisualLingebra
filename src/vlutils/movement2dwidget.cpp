@@ -37,11 +37,39 @@ void CMovement2DWidget::paintEvent(QPaintEvent *event)
 void CMovement2DWidget::keyPressEvent(QKeyEvent *event)
 {
     m_pressedKeys.insert(event->key());
+    switch(event->key()) {
+    case Qt::Key_Up:
+        emit upPressed(true);
+        break;
+    case Qt::Key_Down:
+        emit downPressed(true);
+        break;
+    case Qt::Key_Left:
+        emit leftPressed(true);
+        break;
+    case Qt::Key_Right:
+        emit rightPressed(true);
+        break;
+    }
 }
 
 void CMovement2DWidget::keyReleaseEvent(QKeyEvent *event)
 {
     m_pressedKeys.remove(event->key());
+    switch(event->key()) {
+    case Qt::Key_Up:
+        emit upPressed(false);
+        break;
+    case Qt::Key_Down:
+        emit downPressed(false);
+        break;
+    case Qt::Key_Left:
+        emit leftPressed(false);
+        break;
+    case Qt::Key_Right:
+        emit rightPressed(false);
+        break;
+    }
 }
 
 void CMovement2DWidget::processInput()

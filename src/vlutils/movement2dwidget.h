@@ -32,6 +32,10 @@ private:
     float m_scaleFactor = 0.5;
 
 signals:
+    void upPressed(bool isPressed);
+    void downPressed(bool isPressed);
+    void leftPressed(bool isPressed);
+    void rightPressed(bool isPressed);
 
 public slots:
     void update();

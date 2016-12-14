@@ -11,6 +11,7 @@
 #include <QPropertyAnimation>
 #include <QSplitter>
 #include <QStringListModel>
+#include <QGridLayout>
 
 CTaskWidget::CTaskWidget(QWidget *parent) : /*QTabWidget(parent),*/ ITabs(parent)
 {
@@ -174,6 +175,24 @@ void CTaskWidget::setOutputWidget()
     toolsLayout->addLayout(showPartOfScreenButtonsLayout);
     toolsLayout->addStretch();
 
+    QWidget* gridWidget = new QWidget;
+    QGridLayout *gridLayout = new QGridLayout;
+
+    m_upButton = new QPushButton(QIcon("../assets/up-arrow.png"), "");
+    m_downButton = new QPushButton(QIcon("../assets/down-arrow.png"), "");
+    m_leftButton = new QPushButton(QIcon("../assets/left-arrow.png"), "");
+    m_rightButton = new QPushButton(QIcon("../assets/right-arrow.png"), "");
+
+    gridLayout->addWidget(m_upButton, 0, 1);
+    gridLayout->addWidget(m_downButton, 2, 1);
+    gridLayout->addWidget(m_leftButton, 1, 0);
+    gridLayout->addWidget(m_rightButton, 1, 2);
+    gridWidget->setLayout(gridLayout);
+
+    toolsLayout->addWidget(gridWidget);
+
+    toolsLayout->addStretch();
+
     m_toolboxArea.setWidgetResizable(true);
     m_toolboxArea.setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
     m_toolboxArea.setFrameStyle(QFrame::Panel);
@@ -190,6 +209,16 @@ void CTaskWidget::setOutputWidget()
 
     rightLayout->addWidget(referenceMovementWidget);
     leftLayout->addWidget(studentMovementWidget);
+
+    connect(referenceMovementWidget, &CMovement2DWidget::upPressed, this, &CTaskWidget::onUpButtonStateChanged);
+    connect(referenceMovementWidget, &CMovement2DWidget::downPressed, this, &CTaskWidget::onDownButtonStateChanged);
+    connect(referenceMovementWidget, &CMovement2DWidget::leftPressed, this, &CTaskWidget::onLeftButtonStateChanged);
+    connect(referenceMovementWidget, &CMovement2DWidget::rightPressed, this, &CTaskWidget::onRightButtonStateChanged);
+
+    connect(studentMovementWidget, &CMovement2DWidget::upPressed, this, &CTaskWidget::onUpButtonStateChanged);
+    connect(studentMovementWidget, &CMovement2DWidget::downPressed, this, &CTaskWidget::onDownButtonStateChanged);
+    connect(studentMovementWidget, &CMovement2DWidget::leftPressed, this, &CTaskWidget::onLeftButtonStateChanged);
+    connect(studentMovementWidget, &CMovement2DWidget::rightPressed, this, &CTaskWidget::onRightButtonStateChanged);
 
     m_referenceView = new QWidget;
     m_referenceView->setLayout(rightLayout);
@@ -326,4 +355,24 @@ void CTaskWidget::onReferenceViewSelected()
     m_bothSolutionsButton->setDown(false);
     m_referenceSolutionsButton->setDown(true);
     m_studentSolutionsButton->setDown(false);
+}
+
+void CTaskWidget::onUpButtonStateChanged(bool isPressed)
+{
+    m_upButton->setDown(isPressed);
+}
+
+void CTaskWidget::onDownButtonStateChanged(bool isPressed)
+{
+    m_downButton->setDown(isPressed);
+}
+
+void CTaskWidget::onLeftButtonStateChanged(bool isPressed)
+{
+    m_leftButton->setDown(isPressed);
+}
+
+void CTaskWidget::onRightButtonStateChanged(bool isPressed)
+{
+    m_rightButton->setDown(isPressed);
 }
