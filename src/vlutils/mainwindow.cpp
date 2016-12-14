@@ -38,6 +38,7 @@ void CMainWindow::setupUi()
     connect(&m_menuBar, &CMenuBar::closeCurrentClicked, this, &CMainWindow::closeCurrent);
     connect(m_tabWidget, &CTabBar::lastTabClosed, this, &CMainWindow::onLastTabClosed);
     connect(&m_menuBar, &CMenuBar::languageChanged, this, &CMainWindow::changeLanguage);
+    connect(m_tabWidget, &CTabBar::currentChanged, this, &CMainWindow::onCurrentTabChanged);
 }
 
 void CMainWindow::addNewTab()
@@ -136,4 +137,13 @@ void CMainWindow::onOpenTask(Tasks task)
 void CMainWindow::onLastTabClosed()
 {
     addNewTab();
+}
+
+void CMainWindow::onCurrentTabChanged(int index)
+{
+    if(dynamic_cast<CTaskWidget*>(m_tabWidget->widget(index))) {
+        m_menuBar.enableSave(true);
+    } else {
+        m_menuBar.enableSave(false);
+    }
 }

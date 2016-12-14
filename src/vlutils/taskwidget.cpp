@@ -233,8 +233,10 @@ void CTaskWidget::onLoadInputClicked()
 {
     QString filename = QFileDialog::getOpenFileName(this, tr("Select input file"));
     QFileInfo info(filename);
-    m_inputs << info.fileName();
-    m_stringModel->setStringList(m_inputs);
+    if(!filename.isEmpty()) {
+        m_inputs << info.fileName();
+        m_stringModel->setStringList(m_inputs);
+    }
 }
 
 void CTaskWidget::onCompileSolutionClicked()

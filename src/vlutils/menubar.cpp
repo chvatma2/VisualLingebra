@@ -18,6 +18,7 @@ CMenuBar::CMenuBar(QWidget *parent) : QMenuBar(parent)
     m_file.addAction(&m_saveTab);
     m_file.addSeparator();
     m_file.addAction(&m_exit);
+    m_saveTab.setEnabled(false);
 
     m_tools.addAction(&m_options);
 
@@ -47,6 +48,11 @@ void CMenuBar::retranslateUi()
     m_saveTab.setText(tr("Save current tab"));
 }
 
+void CMenuBar::enableSave(bool enable)
+{
+    m_saveTab.setEnabled(enable);
+}
+
 void CMenuBar::onOptionsClicked()
 {
     COptionsDialog dlg(m_languages);
@@ -58,6 +64,8 @@ void CMenuBar::onSaveTabClicked()
 {
     QString filename = QFileDialog::getSaveFileName(this, tr("Save current tab"));
     QMessageBox msg;
-    msg.setText(tr("Tab successfully saved in file") + " " + filename);
-    msg.exec();
+    if(!filename.isEmpty()) {
+        msg.setText(tr("Tab successfully saved in file") + " " + filename);
+        msg.exec();
+    }
 }

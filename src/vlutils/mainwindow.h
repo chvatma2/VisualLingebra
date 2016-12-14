@@ -45,6 +45,7 @@ private:
 private slots:
     void onOpenTask(Tasks task);
     void onLastTabClosed();
+    void onCurrentTabChanged(int index);
 };
 
 #endif // CMAINWINDOW_H

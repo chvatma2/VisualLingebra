@@ -11,6 +11,7 @@ public:
     CMenuBar(QWidget *parent = 0);
     void setLanguageList(QStringList list);
     void retranslateUi();
+    void enableSave(bool enable);
 private:
 
     QMenu m_tools;
