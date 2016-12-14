@@ -9,6 +9,7 @@
 #include <QFileDialog>
 #include <QPropertyAnimation>
 #include <QSplitter>
+#include <QStringListModel>
 
 CTaskWidget::CTaskWidget(QWidget *parent) : /*QTabWidget(parent),*/ ITabs(parent)
 {
@@ -58,11 +59,21 @@ void CTaskWidget::setAssignementWidget()
     m_page.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding );
     mainLayout->addWidget(&m_page);
 
+    QWidget *indexWidget = new QWidget;
     QVBoxLayout *indexLayout = new QVBoxLayout;
     indexLayout->addWidget(new QLabel("Index"));
+
+    QStringListModel *indexModel = new QStringListModel;
+    QStringList list;
+    list << "Introduction" << "Chapter I" << "Chapter II";
+    indexModel->setStringList(list);
+    m_index.setModel(indexModel);
+
     indexLayout->addWidget(&m_index);
 
-    mainLayout->addLayout(indexLayout);
+    indexWidget->setLayout(indexLayout);
+    indexWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+    mainLayout->addWidget(indexWidget);
     m_assignement->setLayout(mainLayout);
 }
 
@@ -103,15 +114,20 @@ void CTaskWidget::setImplementationWidget()
 
     m_inputsLabel = new QLabel(tr("Inputs"));
     m_loadInputsButton = new QPushButton(tr("Load inputs"));
-    QListView *inputsList = new QListView;
+    m_inputsList = new QListView;
+    m_stringModel = new QStringListModel;
+    m_inputsList->setModel(m_stringModel);
     m_inputsLabel->setFont(font);
 
     inputsLayout->addWidget(m_inputsLabel);
     inputsLayout->addWidget(m_loadInputsButton);
-    inputsLayout->addWidget(inputsList);
+    inputsLayout->addWidget(m_inputsList);
 
     mainLayout->addLayout(uploadSolutionLayout, 2);
-    mainLayout->addLayout(inputsLayout, 1);
+    QWidget *inputsWidget = new QWidget;
+    inputsWidget->setLayout(inputsLayout);
+    inputsWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+    mainLayout->addWidget(inputsWidget);
 
     m_implementation->setLayout(mainLayout);
 
@@ -216,6 +232,9 @@ void CTaskWidget::onUploadSolutionClicked()
 void CTaskWidget::onLoadInputClicked()
 {
     QString filename = QFileDialog::getOpenFileName(this, tr("Select input file"));
+    QFileInfo info(filename);
+    m_inputs << info.fileName();
+    m_stringModel->setStringList(m_inputs);
 }
 
 void CTaskWidget::onCompileSolutionClicked()

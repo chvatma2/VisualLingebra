@@ -16,6 +16,8 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QListView>
+#include <QStringListModel>
 
 //TODO
 //1. Tooltipy
@@ -37,7 +39,7 @@ private:
     void setOutputWidget();
 
     QWebEngineView m_page;
-    QTreeView m_index;
+    QListView m_index;
     QStatusBar m_statusBar;
     QTabWidget m_bottomTabs;
     ITabs *m_assignement = nullptr;
@@ -66,6 +68,10 @@ private:
     QPushButton *m_bothSolutionsButton2 = nullptr;
     QPushButton *m_studentSolutionsButton2 = nullptr;
     QPushButton *m_referenceSolutionsButton2 = nullptr;
+
+    QListView *m_inputsList = nullptr;
+    QStringListModel *m_stringModel = nullptr;
+    QStringList m_inputs;
 
 private slots:
     void onUploadSolutionClicked();

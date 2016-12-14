@@ -21,6 +21,7 @@ private:
     QAction m_options;
     QAction m_closeCurrent;
     QAction m_about;
+    QAction m_saveTab;
     QStringList m_languages;
 
 signals:
@@ -30,6 +31,7 @@ signals:
 
 private slots:
     void onOptionsClicked();
+    void onSaveTabClicked();
 };
 
 #endif // CMENUBAR_H
