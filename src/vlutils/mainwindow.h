@@ -10,6 +10,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 #include <QHash>
+#include <QFileInfo>
 #include <QTranslator>
 
 //TODO
@@ -33,10 +34,13 @@ private:
     void closeCurrent();
     void loadLanguages();
     void retranslateUi();
+    QStringList getAvailableTranslations();
+    void changeLanguage(const QString &language);
 
     CMenuBar m_menuBar;
     CTabBar *m_tabWidget;
-    QHash<QString, QTranslator> m_languageMap;
+    QHash<QString, QFileInfo> m_languageMap;
+    QTranslator *m_currentTranslator = nullptr;
 
 private slots:
     void onOpenTask(Tasks task);

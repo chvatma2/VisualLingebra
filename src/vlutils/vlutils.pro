@@ -20,7 +20,8 @@ SOURCES += vlutils.cpp \
     selectiontreeitem.cpp \
     assignement.cpp \
     taskwidget.cpp \
-    optionsdialog.cpp
+    optionsdialog.cpp \
+    tabs.cpp
 
 HEADERS += vlutils.h\
         vlutils_global.h \
@@ -32,7 +33,8 @@ HEADERS += vlutils.h\
     selectiontreeitem.h \
     assignement.h \
     taskwidget.h \
-    optionsdialog.h
+    optionsdialog.h \
+    tabs.h
 
 OBJECTS_DIR=$$top_srcdir/build/vlutils #Intermediate object files directory
 MOC_DIR=$$top_srcdir/build/vlutils #Intermediate moc files directory

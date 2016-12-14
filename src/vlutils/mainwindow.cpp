@@ -4,15 +4,23 @@
 #include "taskwidget.h"
 
 #include <QDebug>
+#include <QDirIterator>
+#include <QApplication>
+#include <QTranslator>
 
 CMainWindow::CMainWindow(QWidget *parent) : QMainWindow(parent)
 {
     setupUi();
+    loadLanguages();
+    m_menuBar.setLanguageList(getAvailableTranslations());
 }
 
 CMainWindow::~CMainWindow()
 {
     qDebug() << "Main Window Destroyed";
+    if(m_currentTranslator != nullptr) {
+        delete m_currentTranslator;
+    }
 }
 
 void CMainWindow::setupUi()
@@ -29,6 +37,7 @@ void CMainWindow::setupUi()
     connect(&m_menuBar, &CMenuBar::newTaskClicked, this, &CMainWindow::addNewTab);
     connect(&m_menuBar, &CMenuBar::closeCurrentClicked, this, &CMainWindow::closeCurrent);
     connect(m_tabWidget, &CTabBar::lastTabClosed, this, &CMainWindow::onLastTabClosed);
+    connect(&m_menuBar, &CMenuBar::languageChanged, this, &CMainWindow::changeLanguage);
 }
 
 void CMainWindow::addNewTab()
@@ -47,29 +56,75 @@ void CMainWindow::closeCurrent()
 
 void CMainWindow::loadLanguages()
 {
+    m_languageMap.insert("english", QFileInfo());
+    QDirIterator iterator("../translations");
+    QFileInfo fileInfo;
+    while (iterator.hasNext()) {
+        iterator.next();
+        fileInfo = iterator.fileInfo();
+        if(fileInfo.isHidden()) {
+            continue;
+        }
+        m_languageMap.insert(fileInfo.baseName(), fileInfo);
+    }
 
 }
 
 void CMainWindow::retranslateUi()
 {
-    for(int i = 0; i < m_tabWidget->count(); ++i) {
-        m_tabWidget->setTabText(i, tr(qPrintable(m_tabWidget->tabText(i))));
+    m_menuBar.retranslateUi();
+    m_tabWidget->retranslateUi();
+}
+
+QStringList CMainWindow::getAvailableTranslations()
+{
+    QStringList result;
+    for(QString str : m_languageMap.keys()) {
+        result << str;
     }
+    return result;
+}
+
+void CMainWindow::changeLanguage(const QString &language)
+{
+    qDebug() << "New language: " << language;
+
+    if(m_currentTranslator != nullptr) {
+        if(!qApp->removeTranslator(m_currentTranslator)) {
+            qDebug() << "Failed to delete translator";
+        }
+        delete m_currentTranslator;
+    }
+
+    if(language != "english") {
+        m_currentTranslator = new QTranslator;
+        m_currentTranslator->load(m_languageMap[language].absoluteFilePath());
+        qApp->installTranslator(m_currentTranslator);
+    } else {
+        m_currentTranslator = nullptr;
+        qApp->installTranslator(m_currentTranslator);
+    }
+
+    retranslateUi();
 }
 
 void CMainWindow::onOpenTask(Tasks task)
 {
     int index = m_tabWidget->currentIndex();
     m_tabWidget->removeTab(index);
+    CTaskWidget *movementWidget = new CTaskWidget;
     switch(task) {
     case Tasks::MOVEMENT2D:
-        m_tabWidget->insertTab(index, new CTaskWidget(), QIcon(), tr("2D Movement"));
+        movementWidget->setName("2D Movement");
+        m_tabWidget->insertTab(index, movementWidget, QIcon(), tr(qPrintable(movementWidget->getName())));
         break;
     case Tasks::INDEPENDENCE:
-        m_tabWidget->insertTab(index, new CTaskWidget(), QIcon(), tr("Linear independence"));
+        movementWidget->setName("Linear independence");
+        m_tabWidget->insertTab(index, movementWidget, QIcon(), tr(qPrintable(movementWidget->getName())));
         break;
     case Tasks::HAMMING:
-        m_tabWidget->insertTab(index, new CTaskWidget(), QIcon(), tr("Hamming code"));
+        movementWidget->setName("Hamming code");
+        m_tabWidget->insertTab(index, movementWidget, QIcon(), tr(qPrintable(movementWidget->getName())));
         break;
     default:
         qDebug() << "Unhandled task type";

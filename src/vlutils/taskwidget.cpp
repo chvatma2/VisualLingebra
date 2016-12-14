@@ -10,17 +10,40 @@
 #include <QPropertyAnimation>
 #include <QSplitter>
 
-CTaskWidget::CTaskWidget(QWidget *parent) : QTabWidget(parent)
+CTaskWidget::CTaskWidget(QWidget *parent) : /*QTabWidget(parent),*/ ITabs(parent)
 {
     setAssignementWidget();
     setImplementationWidget();
     setOutputWidget();
 
-    addTab(m_assignement, QIcon(), tr("Assignement"));
-    addTab(m_implementation, QIcon(), tr("Implementation"));
-    addTab(m_output, QIcon(), tr("Output"));
+    m_assignement->setName("Assignement");
+    m_implementation->setName("Implementation");
+    m_output->setName("Output");
 
-    setTabPosition(TabPosition::South);
+    m_tabWidget.addTab(m_assignement, QIcon(), tr("Assignement"));
+    m_tabWidget.addTab(m_implementation, QIcon(), tr("Implementation"));
+    m_tabWidget.addTab(m_output, QIcon(), tr("Output"));
+
+    m_tabWidget.setTabPosition(QTabWidget::TabPosition::South);
+    QHBoxLayout *mainLayout = new QHBoxLayout;
+    mainLayout->addWidget(&m_tabWidget);
+    setLayout(mainLayout);
+}
+
+void CTaskWidget::retranslateUi()
+{
+    m_tabWidget.setTabText(m_tabWidget.indexOf(m_assignement), tr("Assignement"));
+    m_tabWidget.setTabText(m_tabWidget.indexOf(m_implementation), tr("Implementation"));
+    m_tabWidget.setTabText(m_tabWidget.indexOf(m_output), tr("Output"));
+
+    m_uploadSolutionButton->setText(tr("Upload solution"));
+    m_compileSolutionButton->setText(tr("Compile"));
+    m_solutionLabel->setText(tr("Solution"));
+    m_consoleLabel->setText(tr("Compiler output"));
+    m_inputsLabel->setText(tr("Inputs"));
+    m_loadInputsButton->setText(tr("Load inputs"));
+    m_leftLabel->setText(tr("Student's implementation"));
+    m_rightLabel->setText(tr("Reference implementation"));
 }
 
 void CTaskWidget::setAssignementWidget()
@@ -30,7 +53,7 @@ void CTaskWidget::setAssignementWidget()
     QFile input("../plugins/test.html");
     input.open(QIODevice::ReadOnly);
 
-    m_assignement = new QWidget;
+    m_assignement = new ITabs;
     m_page.setHtml(input.readAll());
     m_page.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding );
     mainLayout->addWidget(&m_page);
@@ -48,43 +71,43 @@ void CTaskWidget::setImplementationWidget()
     QFont font;
     font.setPointSize(14);
 
-    m_implementation = new QWidget;
+    m_implementation = new ITabs;
 
     QHBoxLayout *mainLayout = new QHBoxLayout;
 
     QVBoxLayout *inputsLayout = new QVBoxLayout;
     QVBoxLayout *uploadSolutionLayout = new QVBoxLayout;
 
-    QPushButton *uploadSolutionButton = new QPushButton(tr("Upload solution"));
-    QPushButton *compileSolutionButton = new QPushButton(tr("Compile"));
-    QLabel *solutionLabel = new QLabel(tr("Solution"));
-    solutionLabel->setFont(font);
-    uploadSolutionButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    compileSolutionButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    m_uploadSolutionButton = new QPushButton(tr("Upload solution"));
+    m_compileSolutionButton = new QPushButton(tr("Compile"));
+    m_solutionLabel = new QLabel(tr("Solution"));
+    m_solutionLabel->setFont(font);
+    m_uploadSolutionButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    m_compileSolutionButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     m_uploadSolutionLineEdit.setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-    QLabel *consoleLabel = new QLabel(tr("Compiler output"));
+    m_consoleLabel = new QLabel(tr("Compiler output"));
     QPalette palette = m_console.palette();
     palette.setColor(QPalette::Base, Qt::black);
     palette.setColor(QPalette::Text, Qt::white);
     m_console.setPalette(palette);
     m_console.setReadOnly(true);
 
-    uploadSolutionLayout->addWidget(solutionLabel);
-    uploadSolutionLayout->addWidget(uploadSolutionButton);
+    uploadSolutionLayout->addWidget(m_solutionLabel);
+    uploadSolutionLayout->addWidget(m_uploadSolutionButton);
     uploadSolutionLayout->addWidget(&m_uploadSolutionLineEdit);
-    uploadSolutionLayout->addWidget(compileSolutionButton);
-    uploadSolutionLayout->addWidget(consoleLabel);
+    uploadSolutionLayout->addWidget(m_compileSolutionButton);
+    uploadSolutionLayout->addWidget(m_consoleLabel);
     uploadSolutionLayout->addWidget(&m_console);
 
-    QLabel *inputsLabel = new QLabel(tr("Inputs"));
-    QPushButton *loadInputsButton = new QPushButton(tr("Load inputs"));
+    m_inputsLabel = new QLabel(tr("Inputs"));
+    m_loadInputsButton = new QPushButton(tr("Load inputs"));
     QListView *inputsList = new QListView;
-    inputsLabel->setFont(font);
+    m_inputsLabel->setFont(font);
 
-    inputsLayout->addWidget(inputsLabel);
-    inputsLayout->addWidget(loadInputsButton);
+    inputsLayout->addWidget(m_inputsLabel);
+    inputsLayout->addWidget(m_loadInputsButton);
     inputsLayout->addWidget(inputsList);
 
     mainLayout->addLayout(uploadSolutionLayout, 2);
@@ -92,9 +115,9 @@ void CTaskWidget::setImplementationWidget()
 
     m_implementation->setLayout(mainLayout);
 
-    connect(uploadSolutionButton, &QPushButton::clicked, this, &CTaskWidget::onUploadSolutionClicked);
-    connect(compileSolutionButton, &QPushButton::clicked, this, &CTaskWidget::onCompileSolutionClicked);
-    connect(loadInputsButton, &QPushButton::clicked, this, &CTaskWidget::onLoadInputClicked);
+    connect(m_uploadSolutionButton, &QPushButton::clicked, this, &CTaskWidget::onUploadSolutionClicked);
+    connect(m_compileSolutionButton, &QPushButton::clicked, this, &CTaskWidget::onCompileSolutionClicked);
+    connect(m_loadInputsButton, &QPushButton::clicked, this, &CTaskWidget::onLoadInputClicked);
 }
 
 void CTaskWidget::setOutputWidget()
@@ -102,32 +125,32 @@ void CTaskWidget::setOutputWidget()
     QFont font;
     font.setPointSize(14);
 
-    m_output = new QWidget;
+    m_output = new ITabs;
 
     QVBoxLayout *leftLayout = new QVBoxLayout;
     QVBoxLayout *rightLayout = new QVBoxLayout;
     QVBoxLayout *toolsLayout = new QVBoxLayout;
 
-    QLabel *leftLabel = new QLabel(tr("Student's implementation"));
-    QLabel *rightLabel = new QLabel(tr("Reference implementation"));
-    leftLayout->addWidget(leftLabel, 0, Qt::AlignTop | Qt::AlignCenter);
-    rightLayout->addWidget(rightLabel, 0, Qt::AlignTop | Qt::AlignCenter);
+    m_leftLabel = new QLabel(tr("Student's implementation"));
+    m_rightLabel = new QLabel(tr("Reference implementation"));
+    leftLayout->addWidget(m_leftLabel, 0, Qt::AlignTop | Qt::AlignCenter);
+    rightLayout->addWidget(m_rightLabel, 0, Qt::AlignTop | Qt::AlignCenter);
 
-    leftLabel->setFont(font);
-    rightLabel->setFont(font);
+    m_leftLabel->setFont(font);
+    m_rightLabel->setFont(font);
 
     QPushButton *hideToolsButton = new QPushButton(">>");
     hideToolsButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    QPushButton *bothSolutionsButton = new QPushButton("B");
-    QPushButton *studentSolutionsButton = new QPushButton("S");
-    QPushButton *referenceSolutionsButton = new QPushButton("R");
+    m_bothSolutionsButton = new QPushButton("B");
+    m_studentSolutionsButton = new QPushButton("S");
+    m_referenceSolutionsButton = new QPushButton("R");
 
     QHBoxLayout *showPartOfScreenButtonsLayout = new QHBoxLayout;
-    showPartOfScreenButtonsLayout->addWidget(bothSolutionsButton);
-    bothSolutionsButton->setDown(true);
-    showPartOfScreenButtonsLayout->addWidget(studentSolutionsButton);
-    showPartOfScreenButtonsLayout->addWidget(referenceSolutionsButton);
+    showPartOfScreenButtonsLayout->addWidget(m_bothSolutionsButton);
+    m_bothSolutionsButton->setDown(true);
+    showPartOfScreenButtonsLayout->addWidget(m_studentSolutionsButton);
+    showPartOfScreenButtonsLayout->addWidget(m_referenceSolutionsButton);
 
     showPartOfScreenButtonsLayout->addStretch();
     toolsLayout->addWidget(hideToolsButton);
@@ -142,46 +165,57 @@ void CTaskWidget::setOutputWidget()
     //QVBoxLayout *toolboxLayout = new QVBoxLayout;
     //toolboxLayout->addWidget(&m_toolboxArea);
 
-    m_outputLayout.addLayout(leftLayout);
-    m_outputLayout.addLayout(rightLayout);
+    m_referenceView = new QWidget;
+    m_referenceView->setLayout(rightLayout);
+    m_studentView = new QWidget;
+    m_studentView->setLayout(leftLayout);
+
+    m_outputLayout.addWidget(m_studentView);
+    m_outputLayout.addWidget(m_referenceView);
     m_outputLayout.addWidget(&m_toolboxArea);
 
     m_output->setLayout(&m_outputLayout);
 
     connect(hideToolsButton, &QPushButton::clicked, this, &CTaskWidget::onHideButtonClicked);
+    connect(m_bothSolutionsButton, &QPushButton::clicked, this, &CTaskWidget::onBothViewsSelected);
+    connect(m_studentSolutionsButton, &QPushButton::clicked, this, &CTaskWidget::onStudentViewSelected);
+    connect(m_referenceSolutionsButton, &QPushButton::clicked, this, &CTaskWidget::onReferenceViewSelected);
 
     QPushButton *showToolboxButton = new QPushButton("<<");
     QVBoxLayout *minimizedToolboxLayout = new QVBoxLayout;
-    QPushButton *bothSolutionsButton2 = new QPushButton("B");
-    QPushButton *studentSolutionsButton2 = new QPushButton("S");
-    QPushButton *referenceSolutionsButton2 = new QPushButton("R");
+    m_bothSolutionsButton2 = new QPushButton("B");
+    m_studentSolutionsButton2 = new QPushButton("S");
+    m_referenceSolutionsButton2 = new QPushButton("R");
     showToolboxButton->setMaximumWidth(15);
-    bothSolutionsButton2->setMaximumWidth(15);
-    studentSolutionsButton2->setMaximumWidth(15);
-    referenceSolutionsButton2->setMaximumWidth(15);
+    m_bothSolutionsButton2->setMaximumWidth(15);
+    m_studentSolutionsButton2->setMaximumWidth(15);
+    m_referenceSolutionsButton2->setMaximumWidth(15);
     minimizedToolboxLayout->addWidget(showToolboxButton);
 //    minimizedToolboxLayout->addStretch();
-    minimizedToolboxLayout->addWidget(bothSolutionsButton2);
-    bothSolutionsButton2->setDown(true);
-    minimizedToolboxLayout->addWidget(studentSolutionsButton2);
-    minimizedToolboxLayout->addWidget(referenceSolutionsButton2);
+    minimizedToolboxLayout->addWidget(m_bothSolutionsButton2);
+    m_bothSolutionsButton2->setDown(true);
+    minimizedToolboxLayout->addWidget(m_studentSolutionsButton2);
+    minimizedToolboxLayout->addWidget(m_referenceSolutionsButton2);
     minimizedToolboxLayout->addStretch();
     m_minimizedToolbox.setFrameShape(QFrame::Panel);
     m_minimizedToolbox.setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
     m_minimizedToolbox.setLayout(minimizedToolboxLayout);
 
     connect(showToolboxButton, &QPushButton::clicked, this, &CTaskWidget::onShowButtonClicked);
+    connect(m_bothSolutionsButton2, &QPushButton::clicked, this, &CTaskWidget::onBothViewsSelected);
+    connect(m_studentSolutionsButton2, &QPushButton::clicked, this, &CTaskWidget::onStudentViewSelected);
+    connect(m_referenceSolutionsButton2, &QPushButton::clicked, this, &CTaskWidget::onReferenceViewSelected);
 }
 
 void CTaskWidget::onUploadSolutionClicked()
 {
-    QString filename = QFileDialog::getOpenFileName(this, "Open cpp solution file");
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open cpp solution file"));
     m_uploadSolutionLineEdit.setText(filename);
 }
 
 void CTaskWidget::onLoadInputClicked()
 {
-    QString filename = QFileDialog::getOpenFileName(this, "Select input file");
+    QString filename = QFileDialog::getOpenFileName(this, tr("Select input file"));
 }
 
 void CTaskWidget::onCompileSolutionClicked()
@@ -225,4 +259,40 @@ void CTaskWidget::onShowButtonClicked()
 void CTaskWidget::onShowAnimationFinished()
 {
 
+}
+
+void CTaskWidget::onBothViewsSelected()
+{
+    m_referenceView->setHidden(false);
+    m_studentView->setHidden(false);
+    m_bothSolutionsButton2->setDown(true);
+    m_referenceSolutionsButton2->setDown(false);
+    m_studentSolutionsButton2->setDown(false);
+    m_bothSolutionsButton->setDown(true);
+    m_referenceSolutionsButton->setDown(false);
+    m_studentSolutionsButton->setDown(false);
+}
+
+void CTaskWidget::onStudentViewSelected()
+{
+    m_referenceView->setHidden(true);
+    m_studentView->setHidden(false);
+    m_bothSolutionsButton2->setDown(false);
+    m_referenceSolutionsButton2->setDown(false);
+    m_studentSolutionsButton2->setDown(true);
+    m_bothSolutionsButton->setDown(false);
+    m_referenceSolutionsButton->setDown(false);
+    m_studentSolutionsButton->setDown(true);
+}
+
+void CTaskWidget::onReferenceViewSelected()
+{
+    m_referenceView->setHidden(false);
+    m_studentView->setHidden(true);
+    m_bothSolutionsButton2->setDown(false);
+    m_referenceSolutionsButton2->setDown(true);
+    m_studentSolutionsButton2->setDown(false);
+    m_bothSolutionsButton->setDown(false);
+    m_referenceSolutionsButton->setDown(true);
+    m_studentSolutionsButton->setDown(false);
 }

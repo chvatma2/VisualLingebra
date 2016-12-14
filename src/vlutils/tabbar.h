@@ -9,6 +9,7 @@ class CTabBar : public QTabWidget
     Q_OBJECT
 public:
     explicit CTabBar(QWidget *parent = 0);
+    void retranslateUi();
 
 signals:
     void lastTabClosed();

@@ -3,18 +3,12 @@
 
 CMenuBar::CMenuBar(QWidget *parent) : QMenuBar(parent)
 {
-    m_file.setTitle(tr("File"));
-    m_tools.setTitle(tr("Tools"));
-    m_help.setTitle(tr("Help"));
+
     addMenu(&m_file);
     addMenu(&m_tools);
     addMenu(&m_help);
 
-    m_newAssignement.setText(tr("New assignement"));
-    m_exit.setText(tr("Exit"));
-    m_about.setText(tr("About"));
-    m_options.setText(tr("Options"));
-    m_closeCurrent.setText(tr("Close current tab"));
+    retranslateUi();
 
     m_file.addAction(&m_newAssignement);
     m_file.addAction(&m_closeCurrent);
@@ -30,8 +24,26 @@ CMenuBar::CMenuBar(QWidget *parent) : QMenuBar(parent)
     connect(&m_options, &QAction::triggered, this, &CMenuBar::onOptionsClicked);
 }
 
+void CMenuBar::setLanguageList(QStringList list)
+{
+    m_languages = list;
+}
+
+void CMenuBar::retranslateUi()
+{
+    m_file.setTitle(tr("File"));
+    m_tools.setTitle(tr("Tools"));
+    m_help.setTitle(tr("Help"));
+    m_newAssignement.setText(tr("New assignement"));
+    m_exit.setText(tr("Exit"));
+    m_about.setText(tr("About"));
+    m_options.setText(tr("Options"));
+    m_closeCurrent.setText(tr("Close current tab"));
+}
+
 void CMenuBar::onOptionsClicked()
 {
-    COptionsDialog dlg;
+    COptionsDialog dlg(m_languages);
+    connect(&dlg, &COptionsDialog::languageChanged, this, &CMenuBar::languageChanged);
     dlg.exec();
 }

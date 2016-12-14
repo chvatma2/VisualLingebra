@@ -1,7 +1,8 @@
 #ifndef CNEWTAB_H
 #define CNEWTAB_H
 
-#include <QWidget>
+#include "tabs.h"
+
 #include <QLabel>
 #include <QTextEdit>
 #include <QTreeView>
@@ -14,12 +15,12 @@ enum class Tasks {
     INDEPENDENCE
 };
 
-class CNewTab : public QWidget
+class CNewTab : public ITabs
 {
     Q_OBJECT
 public:
     CNewTab(QWidget *parent = 0);
-
+    void retranslateUi() override;
 private:
     void setupLeftLayout();
     void setupCenterLayout();

@@ -107,21 +107,21 @@ Qt::ItemFlags CSelectionTreeModel::flags(const QModelIndex &index) const
 void CSelectionTreeModel::setupModelData()
 {
     QList<QVariant> ladata;
-    ladata << "Linear Algebra" << "";
+    ladata << tr("Linear Algebra") << "";
     QList<QVariant> movdata;
-    movdata << "2D Movement" << "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
+    movdata << tr("2D Movement") << "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
                                 "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
                                 "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris "
                                 "nisi ut aliquip ex ea commodo consequat.";
     QList<QVariant> hamdata;
-    hamdata << "Hamming Code" << "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
+    hamdata << tr("Hamming Code") << "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
                                  "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
                                  "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
                                  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "
                                  "Excepteur sint occaecat cupidatat non proident, "
                                  "sunt in culpa qui officia deserunt mollit anim id est laborum.";
     QList<QVariant> lidata;
-    lidata << "Linear Independence" << "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
+    lidata << tr("Linear Independence") << "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
                                        "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
     CSelectionTreeItem* linearAlgebra = new CSelectionTreeItem(ladata, m_rootItem);

@@ -8,8 +8,9 @@
 
 #include "selectiontreemodel.h"
 
-CNewTab::CNewTab(QWidget *parent) : QWidget(parent)
+CNewTab::CNewTab(QWidget *parent) : ITabs(parent)
 {
+    setName("New");
     m_isDescriptionPresent = false;
 
     QHBoxLayout *layout = new QHBoxLayout;
@@ -26,6 +27,20 @@ CNewTab::CNewTab(QWidget *parent) : QWidget(parent)
     connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &CNewTab::treeViewItemSelected);
     connect(&m_openTaskButton, &QPushButton::clicked, this, &CNewTab::onOpenTaskClicked);
     connect(&m_loadTaskButton, &QPushButton::clicked, this, &CNewTab::onLoadTaskClicked);
+}
+
+void CNewTab::retranslateUi()
+{
+    m_selectionLabel.setText(tr("Select assignement"));
+    m_selectionDescriptionLabel.setText(tr("Task overview"));
+    m_openTaskButton.setText(tr("Open"));
+    m_loadTaskTitle.setText(tr("Load task from file"));
+    m_loadTaskButton.setText(tr("Load task"));
+
+
+    CSelectionTreeModel *model = new CSelectionTreeModel;
+    m_view->setModel(model);
+    connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &CNewTab::treeViewItemSelected);
 }
 
 void CNewTab::setupLeftLayout()
@@ -119,5 +134,5 @@ void CNewTab::onOpenTaskClicked()
 
 void CNewTab::onLoadTaskClicked()
 {
-    QFileDialog::getOpenFileName(this, "Open local task");
+    QFileDialog::getOpenFileName(this, tr("Open local task"));
 }
