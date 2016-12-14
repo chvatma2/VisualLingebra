@@ -117,15 +117,15 @@ void CMainWindow::onOpenTask(Tasks task)
     switch(task) {
     case Tasks::MOVEMENT2D:
         movementWidget->setName("2D Movement");
-        m_tabWidget->insertTab(index, movementWidget, QIcon(), tr(qPrintable(movementWidget->getName())));
+        m_tabWidget->insertTab(index, movementWidget, QIcon(), tr("2D Movement"));
         break;
     case Tasks::INDEPENDENCE:
         movementWidget->setName("Linear independence");
-        m_tabWidget->insertTab(index, movementWidget, QIcon(), tr(qPrintable(movementWidget->getName())));
+        m_tabWidget->insertTab(index, movementWidget, QIcon(), tr("Linear independence"));
         break;
     case Tasks::HAMMING:
         movementWidget->setName("Hamming code");
-        m_tabWidget->insertTab(index, movementWidget, QIcon(), tr(qPrintable(movementWidget->getName())));
+        m_tabWidget->insertTab(index, movementWidget, QIcon(), tr("Hamming code"));
         break;
     default:
         qDebug() << "Unhandled task type";

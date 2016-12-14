@@ -121,11 +121,11 @@ void CNewTab::onOpenTaskClicked()
     QModelIndex currentSelection = m_view->selectionModel()->currentIndex();
     QString name = currentSelection.data(Qt::DisplayRole).toString();
 
-    if(name == "2D Movement") {
+    if(name == tr("2D Movement")) {
         openTask(Tasks::MOVEMENT2D);
-    } else if (name == "Hamming Code") {
+    } else if (name == tr("Hamming Code")) {
         openTask(Tasks::HAMMING);
-    } else if (name == "Linear Independence"){
+    } else if (name == tr("Linear Independence")){
         openTask(Tasks::INDEPENDENCE);
     } else {
         qDebug() << "Task name not handled yet";

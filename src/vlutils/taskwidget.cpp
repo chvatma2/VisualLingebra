@@ -1,4 +1,5 @@
 #include "taskwidget.h"
+#include "movement2dwidget.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -180,6 +181,15 @@ void CTaskWidget::setOutputWidget()
 
     //QVBoxLayout *toolboxLayout = new QVBoxLayout;
     //toolboxLayout->addWidget(&m_toolboxArea);
+
+    CMovement2DWidget *studentMovementWidget = new CMovement2DWidget;
+    CMovement2DWidget *referenceMovementWidget = new CMovement2DWidget;
+
+    studentMovementWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    referenceMovementWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    rightLayout->addWidget(referenceMovementWidget);
+    leftLayout->addWidget(studentMovementWidget);
 
     m_referenceView = new QWidget;
     m_referenceView->setLayout(rightLayout);
