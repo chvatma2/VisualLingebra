@@ -14,8 +14,6 @@
 #include <QTranslator>
 
 //TODO
-//1. Options
-//2. Zmena jazyka
 
 class VLUTILSSHARED_EXPORT CMainWindow : public QMainWindow
 {

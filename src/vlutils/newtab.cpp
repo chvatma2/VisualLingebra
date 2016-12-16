@@ -8,6 +8,11 @@
 
 #include "selectiontreemodel.h"
 
+//TODO
+//1. Presunout load task
+//2. Presunout open
+//3. Defaultne rozvinout list
+
 CNewTab::CNewTab(QWidget *parent) : ITabs(parent)
 {
     setName("New");

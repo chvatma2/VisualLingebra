@@ -13,6 +13,18 @@
 #include <QStringListModel>
 #include <QGridLayout>
 
+//TODO
+//1. Znicit index
+//2. Osetrit neexistujici implementaci
+//3. Zvyraznit spodni taby
+//4. Label ovladacich prvku
+//4. Upload -> Vyber reseni/open
+//5. Vstupy -> Vstupni data/input data
+//6. Vstupy dropdown
+//7. Ikonky
+
+
+
 CTaskWidget::CTaskWidget(QWidget *parent) : /*QTabWidget(parent),*/ ITabs(parent)
 {
     setAssignementWidget();
