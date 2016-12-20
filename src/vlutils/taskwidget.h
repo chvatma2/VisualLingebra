@@ -21,8 +21,7 @@
 
 //TODO
 //1. Tooltipy
-//2. Ikonky
-//3. Funkcni tlacitka na zmenu oken
+//2. Nastavovat texty pouze z retranslate UI
 
 class CTaskWidget : /*public QTabWidget,*/ public ITabs
 {
@@ -60,6 +59,7 @@ private:
     QPushButton *m_loadInputsButton = nullptr;
     QLabel *m_leftLabel = nullptr;
     QLabel *m_rightLabel = nullptr;
+    QLabel *m_toolboxLabel = nullptr;
     QWidget *m_referenceView = nullptr;
     QWidget *m_studentView = nullptr;
     QPushButton *m_bothSolutionsButton = nullptr;

@@ -17,7 +17,6 @@
 //1. Znicit index
 //2. Osetrit neexistujici implementaci
 //3. Zvyraznit spodni taby
-//4. Label ovladacich prvku
 //6. Vstupy dropdown
 
 
@@ -56,6 +55,7 @@ void CTaskWidget::retranslateUi()
     m_loadInputsButton->setText(tr("Load inputs"));
     m_leftLabel->setText(tr("Student's implementation"));
     m_rightLabel->setText(tr("Reference implementation"));
+    m_toolboxLabel->setText(tr("Toolbox"));
 }
 
 void CTaskWidget::setAssignementWidget()
@@ -180,7 +180,18 @@ void CTaskWidget::setOutputWidget()
     showPartOfScreenButtonsLayout->addWidget(m_referenceSolutionsButton);
 
     showPartOfScreenButtonsLayout->addStretch();
-    toolsLayout->addWidget(hideToolsButton);
+
+    QHBoxLayout *labelLayout = new QHBoxLayout;
+
+    m_toolboxLabel = new QLabel;
+    m_toolboxLabel->setText(tr("Toolbox"));
+    m_toolboxLabel->setFont(font);
+    hideToolsButton->setMaximumWidth(40);
+    labelLayout->addWidget(m_toolboxLabel);
+    labelLayout->addWidget(hideToolsButton, 0, Qt::AlignRight);
+
+    //toolsLayout->addWidget(m_toolboxLabel, 0, Qt::AlignCenter);
+    toolsLayout->addLayout(labelLayout);
     toolsLayout->addLayout(showPartOfScreenButtonsLayout);
     toolsLayout->addStretch();
 
@@ -206,9 +217,6 @@ void CTaskWidget::setOutputWidget()
     m_toolboxArea.setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
     m_toolboxArea.setFrameStyle(QFrame::Panel);
     m_toolboxArea.setLayout(toolsLayout);
-
-    //QVBoxLayout *toolboxLayout = new QVBoxLayout;
-    //toolboxLayout->addWidget(&m_toolboxArea);
 
     CMovement2DWidget *studentMovementWidget = new CMovement2DWidget;
     CMovement2DWidget *referenceMovementWidget = new CMovement2DWidget;
