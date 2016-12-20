@@ -37,6 +37,7 @@ private:
     void setImplementationWidget();
     void setOutputWidget();
 
+    bool m_hasStudentImplementation = false;
     QWebEngineView m_page;
     QListView m_index;
     QStatusBar m_statusBar;
@@ -60,6 +61,7 @@ private:
     QLabel *m_leftLabel = nullptr;
     QLabel *m_rightLabel = nullptr;
     QLabel *m_toolboxLabel = nullptr;
+    QLabel *m_missingStudentImplementationLabel = nullptr;
     QWidget *m_referenceView = nullptr;
     QWidget *m_studentView = nullptr;
     QPushButton *m_bothSolutionsButton = nullptr;

@@ -226,7 +226,15 @@ void CTaskWidget::setOutputWidget()
     referenceMovementWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     rightLayout->addWidget(referenceMovementWidget);
-    leftLayout->addWidget(studentMovementWidget);
+    if(m_hasStudentImplementation) {
+        leftLayout->addWidget(studentMovementWidget);
+    } else {
+        m_missingStudentImplementationLabel = new QLabel(tr("Implementation missing"));
+        m_missingStudentImplementationLabel->setFont(font);
+        leftLayout->addStretch();
+        leftLayout->addWidget(m_missingStudentImplementationLabel, 0, Qt::AlignCenter | Qt::AlignHCenter);
+        leftLayout->addStretch();
+    }
 
     connect(referenceMovementWidget, &CMovement2DWidget::upPressed, this, &CTaskWidget::onUpButtonStateChanged);
     connect(referenceMovementWidget, &CMovement2DWidget::downPressed, this, &CTaskWidget::onDownButtonStateChanged);
@@ -243,8 +251,8 @@ void CTaskWidget::setOutputWidget()
     m_studentView = new QWidget;
     m_studentView->setLayout(leftLayout);
 
-    m_outputLayout.addWidget(m_studentView);
-    m_outputLayout.addWidget(m_referenceView);
+    m_outputLayout.addWidget(m_studentView, 1);
+    m_outputLayout.addWidget(m_referenceView, 1);
     m_outputLayout.addWidget(&m_toolboxArea);
 
     m_output->setLayout(&m_outputLayout);
@@ -275,6 +283,10 @@ void CTaskWidget::setOutputWidget()
     connect(m_bothSolutionsButton2, &QPushButton::clicked, this, &CTaskWidget::onBothViewsSelected);
     connect(m_studentSolutionsButton2, &QPushButton::clicked, this, &CTaskWidget::onStudentViewSelected);
     connect(m_referenceSolutionsButton2, &QPushButton::clicked, this, &CTaskWidget::onReferenceViewSelected);
+
+    if(!m_hasStudentImplementation) {
+        onReferenceViewSelected();
+    }
 }
 
 void CTaskWidget::onUploadSolutionClicked()
