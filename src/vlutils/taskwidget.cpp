@@ -16,7 +16,6 @@
 //TODO
 //1. Znicit index
 //2. Osetrit neexistujici implementaci
-//3. Zvyraznit spodni taby
 //6. Vstupy dropdown
 
 
@@ -39,6 +38,8 @@ CTaskWidget::CTaskWidget(QWidget *parent) : /*QTabWidget(parent),*/ ITabs(parent
     QHBoxLayout *mainLayout = new QHBoxLayout;
     mainLayout->addWidget(&m_tabWidget);
     setLayout(mainLayout);
+
+    m_tabWidget.setStyleSheet("QTabBar::tab { height: 30px; width: 200px; }");
 }
 
 void CTaskWidget::retranslateUi()
