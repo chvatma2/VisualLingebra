@@ -35,6 +35,7 @@ CTaskWidget::CTaskWidget(QWidget *parent) : /*QTabWidget(parent),*/ ITabs(parent
     m_implementation->setName("Implementation");
     m_output->setName("Output");
 
+    m_tabWidget.setTabShape(QTabWidget::Triangular);
     m_tabWidget.addTab(m_assignement, QIcon(), tr("Assignement"));
     m_tabWidget.addTab(m_implementation, QIcon(), tr("Implementation"));
     m_tabWidget.addTab(m_output, QIcon(), tr("Output"));
