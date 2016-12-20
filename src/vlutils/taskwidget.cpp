@@ -14,8 +14,6 @@
 #include <QGridLayout>
 
 //TODO
-//1. Znicit index
-//2. Osetrit neexistujici implementaci
 //6. Vstupy dropdown
 
 
@@ -85,7 +83,7 @@ void CTaskWidget::setAssignementWidget()
 
     indexWidget->setLayout(indexLayout);
     indexWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-    mainLayout->addWidget(indexWidget);
+    //mainLayout->addWidget(indexWidget);
     m_assignement->setLayout(mainLayout);
 }
 
