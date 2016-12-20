@@ -32,6 +32,7 @@ CNewTab::CNewTab(QWidget *parent) : ITabs(parent)
     connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &CNewTab::treeViewItemSelected);
     connect(&m_openTaskButton, &QPushButton::clicked, this, &CNewTab::onOpenTaskClicked);
     connect(&m_loadTaskButton, &QPushButton::clicked, this, &CNewTab::onLoadTaskClicked);
+    m_view->expandAll();
 }
 
 void CNewTab::retranslateUi()
