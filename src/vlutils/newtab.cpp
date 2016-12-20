@@ -8,8 +8,6 @@
 
 #include "selectiontreemodel.h"
 
-//TODO
-
 CNewTab::CNewTab(QWidget *parent) : ITabs(parent)
 {
     setName("New");

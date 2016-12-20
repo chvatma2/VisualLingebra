@@ -21,8 +21,6 @@
 //4. Upload -> Vyber reseni/open
 //5. Vstupy -> Vstupni data/input data
 //6. Vstupy dropdown
-//7. Ikonky
-
 
 
 CTaskWidget::CTaskWidget(QWidget *parent) : /*QTabWidget(parent),*/ ITabs(parent)
@@ -173,9 +171,9 @@ void CTaskWidget::setOutputWidget()
     QPushButton *hideToolsButton = new QPushButton(">>");
     hideToolsButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    m_bothSolutionsButton = new QPushButton("B");
-    m_studentSolutionsButton = new QPushButton("S");
-    m_referenceSolutionsButton = new QPushButton("R");
+    m_bothSolutionsButton = new QPushButton(QIcon("../assets/bothwindows.png"), "");
+    m_studentSolutionsButton = new QPushButton(QIcon("../assets/studentwindow.png"), "");
+    m_referenceSolutionsButton = new QPushButton(QIcon("../assets/referencewindow.png"), "");
 
     QHBoxLayout *showPartOfScreenButtonsLayout = new QHBoxLayout;
     showPartOfScreenButtonsLayout->addWidget(m_bothSolutionsButton);
@@ -251,13 +249,10 @@ void CTaskWidget::setOutputWidget()
 
     QPushButton *showToolboxButton = new QPushButton("<<");
     QVBoxLayout *minimizedToolboxLayout = new QVBoxLayout;
-    m_bothSolutionsButton2 = new QPushButton("B");
-    m_studentSolutionsButton2 = new QPushButton("S");
-    m_referenceSolutionsButton2 = new QPushButton("R");
-    showToolboxButton->setMaximumWidth(15);
-    m_bothSolutionsButton2->setMaximumWidth(15);
-    m_studentSolutionsButton2->setMaximumWidth(15);
-    m_referenceSolutionsButton2->setMaximumWidth(15);
+    m_bothSolutionsButton2 = new QPushButton(QIcon("../assets/bothwindows.png"), "");
+    m_studentSolutionsButton2 = new QPushButton(QIcon("../assets/studentwindow.png"), "");
+    m_referenceSolutionsButton2 = new QPushButton(QIcon("../assets/referencewindow.png"), "");
+    showToolboxButton->setMaximumWidth(30);
     minimizedToolboxLayout->addWidget(showToolboxButton);
 //    minimizedToolboxLayout->addStretch();
     minimizedToolboxLayout->addWidget(m_bothSolutionsButton2);
@@ -301,7 +296,7 @@ void CTaskWidget::onHideButtonClicked()
     QPropertyAnimation *hideToolboxAnimation = new QPropertyAnimation(&m_toolboxArea, "maximumWidth");
     hideToolboxAnimation->setDuration(200);
     hideToolboxAnimation->setStartValue(m_toolboxArea.width());
-    hideToolboxAnimation->setEndValue(40);
+    hideToolboxAnimation->setEndValue(50);
     connect(hideToolboxAnimation, &QPropertyAnimation::finished, this, &CTaskWidget::onHideAnimationFinished);
     hideToolboxAnimation->start(QAbstractAnimation::DeleteWhenStopped);
 }
@@ -323,7 +318,7 @@ void CTaskWidget::onShowButtonClicked()
 
     QPropertyAnimation *showToolboxAnimation = new QPropertyAnimation(&m_toolboxArea, "maximumWidth");
     showToolboxAnimation->setDuration(200);
-    showToolboxAnimation->setStartValue(40);
+    showToolboxAnimation->setStartValue(50);
     showToolboxAnimation->setEndValue(m_toolboxArea.sizeHint().width());
     //connect(showToolboxAnimation, &QPropertyAnimation::finished, this, &CTaskWidget::onShowAnimationFinished);
     showToolboxAnimation->start(QAbstractAnimation::DeleteWhenStopped);
