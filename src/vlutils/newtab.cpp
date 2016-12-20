@@ -9,9 +9,6 @@
 #include "selectiontreemodel.h"
 
 //TODO
-//1. Presunout load task
-//2. Presunout open
-//3. Defaultne rozvinout list
 
 CNewTab::CNewTab(QWidget *parent) : ITabs(parent)
 {
@@ -26,8 +23,8 @@ CNewTab::CNewTab(QWidget *parent) : ITabs(parent)
     setupRightLayout();
 
     layout->addLayout(&m_leftLayout, 1);
-    layout->addLayout(&m_centerLayout, 2);
-    layout->addLayout(&m_rightLayout, 1);
+    layout->addLayout(&m_centerLayout, 3);
+    //layout->addLayout(&m_rightLayout, 1);
 
     connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &CNewTab::treeViewItemSelected);
     connect(&m_openTaskButton, &QPushButton::clicked, this, &CNewTab::onOpenTaskClicked);
@@ -41,7 +38,7 @@ void CNewTab::retranslateUi()
     m_selectionDescriptionLabel.setText(tr("Task overview"));
     m_openTaskButton.setText(tr("Open"));
     m_loadTaskTitle.setText(tr("Load task from file"));
-    m_loadTaskButton.setText(tr("Load task"));
+    m_loadTaskButton.setText(tr("Add new task"));
 
 
     CSelectionTreeModel *model = new CSelectionTreeModel;
@@ -65,6 +62,9 @@ void CNewTab::setupLeftLayout()
 
     m_leftLayout.addWidget(&m_selectionLabel, 0, Qt::AlignCenter | Qt::AlignTop);
     m_leftLayout.addWidget(m_view);
+
+    m_loadTaskButton.setText(tr("Add new task"));
+    m_leftLayout.addWidget(&m_loadTaskButton);
     //m_leftLayout.addStretch();
 }
 
@@ -79,16 +79,19 @@ void CNewTab::setupCenterLayout()
     m_selectionDescription.setFrameStyle(QFrame::NoFrame);
 
     QHBoxLayout *buttonLayout = new QHBoxLayout;
-    buttonLayout->addWidget(&m_openTaskButton);
+    buttonLayout->addWidget(&m_openTaskButton, 0, Qt::AlignRight);
     buttonLayout->addStretch();
     m_openTaskButton.setText(tr("Open"));
     m_selectionDescription.setHidden(true);
     m_openTaskButton.setHidden(true);
     //m_selectionDescriptionLabel.setHidden(true);
+    QWidget *buttonLayoutWidget = new QWidget;
+    buttonLayoutWidget->setLayout(buttonLayout);
 
     m_centerLayout.addWidget(&m_selectionDescriptionLabel, 0, Qt::AlignCenter | Qt::AlignTop);
     m_centerLayout.addWidget(&m_selectionDescription);
-    m_centerLayout.addLayout(buttonLayout);
+    m_centerLayout.addStretch();
+    m_centerLayout.addWidget(buttonLayoutWidget, 0, Qt::AlignRight);
 }
 
 void CNewTab::setupRightLayout()
@@ -99,7 +102,7 @@ void CNewTab::setupRightLayout()
     m_loadTaskTitle.setText(tr("Load task from file"));
     m_loadTaskTitle.setFont(font);
 
-    m_loadTaskButton.setText(tr("Load task"));
+    m_loadTaskButton.setText(tr("Add new task"));
 
     m_rightLayout.addWidget(&m_loadTaskTitle, 0, Qt::AlignCenter | Qt::AlignTop);
     m_rightLayout.addWidget(&m_loadTaskButton);
