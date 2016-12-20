@@ -18,8 +18,6 @@
 //2. Osetrit neexistujici implementaci
 //3. Zvyraznit spodni taby
 //4. Label ovladacich prvku
-//4. Upload -> Vyber reseni/open
-//5. Vstupy -> Vstupni data/input data
 //6. Vstupy dropdown
 
 
@@ -50,11 +48,11 @@ void CTaskWidget::retranslateUi()
     m_tabWidget.setTabText(m_tabWidget.indexOf(m_implementation), tr("Implementation"));
     m_tabWidget.setTabText(m_tabWidget.indexOf(m_output), tr("Output"));
 
-    m_uploadSolutionButton->setText(tr("Upload solution"));
+    m_uploadSolutionButton->setText(tr("Open solution"));
     m_compileSolutionButton->setText(tr("Compile"));
     m_solutionLabel->setText(tr("Solution"));
     m_consoleLabel->setText(tr("Compiler output"));
-    m_inputsLabel->setText(tr("Inputs"));
+    m_inputsLabel->setText(tr("Input data"));
     m_loadInputsButton->setText(tr("Load inputs"));
     m_leftLabel->setText(tr("Student's implementation"));
     m_rightLabel->setText(tr("Reference implementation"));
@@ -102,7 +100,7 @@ void CTaskWidget::setImplementationWidget()
     QVBoxLayout *inputsLayout = new QVBoxLayout;
     QVBoxLayout *uploadSolutionLayout = new QVBoxLayout;
 
-    m_uploadSolutionButton = new QPushButton(tr("Upload solution"));
+    m_uploadSolutionButton = new QPushButton(tr("Open solution"));
     m_compileSolutionButton = new QPushButton(tr("Compile"));
     m_solutionLabel = new QLabel(tr("Solution"));
     m_solutionLabel->setFont(font);
@@ -125,7 +123,7 @@ void CTaskWidget::setImplementationWidget()
     uploadSolutionLayout->addWidget(m_consoleLabel);
     uploadSolutionLayout->addWidget(&m_console);
 
-    m_inputsLabel = new QLabel(tr("Inputs"));
+    m_inputsLabel = new QLabel(tr("Input data"));
     m_loadInputsButton = new QPushButton(tr("Load inputs"));
     m_inputsList = new QListView;
     m_stringModel = new QStringListModel;
