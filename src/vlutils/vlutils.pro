@@ -22,7 +22,10 @@ SOURCES += vlutils.cpp \
     taskwidget.cpp \
     optionsdialog.cpp \
     tabs.cpp \
-    movement2dwidget.cpp
+    movement2dwidget.cpp \
+    assignementwidget.cpp \
+    implementationwidget.cpp \
+    outputwidget.cpp
 
 HEADERS += vlutils.h\
         vlutils_global.h \
@@ -36,7 +39,10 @@ HEADERS += vlutils.h\
     taskwidget.h \
     optionsdialog.h \
     tabs.h \
-    movement2dwidget.h
+    movement2dwidget.h \
+    assignementwidget.h \
+    implementationwidget.h \
+    outputwidget.h
 
 OBJECTS_DIR=$$top_srcdir/build/vlutils #Intermediate object files directory
 MOC_DIR=$$top_srcdir/build/vlutils #Intermediate moc files directory

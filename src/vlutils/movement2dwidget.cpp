@@ -19,6 +19,8 @@ CMovement2DWidget::CMovement2DWidget(QWidget *parent) : QWidget(parent)
 
 void CMovement2DWidget::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event);
+
     processInput();
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);

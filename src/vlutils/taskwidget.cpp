@@ -1,5 +1,7 @@
 #include "taskwidget.h"
 #include "movement2dwidget.h"
+#include "assignementwidget.h"
+#include "implementationwidget.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -23,8 +25,6 @@ CTaskWidget::CTaskWidget(QWidget *parent) : /*QTabWidget(parent),*/ ITabs(parent
     setImplementationWidget();
     setOutputWidget();
 
-    m_assignement->setName("Assignement");
-    m_implementation->setName("Implementation");
     m_output->setName("Output");
 
     m_tabWidget.setTabShape(QTabWidget::Triangular);
@@ -59,91 +59,67 @@ void CTaskWidget::retranslateUi()
 
 void CTaskWidget::setAssignementWidget()
 {
-    QHBoxLayout *mainLayout = new QHBoxLayout;
-
-    QFile input("../plugins/test.html");
-    input.open(QIODevice::ReadOnly);
-
-    m_assignement = new ITabs;
-    m_page.setHtml(input.readAll());
-    m_page.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding );
-    mainLayout->addWidget(&m_page);
-
-    QWidget *indexWidget = new QWidget;
-    QVBoxLayout *indexLayout = new QVBoxLayout;
-    indexLayout->addWidget(new QLabel("Index"));
-
-    QStringListModel *indexModel = new QStringListModel;
-    QStringList list;
-    list << "Introduction" << "Chapter I" << "Chapter II";
-    indexModel->setStringList(list);
-    m_index.setModel(indexModel);
-
-    indexLayout->addWidget(&m_index);
-
-    indexWidget->setLayout(indexLayout);
-    indexWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-    //mainLayout->addWidget(indexWidget);
-    m_assignement->setLayout(mainLayout);
+    m_assignement = new CAssignementWidget;
 }
 
 void CTaskWidget::setImplementationWidget()
 {
-    QFont font;
-    font.setPointSize(14);
+    m_implementation = new CImplementationWidget;
+//    QFont font;
+//    font.setPointSize(14);
 
-    m_implementation = new ITabs;
+//    m_implementation = new ITabs;
 
-    QHBoxLayout *mainLayout = new QHBoxLayout;
+//    QHBoxLayout *mainLayout = new QHBoxLayout;
 
-    QVBoxLayout *inputsLayout = new QVBoxLayout;
-    QVBoxLayout *uploadSolutionLayout = new QVBoxLayout;
+//    QVBoxLayout *inputsLayout = new QVBoxLayout;
+//    QVBoxLayout *uploadSolutionLayout = new QVBoxLayout;
 
-    m_uploadSolutionButton = new QPushButton(tr("Open solution"));
-    m_compileSolutionButton = new QPushButton(tr("Compile"));
-    m_solutionLabel = new QLabel(tr("Solution"));
-    m_solutionLabel->setFont(font);
-    m_uploadSolutionButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    m_compileSolutionButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+//    m_uploadSolutionButton = new QPushButton(tr("Open solution"));
+//    m_compileSolutionButton = new QPushButton(tr("Compile"));
+//    m_solutionLabel = new QLabel(tr("Solution"));
+//    m_solutionLabel->setFont(font);
+//    m_uploadSolutionButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+//    m_compileSolutionButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    m_uploadSolutionLineEdit.setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+//    m_uploadSolutionLineEdit.setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-    m_consoleLabel = new QLabel(tr("Compiler output"));
-    QPalette palette = m_console.palette();
-    palette.setColor(QPalette::Base, Qt::black);
-    palette.setColor(QPalette::Text, Qt::white);
-    m_console.setPalette(palette);
-    m_console.setReadOnly(true);
+//    m_consoleLabel = new QLabel(tr("Compiler output"));
+//    QPalette palette = m_console.palette();
+//    palette.setColor(QPalette::Base, Qt::black);
+//    palette.setColor(QPalette::Text, Qt::white);
+//    m_console.setPalette(palette);
+//    m_console.setReadOnly(true);
 
-    uploadSolutionLayout->addWidget(m_solutionLabel);
-    uploadSolutionLayout->addWidget(m_uploadSolutionButton);
-    uploadSolutionLayout->addWidget(&m_uploadSolutionLineEdit);
-    uploadSolutionLayout->addWidget(m_compileSolutionButton);
-    uploadSolutionLayout->addWidget(m_consoleLabel);
-    uploadSolutionLayout->addWidget(&m_console);
+//    uploadSolutionLayout->addWidget(m_solutionLabel);
+//    uploadSolutionLayout->addWidget(m_uploadSolutionButton);
+//    uploadSolutionLayout->addWidget(&m_uploadSolutionLineEdit);
+//    uploadSolutionLayout->addWidget(m_compileSolutionButton);
+//    uploadSolutionLayout->addWidget(m_consoleLabel);
+//    uploadSolutionLayout->addWidget(&m_console);
 
-    m_inputsLabel = new QLabel(tr("Input data"));
-    m_loadInputsButton = new QPushButton(tr("Load inputs"));
-    m_inputsList = new QListView;
-    m_stringModel = new QStringListModel;
-    m_inputsList->setModel(m_stringModel);
-    m_inputsLabel->setFont(font);
+//    m_inputsLabel = new QLabel(tr("Input data"));
+//    m_loadInputsButton = new QPushButton(tr("Load inputs"));
+//    m_inputsList = new QListView;
+//    m_stringModel = new QStringListModel;
+//    m_inputsList->setModel(m_stringModel);
+//    m_inputsLabel->setFont(font);
 
-    inputsLayout->addWidget(m_inputsLabel);
-    inputsLayout->addWidget(m_loadInputsButton);
-    inputsLayout->addWidget(m_inputsList);
+//    inputsLayout->addWidget(m_inputsLabel);
+//    inputsLayout->addWidget(m_loadInputsButton);
+//    inputsLayout->addWidget(m_inputsList);
 
-    mainLayout->addLayout(uploadSolutionLayout, 2);
-    QWidget *inputsWidget = new QWidget;
-    inputsWidget->setLayout(inputsLayout);
-    inputsWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-    mainLayout->addWidget(inputsWidget);
+//    mainLayout->addLayout(uploadSolutionLayout, 2);
+//    QWidget *inputsWidget = new QWidget;
+//    inputsWidget->setLayout(inputsLayout);
+//    inputsWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+//    mainLayout->addWidget(inputsWidget);
 
-    m_implementation->setLayout(mainLayout);
+//    m_implementation->setLayout(mainLayout);
 
-    connect(m_uploadSolutionButton, &QPushButton::clicked, this, &CTaskWidget::onUploadSolutionClicked);
-    connect(m_compileSolutionButton, &QPushButton::clicked, this, &CTaskWidget::onCompileSolutionClicked);
-    connect(m_loadInputsButton, &QPushButton::clicked, this, &CTaskWidget::onLoadInputClicked);
+//    connect(m_uploadSolutionButton, &QPushButton::clicked, this, &CTaskWidget::onUploadSolutionClicked);
+//    connect(m_compileSolutionButton, &QPushButton::clicked, this, &CTaskWidget::onCompileSolutionClicked);
+//    connect(m_loadInputsButton, &QPushButton::clicked, this, &CTaskWidget::onLoadInputClicked);
 }
 
 void CTaskWidget::setOutputWidget()

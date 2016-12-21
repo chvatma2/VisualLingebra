@@ -42,8 +42,8 @@ private:
     QListView m_index;
     QStatusBar m_statusBar;
     QTabWidget m_bottomTabs;
-    ITabs *m_assignement = nullptr;
-    ITabs *m_implementation = nullptr;
+    QWidget *m_assignement = nullptr;
+    QWidget *m_implementation = nullptr;
     ITabs *m_output = nullptr;
     QLineEdit m_uploadSolutionLineEdit;
     QTextEdit m_console;
