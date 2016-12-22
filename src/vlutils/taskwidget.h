@@ -23,6 +23,10 @@
 //1. Tooltipy
 //2. Nastavovat texty pouze z retranslate UI
 
+class CAssignmentWidget;
+class CImplementationWidget;
+class COutputWidget;
+
 class CTaskWidget : /*public QTabWidget,*/ public ITabs
 {
     Q_OBJECT
@@ -42,9 +46,9 @@ private:
     QListView m_index;
     QStatusBar m_statusBar;
     QTabWidget m_bottomTabs;
-    QWidget *m_assignement = nullptr;
-    QWidget *m_implementation = nullptr;
-    ITabs *m_output = nullptr;
+    CAssignmentWidget *m_assignement = nullptr;
+    CImplementationWidget *m_implementation = nullptr;
+    COutputWidget *m_output = nullptr;
     QLineEdit m_uploadSolutionLineEdit;
     QTextEdit m_console;
     QHBoxLayout m_outputLayout;

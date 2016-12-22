@@ -6,11 +6,11 @@
 class QWebEngineView;
 class QLabel;
 
-class CAssignementWidget : public QWidget
+class CAssignmentWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CAssignementWidget(QWidget *parent = 0);
+    explicit CAssignmentWidget(QWidget *parent = 0);
     void retranslateUi();
     void setHtmlFromFile(const QString & filename);
 

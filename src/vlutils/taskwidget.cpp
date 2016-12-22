@@ -1,7 +1,8 @@
 #include "taskwidget.h"
 #include "movement2dwidget.h"
-#include "assignementwidget.h"
+#include "assignmentwidget.h"
 #include "implementationwidget.h"
+#include "outputwidget.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -24,8 +25,6 @@ CTaskWidget::CTaskWidget(QWidget *parent) : /*QTabWidget(parent),*/ ITabs(parent
     setAssignementWidget();
     setImplementationWidget();
     setOutputWidget();
-
-    m_output->setName("Output");
 
     m_tabWidget.setTabShape(QTabWidget::Triangular);
     m_tabWidget.addTab(m_assignement, QIcon(), tr("Assignement"));
@@ -59,208 +58,154 @@ void CTaskWidget::retranslateUi()
 
 void CTaskWidget::setAssignementWidget()
 {
-    m_assignement = new CAssignementWidget;
+    m_assignement = new CAssignmentWidget;
 }
 
 void CTaskWidget::setImplementationWidget()
 {
     m_implementation = new CImplementationWidget;
-//    QFont font;
-//    font.setPointSize(14);
-
-//    m_implementation = new ITabs;
-
-//    QHBoxLayout *mainLayout = new QHBoxLayout;
-
-//    QVBoxLayout *inputsLayout = new QVBoxLayout;
-//    QVBoxLayout *uploadSolutionLayout = new QVBoxLayout;
-
-//    m_uploadSolutionButton = new QPushButton(tr("Open solution"));
-//    m_compileSolutionButton = new QPushButton(tr("Compile"));
-//    m_solutionLabel = new QLabel(tr("Solution"));
-//    m_solutionLabel->setFont(font);
-//    m_uploadSolutionButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-//    m_compileSolutionButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-
-//    m_uploadSolutionLineEdit.setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-
-//    m_consoleLabel = new QLabel(tr("Compiler output"));
-//    QPalette palette = m_console.palette();
-//    palette.setColor(QPalette::Base, Qt::black);
-//    palette.setColor(QPalette::Text, Qt::white);
-//    m_console.setPalette(palette);
-//    m_console.setReadOnly(true);
-
-//    uploadSolutionLayout->addWidget(m_solutionLabel);
-//    uploadSolutionLayout->addWidget(m_uploadSolutionButton);
-//    uploadSolutionLayout->addWidget(&m_uploadSolutionLineEdit);
-//    uploadSolutionLayout->addWidget(m_compileSolutionButton);
-//    uploadSolutionLayout->addWidget(m_consoleLabel);
-//    uploadSolutionLayout->addWidget(&m_console);
-
-//    m_inputsLabel = new QLabel(tr("Input data"));
-//    m_loadInputsButton = new QPushButton(tr("Load inputs"));
-//    m_inputsList = new QListView;
-//    m_stringModel = new QStringListModel;
-//    m_inputsList->setModel(m_stringModel);
-//    m_inputsLabel->setFont(font);
-
-//    inputsLayout->addWidget(m_inputsLabel);
-//    inputsLayout->addWidget(m_loadInputsButton);
-//    inputsLayout->addWidget(m_inputsList);
-
-//    mainLayout->addLayout(uploadSolutionLayout, 2);
-//    QWidget *inputsWidget = new QWidget;
-//    inputsWidget->setLayout(inputsLayout);
-//    inputsWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-//    mainLayout->addWidget(inputsWidget);
-
-//    m_implementation->setLayout(mainLayout);
-
-//    connect(m_uploadSolutionButton, &QPushButton::clicked, this, &CTaskWidget::onUploadSolutionClicked);
-//    connect(m_compileSolutionButton, &QPushButton::clicked, this, &CTaskWidget::onCompileSolutionClicked);
-//    connect(m_loadInputsButton, &QPushButton::clicked, this, &CTaskWidget::onLoadInputClicked);
 }
 
 void CTaskWidget::setOutputWidget()
 {
-    QFont font;
-    font.setPointSize(14);
+    m_output = new COutputWidget;
+//    QFont font;
+//    font.setPointSize(14);
 
-    m_output = new ITabs;
+//    m_output = new ITabs;
 
-    QVBoxLayout *leftLayout = new QVBoxLayout;
-    QVBoxLayout *rightLayout = new QVBoxLayout;
-    QVBoxLayout *toolsLayout = new QVBoxLayout;
+//    QVBoxLayout *leftLayout = new QVBoxLayout;
+//    QVBoxLayout *rightLayout = new QVBoxLayout;
+//    QVBoxLayout *toolsLayout = new QVBoxLayout;
 
-    m_leftLabel = new QLabel(tr("Student's implementation"));
-    m_rightLabel = new QLabel(tr("Reference implementation"));
-    leftLayout->addWidget(m_leftLabel, 0, Qt::AlignTop | Qt::AlignCenter);
-    rightLayout->addWidget(m_rightLabel, 0, Qt::AlignTop | Qt::AlignCenter);
+//    m_leftLabel = new QLabel(tr("Student's implementation"));
+//    m_rightLabel = new QLabel(tr("Reference implementation"));
+//    leftLayout->addWidget(m_leftLabel, 0, Qt::AlignTop | Qt::AlignCenter);
+//    rightLayout->addWidget(m_rightLabel, 0, Qt::AlignTop | Qt::AlignCenter);
 
-    m_leftLabel->setFont(font);
-    m_rightLabel->setFont(font);
+//    m_leftLabel->setFont(font);
+//    m_rightLabel->setFont(font);
 
-    QPushButton *hideToolsButton = new QPushButton(">>");
-    hideToolsButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+//    QPushButton *hideToolsButton = new QPushButton(">>");
+//    hideToolsButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    m_bothSolutionsButton = new QPushButton(QIcon("../assets/bothwindows.png"), "");
-    m_studentSolutionsButton = new QPushButton(QIcon("../assets/studentwindow.png"), "");
-    m_referenceSolutionsButton = new QPushButton(QIcon("../assets/referencewindow.png"), "");
+//    m_bothSolutionsButton = new QPushButton(QIcon("../assets/bothwindows.png"), "");
+//    m_studentSolutionsButton = new QPushButton(QIcon("../assets/studentwindow.png"), "");
+//    m_referenceSolutionsButton = new QPushButton(QIcon("../assets/referencewindow.png"), "");
 
-    QHBoxLayout *showPartOfScreenButtonsLayout = new QHBoxLayout;
-    showPartOfScreenButtonsLayout->addWidget(m_bothSolutionsButton);
-    m_bothSolutionsButton->setDown(true);
-    showPartOfScreenButtonsLayout->addWidget(m_studentSolutionsButton);
-    showPartOfScreenButtonsLayout->addWidget(m_referenceSolutionsButton);
+//    QHBoxLayout *showPartOfScreenButtonsLayout = new QHBoxLayout;
+//    showPartOfScreenButtonsLayout->addWidget(m_bothSolutionsButton);
+//    m_bothSolutionsButton->setDown(true);
+//    showPartOfScreenButtonsLayout->addWidget(m_studentSolutionsButton);
+//    showPartOfScreenButtonsLayout->addWidget(m_referenceSolutionsButton);
 
-    showPartOfScreenButtonsLayout->addStretch();
+//    showPartOfScreenButtonsLayout->addStretch();
 
-    QHBoxLayout *labelLayout = new QHBoxLayout;
+//    QHBoxLayout *labelLayout = new QHBoxLayout;
 
-    m_toolboxLabel = new QLabel;
-    m_toolboxLabel->setText(tr("Toolbox"));
-    m_toolboxLabel->setFont(font);
-    hideToolsButton->setMaximumWidth(40);
-    labelLayout->addWidget(m_toolboxLabel);
-    labelLayout->addWidget(hideToolsButton, 0, Qt::AlignRight);
+//    m_toolboxLabel = new QLabel;
+//    m_toolboxLabel->setText(tr("Toolbox"));
+//    m_toolboxLabel->setFont(font);
+//    hideToolsButton->setMaximumWidth(40);
+//    labelLayout->addWidget(m_toolboxLabel);
+//    labelLayout->addWidget(hideToolsButton, 0, Qt::AlignRight);
 
-    //toolsLayout->addWidget(m_toolboxLabel, 0, Qt::AlignCenter);
-    toolsLayout->addLayout(labelLayout);
-    toolsLayout->addLayout(showPartOfScreenButtonsLayout);
-    toolsLayout->addStretch();
+//    //toolsLayout->addWidget(m_toolboxLabel, 0, Qt::AlignCenter);
+//    toolsLayout->addLayout(labelLayout);
+//    toolsLayout->addLayout(showPartOfScreenButtonsLayout);
+//    toolsLayout->addStretch();
 
-    QWidget* gridWidget = new QWidget;
-    QGridLayout *gridLayout = new QGridLayout;
+//    QWidget* gridWidget = new QWidget;
+//    QGridLayout *gridLayout = new QGridLayout;
 
-    m_upButton = new QPushButton(QIcon("../assets/up-arrow.png"), "");
-    m_downButton = new QPushButton(QIcon("../assets/down-arrow.png"), "");
-    m_leftButton = new QPushButton(QIcon("../assets/left-arrow.png"), "");
-    m_rightButton = new QPushButton(QIcon("../assets/right-arrow.png"), "");
+//    m_upButton = new QPushButton(QIcon("../assets/up-arrow.png"), "");
+//    m_downButton = new QPushButton(QIcon("../assets/down-arrow.png"), "");
+//    m_leftButton = new QPushButton(QIcon("../assets/left-arrow.png"), "");
+//    m_rightButton = new QPushButton(QIcon("../assets/right-arrow.png"), "");
 
-    gridLayout->addWidget(m_upButton, 0, 1);
-    gridLayout->addWidget(m_downButton, 2, 1);
-    gridLayout->addWidget(m_leftButton, 1, 0);
-    gridLayout->addWidget(m_rightButton, 1, 2);
-    gridWidget->setLayout(gridLayout);
+//    gridLayout->addWidget(m_upButton, 0, 1);
+//    gridLayout->addWidget(m_downButton, 2, 1);
+//    gridLayout->addWidget(m_leftButton, 1, 0);
+//    gridLayout->addWidget(m_rightButton, 1, 2);
+//    gridWidget->setLayout(gridLayout);
 
-    toolsLayout->addWidget(gridWidget);
+//    toolsLayout->addWidget(gridWidget);
 
-    toolsLayout->addStretch();
+//    toolsLayout->addStretch();
 
-    m_toolboxArea.setWidgetResizable(true);
-    m_toolboxArea.setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
-    m_toolboxArea.setFrameStyle(QFrame::Panel);
-    m_toolboxArea.setLayout(toolsLayout);
+//    m_toolboxArea.setWidgetResizable(true);
+//    m_toolboxArea.setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
+//    m_toolboxArea.setFrameStyle(QFrame::Panel);
+//    m_toolboxArea.setLayout(toolsLayout);
 
-    CMovement2DWidget *studentMovementWidget = new CMovement2DWidget;
-    CMovement2DWidget *referenceMovementWidget = new CMovement2DWidget;
+//    CMovement2DWidget *studentMovementWidget = new CMovement2DWidget;
+//    CMovement2DWidget *referenceMovementWidget = new CMovement2DWidget;
 
-    studentMovementWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    referenceMovementWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+//    studentMovementWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+//    referenceMovementWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    rightLayout->addWidget(referenceMovementWidget);
-    if(m_hasStudentImplementation) {
-        leftLayout->addWidget(studentMovementWidget);
-    } else {
-        m_missingStudentImplementationLabel = new QLabel(tr("Implementation missing"));
-        m_missingStudentImplementationLabel->setFont(font);
-        leftLayout->addStretch();
-        leftLayout->addWidget(m_missingStudentImplementationLabel, 0, Qt::AlignCenter | Qt::AlignHCenter);
-        leftLayout->addStretch();
-    }
+//    rightLayout->addWidget(referenceMovementWidget);
+//    if(m_hasStudentImplementation) {
+//        leftLayout->addWidget(studentMovementWidget);
+//    } else {
+//        m_missingStudentImplementationLabel = new QLabel(tr("Implementation missing"));
+//        m_missingStudentImplementationLabel->setFont(font);
+//        leftLayout->addStretch();
+//        leftLayout->addWidget(m_missingStudentImplementationLabel, 0, Qt::AlignCenter | Qt::AlignHCenter);
+//        leftLayout->addStretch();
+//    }
 
-    connect(referenceMovementWidget, &CMovement2DWidget::upPressed, this, &CTaskWidget::onUpButtonStateChanged);
-    connect(referenceMovementWidget, &CMovement2DWidget::downPressed, this, &CTaskWidget::onDownButtonStateChanged);
-    connect(referenceMovementWidget, &CMovement2DWidget::leftPressed, this, &CTaskWidget::onLeftButtonStateChanged);
-    connect(referenceMovementWidget, &CMovement2DWidget::rightPressed, this, &CTaskWidget::onRightButtonStateChanged);
+//    connect(referenceMovementWidget, &CMovement2DWidget::upPressed, this, &CTaskWidget::onUpButtonStateChanged);
+//    connect(referenceMovementWidget, &CMovement2DWidget::downPressed, this, &CTaskWidget::onDownButtonStateChanged);
+//    connect(referenceMovementWidget, &CMovement2DWidget::leftPressed, this, &CTaskWidget::onLeftButtonStateChanged);
+//    connect(referenceMovementWidget, &CMovement2DWidget::rightPressed, this, &CTaskWidget::onRightButtonStateChanged);
 
-    connect(studentMovementWidget, &CMovement2DWidget::upPressed, this, &CTaskWidget::onUpButtonStateChanged);
-    connect(studentMovementWidget, &CMovement2DWidget::downPressed, this, &CTaskWidget::onDownButtonStateChanged);
-    connect(studentMovementWidget, &CMovement2DWidget::leftPressed, this, &CTaskWidget::onLeftButtonStateChanged);
-    connect(studentMovementWidget, &CMovement2DWidget::rightPressed, this, &CTaskWidget::onRightButtonStateChanged);
+//    connect(studentMovementWidget, &CMovement2DWidget::upPressed, this, &CTaskWidget::onUpButtonStateChanged);
+//    connect(studentMovementWidget, &CMovement2DWidget::downPressed, this, &CTaskWidget::onDownButtonStateChanged);
+//    connect(studentMovementWidget, &CMovement2DWidget::leftPressed, this, &CTaskWidget::onLeftButtonStateChanged);
+//    connect(studentMovementWidget, &CMovement2DWidget::rightPressed, this, &CTaskWidget::onRightButtonStateChanged);
 
-    m_referenceView = new QWidget;
-    m_referenceView->setLayout(rightLayout);
-    m_studentView = new QWidget;
-    m_studentView->setLayout(leftLayout);
+//    m_referenceView = new QWidget;
+//    m_referenceView->setLayout(rightLayout);
+//    m_studentView = new QWidget;
+//    m_studentView->setLayout(leftLayout);
 
-    m_outputLayout.addWidget(m_studentView, 1);
-    m_outputLayout.addWidget(m_referenceView, 1);
-    m_outputLayout.addWidget(&m_toolboxArea);
+//    m_outputLayout.addWidget(m_studentView, 1);
+//    m_outputLayout.addWidget(m_referenceView, 1);
+//    m_outputLayout.addWidget(&m_toolboxArea);
 
-    m_output->setLayout(&m_outputLayout);
+//    m_output->setLayout(&m_outputLayout);
 
-    connect(hideToolsButton, &QPushButton::clicked, this, &CTaskWidget::onHideButtonClicked);
-    connect(m_bothSolutionsButton, &QPushButton::clicked, this, &CTaskWidget::onBothViewsSelected);
-    connect(m_studentSolutionsButton, &QPushButton::clicked, this, &CTaskWidget::onStudentViewSelected);
-    connect(m_referenceSolutionsButton, &QPushButton::clicked, this, &CTaskWidget::onReferenceViewSelected);
+//    connect(hideToolsButton, &QPushButton::clicked, this, &CTaskWidget::onHideButtonClicked);
+//    connect(m_bothSolutionsButton, &QPushButton::clicked, this, &CTaskWidget::onBothViewsSelected);
+//    connect(m_studentSolutionsButton, &QPushButton::clicked, this, &CTaskWidget::onStudentViewSelected);
+//    connect(m_referenceSolutionsButton, &QPushButton::clicked, this, &CTaskWidget::onReferenceViewSelected);
 
-    QPushButton *showToolboxButton = new QPushButton("<<");
-    QVBoxLayout *minimizedToolboxLayout = new QVBoxLayout;
-    m_bothSolutionsButton2 = new QPushButton(QIcon("../assets/bothwindows.png"), "");
-    m_studentSolutionsButton2 = new QPushButton(QIcon("../assets/studentwindow.png"), "");
-    m_referenceSolutionsButton2 = new QPushButton(QIcon("../assets/referencewindow.png"), "");
-    showToolboxButton->setMaximumWidth(30);
-    minimizedToolboxLayout->addWidget(showToolboxButton);
+//    QPushButton *showToolboxButton = new QPushButton("<<");
+//    QVBoxLayout *minimizedToolboxLayout = new QVBoxLayout;
+//    m_bothSolutionsButton2 = new QPushButton(QIcon("../assets/bothwindows.png"), "");
+//    m_studentSolutionsButton2 = new QPushButton(QIcon("../assets/studentwindow.png"), "");
+//    m_referenceSolutionsButton2 = new QPushButton(QIcon("../assets/referencewindow.png"), "");
+//    showToolboxButton->setMaximumWidth(30);
+//    minimizedToolboxLayout->addWidget(showToolboxButton);
+////    minimizedToolboxLayout->addStretch();
+//    minimizedToolboxLayout->addWidget(m_bothSolutionsButton2);
+//    m_bothSolutionsButton2->setDown(true);
+//    minimizedToolboxLayout->addWidget(m_studentSolutionsButton2);
+//    minimizedToolboxLayout->addWidget(m_referenceSolutionsButton2);
 //    minimizedToolboxLayout->addStretch();
-    minimizedToolboxLayout->addWidget(m_bothSolutionsButton2);
-    m_bothSolutionsButton2->setDown(true);
-    minimizedToolboxLayout->addWidget(m_studentSolutionsButton2);
-    minimizedToolboxLayout->addWidget(m_referenceSolutionsButton2);
-    minimizedToolboxLayout->addStretch();
-    m_minimizedToolbox.setFrameShape(QFrame::Panel);
-    m_minimizedToolbox.setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
-    m_minimizedToolbox.setLayout(minimizedToolboxLayout);
+//    m_minimizedToolbox.setFrameShape(QFrame::Panel);
+//    m_minimizedToolbox.setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
+//    m_minimizedToolbox.setLayout(minimizedToolboxLayout);
 
-    connect(showToolboxButton, &QPushButton::clicked, this, &CTaskWidget::onShowButtonClicked);
-    connect(m_bothSolutionsButton2, &QPushButton::clicked, this, &CTaskWidget::onBothViewsSelected);
-    connect(m_studentSolutionsButton2, &QPushButton::clicked, this, &CTaskWidget::onStudentViewSelected);
-    connect(m_referenceSolutionsButton2, &QPushButton::clicked, this, &CTaskWidget::onReferenceViewSelected);
+//    connect(showToolboxButton, &QPushButton::clicked, this, &CTaskWidget::onShowButtonClicked);
+//    connect(m_bothSolutionsButton2, &QPushButton::clicked, this, &CTaskWidget::onBothViewsSelected);
+//    connect(m_studentSolutionsButton2, &QPushButton::clicked, this, &CTaskWidget::onStudentViewSelected);
+//    connect(m_referenceSolutionsButton2, &QPushButton::clicked, this, &CTaskWidget::onReferenceViewSelected);
 
-    if(!m_hasStudentImplementation) {
-        onReferenceViewSelected();
-    }
+//    if(!m_hasStudentImplementation) {
+//        onReferenceViewSelected();
+//    }
 }
 
 void CTaskWidget::onUploadSolutionClicked()
@@ -315,11 +260,6 @@ void CTaskWidget::onShowButtonClicked()
     showToolboxAnimation->setEndValue(m_toolboxArea.sizeHint().width());
     //connect(showToolboxAnimation, &QPropertyAnimation::finished, this, &CTaskWidget::onShowAnimationFinished);
     showToolboxAnimation->start(QAbstractAnimation::DeleteWhenStopped);
-}
-
-void CTaskWidget::onShowAnimationFinished()
-{
-
 }
 
 void CTaskWidget::onBothViewsSelected()

@@ -1,4 +1,4 @@
-#include "assignementwidget.h"
+#include "assignmentwidget.h"
 
 #include <QFile>
 #include <QLabel>
@@ -6,25 +6,25 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-CAssignementWidget::CAssignementWidget(QWidget *parent) : QWidget(parent)
+CAssignmentWidget::CAssignmentWidget(QWidget *parent) : QWidget(parent)
 {
     createUiElements();
     retranslateUi();
     setHtmlFromFile("../plugins/test.html");
 }
 
-void CAssignementWidget::retranslateUi()
+void CAssignmentWidget::retranslateUi()
 {
 }
 
-void CAssignementWidget::setHtmlFromFile(const QString &filename)
+void CAssignmentWidget::setHtmlFromFile(const QString &filename)
 {
     QFile input(filename);
     input.open(QIODevice::ReadOnly);
     m_page->setHtml(input.readAll());
 }
 
-void CAssignementWidget::createUiElements()
+void CAssignmentWidget::createUiElements()
 {
     QHBoxLayout *mainLayout = new QHBoxLayout;
 
