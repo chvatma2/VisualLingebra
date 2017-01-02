@@ -33,7 +33,11 @@ class CTaskWidget : /*public QTabWidget,*/ public ITabs
 public:
     explicit CTaskWidget(const QString &pluginpath, QWidget *parent = 0);
     void retranslateUi() override;
+
 signals:
+
+protected:
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
 private:
@@ -58,6 +62,8 @@ private:
 
     QPushButton *m_uploadSolutionButton = nullptr;
     QPushButton *m_compileSolutionButton = nullptr;
+    QPushButton *m_forward = nullptr;
+    QPushButton *m_back = nullptr;
     QLabel *m_solutionLabel = nullptr;
     QLabel *m_consoleLabel = nullptr;
     QLabel *m_inputsLabel = nullptr;
@@ -99,6 +105,9 @@ private slots:
     void onDownButtonStateChanged(bool isPressed);
     void onLeftButtonStateChanged(bool isPressed);
     void onRightButtonStateChanged(bool isPressed);
+    void onForwardClicked();
+    void onBackClicked();
+    void onTabChanged(int index);
 
 };
 

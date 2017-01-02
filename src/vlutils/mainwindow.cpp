@@ -28,6 +28,7 @@ void CMainWindow::setupUi()
     setMenuBar(&m_menuBar);
 
     resize(1024, 768);
+    setMinimumSize(840, 472);
     m_tabWidget = new CTabBar(this);
 
     addNewTab();

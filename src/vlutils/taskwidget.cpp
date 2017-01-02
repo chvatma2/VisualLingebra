@@ -16,9 +16,6 @@
 #include <QStringListModel>
 #include <QGridLayout>
 
-//TODO
-//6. Vstupy dropdown
-
 
 CTaskWidget::CTaskWidget(const QString &pluginpath, QWidget *parent) : /*QTabWidget(parent),*/ ITabs(parent)
 {
@@ -31,14 +28,31 @@ CTaskWidget::CTaskWidget(const QString &pluginpath, QWidget *parent) : /*QTabWid
     m_tabWidget.addTab(m_implementation, QIcon(), tr("Implementation"));
     m_tabWidget.addTab(m_output, QIcon(), tr("Output"));
 
+    QWidget* buttonsWidget = new QWidget;
+    QHBoxLayout *buttonLayout = new QHBoxLayout;
+    m_forward = new QPushButton(">");
+    m_back = new QPushButton("<");
+    buttonLayout->addWidget(m_back);
+    buttonLayout->addWidget(m_forward);
+    buttonsWidget->setLayout(buttonLayout);
+    m_tabWidget.setCornerWidget(buttonsWidget);
+    m_forward->setMinimumHeight(30);
+    m_back->setMinimumHeight(30);
+    buttonLayout->setContentsMargins(0, 0, 0, 0);
+
     m_tabWidget.setTabPosition(QTabWidget::TabPosition::South);
     QHBoxLayout *mainLayout = new QHBoxLayout;
     mainLayout->addWidget(&m_tabWidget);
     setLayout(mainLayout);
+    mainLayout->setContentsMargins(0,0,0,0);
 
+    connect(m_forward, &QPushButton::clicked, this, &CTaskWidget::onForwardClicked);
+    connect(m_back, &QPushButton::clicked, this, &CTaskWidget::onBackClicked);
+    connect(&m_tabWidget, &QTabWidget::currentChanged, this, &CTaskWidget::onTabChanged);
     connect(m_implementation, &CImplementationWidget::compiled, m_output, &COutputWidget::onStudentCodeCompiled);
 
     m_tabWidget.setStyleSheet("QTabBar::tab { height: 30px; width: 200px; }");
+    onTabChanged(0);
 }
 
 void CTaskWidget::retranslateUi()
@@ -50,6 +64,12 @@ void CTaskWidget::retranslateUi()
     m_output->retranslateUi();
     m_implementation->retranslateUi();
     m_assignement->retranslateUi();
+}
+
+void CTaskWidget::resizeEvent(QResizeEvent *event)
+{
+    //m_forward->move(this->width() -110, this->height() -40);
+    //m_back->move(this->width() -215, this->height() -40);
 }
 
 void CTaskWidget::setAssignementWidget(const QString &pluginpath)
@@ -93,7 +113,7 @@ void CTaskWidget::setOutputWidget(const QString &pluginpath)
 //    showPartOfScreenButtonsLayout->addWidget(m_bothSolutionsButton);
 //    m_bothSolutionsButton->setDown(true);
 //    showPartOfScreenButtonsLayout->addWidget(m_studentSolutionsButton);
-//    showPartOfScreenButtonsLayout->addWidget(m_referenceSolutionsButton);
+//    showPartOfScreenButtonsLayout->addWidget(m_referenceSolutionsButton);3
 
 //    showPartOfScreenButtonsLayout->addStretch();
 
@@ -103,7 +123,7 @@ void CTaskWidget::setOutputWidget(const QString &pluginpath)
 //    m_toolboxLabel->setText(tr("Toolbox"));
 //    m_toolboxLabel->setFont(font);
 //    hideToolsButton->setMaximumWidth(40);
-//    labelLayout->addWidget(m_toolboxLabel);
+//    labelLayout->addWidget(m_toolboxLabel);http://doc.qt.io/qt-5/qtabwidget.html#setCornerWidget
 //    labelLayout->addWidget(hideToolsButton, 0, Qt::AlignRight);
 
 //    //toolsLayout->addWidget(m_toolboxLabel, 0, Qt::AlignCenter);
@@ -312,4 +332,37 @@ void CTaskWidget::onLeftButtonStateChanged(bool isPressed)
 void CTaskWidget::onRightButtonStateChanged(bool isPressed)
 {
     m_rightButton->setDown(isPressed);
+}
+
+void CTaskWidget::onForwardClicked()
+{
+    int index = m_tabWidget.currentIndex();
+    m_tabWidget.setCurrentIndex(index + 1);
+    repaint();
+}
+
+void CTaskWidget::onBackClicked()
+{
+    int index = m_tabWidget.currentIndex();
+    m_tabWidget.setCurrentIndex(index - 1);
+    repaint();
+}
+
+void CTaskWidget::onTabChanged(int index)
+{
+
+    if(index == 0) {
+        m_back->setDisabled(true);
+    } else {
+        m_back->setDisabled(false);
+    }
+
+    if(index == 2) {
+        m_forward->setDisabled(true);
+    } else {
+        m_forward->setDisabled(false);
+    }
+    m_tabWidget.setFocus();
+    resize(width()-1, height()-1);
+    resize(width()+1, height()+1);
 }
