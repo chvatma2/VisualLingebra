@@ -3,6 +3,8 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QShortcut>
+#include <QCoreApplication>
 
 CMenuBar::CMenuBar(QWidget *parent) : QMenuBar(parent)
 {
@@ -24,10 +26,20 @@ CMenuBar::CMenuBar(QWidget *parent) : QMenuBar(parent)
 
     m_help.addAction(&m_about);
 
+    QShortcut *newShortcut = new QShortcut(QKeySequence("Ctrl+N"), this);
+    connect(newShortcut, &QShortcut::activated, &m_newAssignement, &QAction::trigger);
+
+    QShortcut *quitShortcut = new QShortcut(QKeySequence("Ctrl+Q"), this);
+    connect(quitShortcut, &QShortcut::activated, &m_exit, &QAction::trigger);
+
+    QShortcut *saveShortcut = new QShortcut(QKeySequence("Ctrl+S"), this);
+    connect(saveShortcut, &QShortcut::activated, &m_saveTab, &QAction::trigger);
+
     connect(&m_newAssignement, &QAction::triggered, this, &CMenuBar::newTaskClicked);
     connect(&m_closeCurrent, &QAction::triggered, this, &CMenuBar::closeCurrentClicked);
     connect(&m_options, &QAction::triggered, this, &CMenuBar::onOptionsClicked);
     connect(&m_saveTab, &QAction::triggered, this, &CMenuBar::onSaveTabClicked);
+    connect(&m_exit, &QAction::triggered, QCoreApplication::instance(), &QCoreApplication::quit);
 }
 
 void CMenuBar::setLanguageList(QStringList list)
