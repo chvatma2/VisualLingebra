@@ -41,7 +41,7 @@ private:
     QTranslator *m_currentTranslator = nullptr;
 
 private slots:
-    void onOpenTask(Tasks task);
+    void onOpenTask(const QString &pluginpath, const QString& name);
     void onLastTabClosed();
     void onCurrentTabChanged(int index);
 };

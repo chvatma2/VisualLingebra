@@ -12,9 +12,16 @@ CMovement2DWidget::CMovement2DWidget(QWidget *parent) : QWidget(parent)
     m_car = new QImage("../assets/car.png");
 
     connect(&m_paintTimer, &QTimer::timeout, this, &CMovement2DWidget::update);
+    reset();
+
+}
+
+void CMovement2DWidget::reset()
+{
     m_offset.setX(100);
     m_offset.setY(100);
-
+    m_rotation = 0;
+    m_direction = QPointF(1.0, 0.0);
 }
 
 void CMovement2DWidget::paintEvent(QPaintEvent *event)
@@ -53,8 +60,9 @@ void CMovement2DWidget::keyPressEvent(QKeyEvent *event)
         emit rightPressed(true);
         break;
     }
+    emit keyChanged(event, true);
 }
-
+int m_rotation = 0;
 void CMovement2DWidget::keyReleaseEvent(QKeyEvent *event)
 {
     m_pressedKeys.remove(event->key());
@@ -72,6 +80,7 @@ void CMovement2DWidget::keyReleaseEvent(QKeyEvent *event)
         emit rightPressed(false);
         break;
     }
+    emit keyChanged(event, false);
 }
 
 void CMovement2DWidget::processInput()
@@ -95,4 +104,53 @@ void CMovement2DWidget::processInput()
 void CMovement2DWidget::update()
 {
     QWidget::update();
+}
+
+void CMovement2DWidget::onKeyChanged(QKeyEvent *event, bool state)
+{
+    if(!state) {
+        m_pressedKeys.remove(event->key());
+    } else {
+        m_pressedKeys.insert(event->key());
+    }
+}
+
+void CMovement2DWidget::onUpPressed()
+{
+    m_pressedKeys.insert(Qt::Key_Up);
+}
+
+void CMovement2DWidget::onDownPressed()
+{
+    m_pressedKeys.insert(Qt::Key_Down);
+}
+
+void CMovement2DWidget::onLeftPressed()
+{
+    m_pressedKeys.insert(Qt::Key_Left);
+}
+
+void CMovement2DWidget::onRightPressed()
+{
+    m_pressedKeys.insert(Qt::Key_Right);
+}
+
+void CMovement2DWidget::onUpReleased()
+{
+    m_pressedKeys.remove(Qt::Key_Up);
+}
+
+void CMovement2DWidget::onDownReleased()
+{
+    m_pressedKeys.remove(Qt::Key_Down);
+}
+
+void CMovement2DWidget::onLeftReleased()
+{
+    m_pressedKeys.remove(Qt::Key_Left);
+}
+
+void CMovement2DWidget::onRightReleased()
+{
+    m_pressedKeys.remove(Qt::Key_Right);
 }

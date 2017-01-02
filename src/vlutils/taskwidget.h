@@ -31,15 +31,15 @@ class CTaskWidget : /*public QTabWidget,*/ public ITabs
 {
     Q_OBJECT
 public:
-    explicit CTaskWidget(QWidget *parent = 0);
+    explicit CTaskWidget(const QString &pluginpath, QWidget *parent = 0);
     void retranslateUi() override;
 signals:
 
 public slots:
 private:
-    void setAssignementWidget();
+    void setAssignementWidget(const QString &pluginpath);
     void setImplementationWidget();
-    void setOutputWidget();
+    void setOutputWidget(const QString &pluginpath);
 
     bool m_hasStudentImplementation = false;
     QWebEngineView m_page;
@@ -91,7 +91,7 @@ private slots:
     void onHideButtonClicked();
     void onHideAnimationFinished();
     void onShowButtonClicked();
-    void onShowAnimationFinished();
+    //void onShowAnimationFinished();
     void onBothViewsSelected();
     void onStudentViewSelected();
     void onReferenceViewSelected();

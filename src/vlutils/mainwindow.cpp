@@ -109,28 +109,13 @@ void CMainWindow::changeLanguage(const QString &language)
     retranslateUi();
 }
 
-void CMainWindow::onOpenTask(Tasks task)
+void CMainWindow::onOpenTask(const QString &pluginpath, const QString &name)
 {
     int index = m_tabWidget->currentIndex();
     m_tabWidget->removeTab(index);
-    CTaskWidget *movementWidget = new CTaskWidget;
-    switch(task) {
-    case Tasks::MOVEMENT2D:
-        movementWidget->setName("2D Movement");
-        m_tabWidget->insertTab(index, movementWidget, QIcon(), tr("2D Movement"));
-        break;
-    case Tasks::INDEPENDENCE:
-        movementWidget->setName("Linear independence");
-        m_tabWidget->insertTab(index, movementWidget, QIcon(), tr("Linear independence"));
-        break;
-    case Tasks::HAMMING:
-        movementWidget->setName("Hamming code");
-        m_tabWidget->insertTab(index, movementWidget, QIcon(), tr("Hamming code"));
-        break;
-    default:
-        qDebug() << "Unhandled task type";
-        break;
-    }
+    CTaskWidget *taskWidget = new CTaskWidget(pluginpath);
+    taskWidget->setName(name);
+    m_tabWidget->insertTab(index, taskWidget, QIcon(), name);
     m_tabWidget->setCurrentIndex(index);
 }
 

@@ -6,7 +6,6 @@
 #include <QDebug>
 #include <QFileDialog>
 
-#include "selectiontreemodel.h"
 
 CNewTab::CNewTab(QWidget *parent) : ITabs(parent)
 {
@@ -39,8 +38,8 @@ void CNewTab::retranslateUi()
     m_loadTaskButton.setText(tr("Add new task"));
 
 
-    CSelectionTreeModel *model = new CSelectionTreeModel;
-    m_view->setModel(model);
+    //CSelectionTreeModel *model = new CSelectionTreeModel;
+    //m_view->setModel(model);
     connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &CNewTab::treeViewItemSelected);
 }
 
@@ -54,8 +53,8 @@ void CNewTab::setupLeftLayout()
     m_selectionLabel.setFont(font);
 
     m_view = new QTreeView;
-    CSelectionTreeModel *model = new CSelectionTreeModel;
-    m_view->setModel(model);
+    m_model = new CSelectionTreeModel;
+    m_view->setModel(m_model);
     m_view->setIndentation(8);
 
     m_leftLayout.addWidget(&m_selectionLabel, 0, Qt::AlignCenter | Qt::AlignTop);
@@ -126,20 +125,28 @@ void CNewTab::treeViewItemSelected()
 void CNewTab::onOpenTaskClicked()
 {
     QModelIndex currentSelection = m_view->selectionModel()->currentIndex();
-    QString name = currentSelection.data(Qt::DisplayRole).toString();
 
-    if(name == tr("2D Movement")) {
-        openTask(Tasks::MOVEMENT2D);
-    } else if (name == tr("Hamming Code")) {
-        openTask(Tasks::HAMMING);
-    } else if (name == tr("Linear Independence")){
-        openTask(Tasks::INDEPENDENCE);
-    } else {
-        qDebug() << "Task name not handled yet";
-    }
+    emit openTask(currentSelection.data(Qt::UserRole).toString(), currentSelection.data(Qt::DisplayRole).toString());
+//    if(name == tr("2D Movement")) {
+//        openTask(Tasks::MOVEMENT2D);
+//    } else if (name == tr("Hamming Code")) {
+//        openTask(Tasks::HAMMING);
+//    } else if (name == tr("Linear Independence")){
+//        openTask(Tasks::INDEPENDENCE);
+//    } else {
+//        qDebug() << "Task name not handled yet";
+//    }
 }
 
 void CNewTab::onLoadTaskClicked()
 {
-    QFileDialog::getOpenFileName(this, tr("Open local task"));
+    QString path = QFileDialog::getExistingDirectory(this, tr("Select folder with task"), "../plugins");
+    if(path.isEmpty()) {
+            return;
+    }
+    qDebug() << path;
+    QFileInfo info(path);
+    QFile xml(path + "/" + info.baseName() + ".xml");
+    xml.open(QIODevice::ReadOnly);
+    m_model->addNewNode(info.baseName(), xml.readAll(), info.baseName() + ".xml");
 }

@@ -23,7 +23,7 @@ CImplementationWidget::CImplementationWidget(QWidget *parent) : QWidget(parent)
 
 void CImplementationWidget::retranslateUi()
 {
-    m_uploadSolutionButton->setText(tr("Open solution"));
+    m_uploadSolutionButton->setText(tr("Select solution"));
     m_compileSolutionButton->setText(tr("Compile"));
     m_solutionLabel->setText(tr("Solution"));
     m_inputsLabel->setText(tr("Input dat"));
@@ -33,13 +33,18 @@ void CImplementationWidget::retranslateUi()
 
 void CImplementationWidget::onUploadSolutionClicked()
 {
-    QString filename = QFileDialog::getOpenFileName(this, tr("Open cpp solution file"));
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open cpp solution file"), "../plugins/car/", tr("Source code (*.cpp)"));
     m_uploadSolutionLineEdit->setText(filename);
 }
 
 void CImplementationWidget::onCompileSolutionClicked()
 {
+    if(m_uploadSolutionLineEdit->text().isEmpty()) {
+        m_console->setText("Error, input file path is empty");
+        return;
+    }
     m_console->setText(m_uploadSolutionLineEdit->text() + " Compiled");
+    emit compiled();
 }
 
 void CImplementationWidget::onLoadInputClicked()
@@ -93,9 +98,9 @@ void CImplementationWidget::createUiElements()
     m_inputsList->setModel(m_stringModel);
     m_inputsLabel->setFont(font);
 
-    inputsLayout->addWidget(m_inputsLabel);
-    inputsLayout->addWidget(m_loadInputsButton);
-    inputsLayout->addWidget(m_inputsList);
+//    inputsLayout->addWidget(m_inputsLabel);
+//    inputsLayout->addWidget(m_loadInputsButton);
+//    inputsLayout->addWidget(m_inputsList);
 
     mainLayout->addLayout(uploadSolutionLayout, 2);
     QWidget *inputsWidget = new QWidget;

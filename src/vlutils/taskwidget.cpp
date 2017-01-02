@@ -20,11 +20,11 @@
 //6. Vstupy dropdown
 
 
-CTaskWidget::CTaskWidget(QWidget *parent) : /*QTabWidget(parent),*/ ITabs(parent)
+CTaskWidget::CTaskWidget(const QString &pluginpath, QWidget *parent) : /*QTabWidget(parent),*/ ITabs(parent)
 {
-    setAssignementWidget();
+    setAssignementWidget(pluginpath);
     setImplementationWidget();
-    setOutputWidget();
+    setOutputWidget(pluginpath);
 
     m_tabWidget.setTabShape(QTabWidget::Triangular);
     m_tabWidget.addTab(m_assignement, QIcon(), tr("Assignement"));
@@ -36,6 +36,8 @@ CTaskWidget::CTaskWidget(QWidget *parent) : /*QTabWidget(parent),*/ ITabs(parent
     mainLayout->addWidget(&m_tabWidget);
     setLayout(mainLayout);
 
+    connect(m_implementation, &CImplementationWidget::compiled, m_output, &COutputWidget::onStudentCodeCompiled);
+
     m_tabWidget.setStyleSheet("QTabBar::tab { height: 30px; width: 200px; }");
 }
 
@@ -45,20 +47,14 @@ void CTaskWidget::retranslateUi()
     m_tabWidget.setTabText(m_tabWidget.indexOf(m_implementation), tr("Implementation"));
     m_tabWidget.setTabText(m_tabWidget.indexOf(m_output), tr("Output"));
 
-    m_uploadSolutionButton->setText(tr("Open solution"));
-    m_compileSolutionButton->setText(tr("Compile"));
-    m_solutionLabel->setText(tr("Solution"));
-    m_consoleLabel->setText(tr("Compiler output"));
-    m_inputsLabel->setText(tr("Input data"));
-    m_loadInputsButton->setText(tr("Load inputs"));
-    m_leftLabel->setText(tr("Student's implementation"));
-    m_rightLabel->setText(tr("Reference implementation"));
-    m_toolboxLabel->setText(tr("Toolbox"));
+    m_output->retranslateUi();
+    m_implementation->retranslateUi();
+    m_assignement->retranslateUi();
 }
 
-void CTaskWidget::setAssignementWidget()
+void CTaskWidget::setAssignementWidget(const QString &pluginpath)
 {
-    m_assignement = new CAssignmentWidget;
+    m_assignement = new CAssignmentWidget(pluginpath);
 }
 
 void CTaskWidget::setImplementationWidget()
@@ -66,9 +62,9 @@ void CTaskWidget::setImplementationWidget()
     m_implementation = new CImplementationWidget;
 }
 
-void CTaskWidget::setOutputWidget()
+void CTaskWidget::setOutputWidget(const QString &pluginpath)
 {
-    m_output = new COutputWidget;
+    m_output = new COutputWidget(COutputViewsFactory::loadWidgetsFromPlugin(pluginpath));
 //    QFont font;
 //    font.setPointSize(14);
 

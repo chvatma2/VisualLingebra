@@ -11,6 +11,7 @@ class CSelectionTreeModel : public QAbstractItemModel
 public:
     explicit CSelectionTreeModel(QObject *parent = 0);
     ~CSelectionTreeModel();
+    void addNewNode(const QString &name, const QString &description, const QString &path);
 
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QModelIndex parent(const QModelIndex &index) const Q_DECL_OVERRIDE;
@@ -19,11 +20,16 @@ public:
     QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
     Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
+    bool insertRows(int position, int rows, const QModelIndex &parent = QModelIndex()) Q_DECL_OVERRIDE;
+    bool removeRows(int position, int rows, const QModelIndex &parent = QModelIndex()) Q_DECL_OVERRIDE;
+    bool insertRowsWithData(QList<QVariant> data, int position, int rows, const QModelIndex &parent = QModelIndex());
 
 private:
     void setupModelData();
+    CSelectionTreeItem *getItem(const QModelIndex &index) const;
 
-    CSelectionTreeItem *m_rootItem;
+    CSelectionTreeItem *m_rootItem = nullptr;
+    CSelectionTreeItem* m_linearAlgebra = nullptr;
 
 };
 

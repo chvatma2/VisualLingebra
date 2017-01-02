@@ -18,7 +18,7 @@ public:
     void retranslateUi();
 
 signals:
-
+    void compiled();
 public slots:
 
 private slots:

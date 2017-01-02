@@ -1,16 +1,18 @@
 #include "assignmentwidget.h"
 
 #include <QFile>
+#include <QFileInfo>
 #include <QLabel>
 #include <QWebEngineView>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QDir>
 
-CAssignmentWidget::CAssignmentWidget(QWidget *parent) : QWidget(parent)
+CAssignmentWidget::CAssignmentWidget(const QString &pluginpath, QWidget *parent) : QWidget(parent)
 {
     createUiElements();
     retranslateUi();
-    setHtmlFromFile("../plugins/test.html");
+    setHtmlFromFile("../plugins/" + pluginpath.mid(0, pluginpath.indexOf('.')) + "/" + pluginpath.mid(0, pluginpath.indexOf('.')) + ".html");
 }
 
 void CAssignmentWidget::retranslateUi()

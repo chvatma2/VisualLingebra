@@ -1,0 +1,1069 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 2K.1beta (1.55)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<html><head>
+<title>Representing 2D Transformations as Matrices</title>
+<meta name="description" content="Representing 2D Transformations as Matrices">
+<meta name="keywords" content="2d">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Generator" content="LaTeX2HTML v2K.1beta">
+<meta http-equiv="Content-Style-Type" content="text/css">
+
+<link rel="STYLESHEET" href="Representing%202D%20Transformations%20as%20Matrices_files/2d.css">
+
+</head>
+
+<body alink="#8504F6" background="Representing%202D%20Transformations%20as%20Matrices_files/pattern1.jpg" bgcolor="FFFFFF" link="#800040" text="#000000" vlink="#F1650E">
+
+
+<p>
+
+</p><p>
+
+</p><h1 align="CENTER">Representing 2D Transformations as Matrices</h1>
+
+<p>
+
+</p><h3>Abstract:</h3>
+<div>
+2D graphics transformations are represented as
+matrices. J programs for manipulating transformations such
+as scaling, rotation and translation are given. Efficiency
+of matrix representation of transformations is discussed.
+</div>
+<p>
+
+</p><p>
+Subject Areas:  2D Graphics Transformations.
+<br>Keywords:  Modeling, J Programming Language, 2D Graphics Transformations.
+
+</p><p>
+
+</p><h1><a name="SECTION00010000000000000000">
+1 Introduction</a>
+</h1>
+
+<p>
+In these notes, we consider the problem of representing 2D graphics images
+which may be drawn as a sequence of connected line segments.  Such images
+may be represented as a matrix of 2D points <!-- MATH
+ $\left[ \begin{array}{ll} x_i & y_i \end{array} \right]$
+ -->
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img1.gif" alt="$ \left[ \begin{array}{ll} x_i &amp; y_i \end{array} \right] $" align="MIDDLE" height="35" width="72" border="0">.
+In the following pages we use the J [<a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#hui:dict">Hui 2001</a>] programming notation to describe
+the various transformations.
+
+</p><p>
+For example:
+
+</p><p>
+</p><pre>   [ square =: 5 2 $ 0 0 10 0 10 10 0 10 0 0
+ 0  0
+10  0
+10 10
+ 0 10
+ 0  0
+</pre>
+
+<p>
+represents the square shown in Figure <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#fig:square">1</a>
+
+</p><p>
+
+</p><p></p>
+<div align="CENTER"><a name="fig:square"></a><a name="30"></a>
+<table>
+<caption align="BOTTOM"><strong>Figure 1:</strong>
+A Square</caption>
+<tbody><tr><td><div align="CENTER"><img src="Representing%202D%20Transformations%20as%20Matrices_files/img2.gif" alt="\includegraphics[width=2.0in]{square.eps}" align="BOTTOM" height="200" width="200" border="0">
+</div></td></tr>
+</tbody></table>
+</div><p></p>
+
+<p>
+The idea behind this representation is that the first point represents
+the starting point of the first line segment drawn while the second
+point represents the end of the first line segment and the starting
+point of the second line segment.  The drawing of line segments continues
+in similar fashion until all line segments have been drawn.  A
+matrix having <img src="Representing%202D%20Transformations%20as%20Matrices_files/img3.gif" alt="$n+1$" align="MIDDLE" height="29" width="38" border="0"> points describes a figure consisting of <img src="Representing%202D%20Transformations%20as%20Matrices_files/img4.gif" alt="$n$" align="BOTTOM" height="13" width="11" border="0">
+line segments.  It is sometimes useful to think of each pair of consecutive
+points in this matrix representation, 
+
+</p><p>
+<br></p><p></p>
+<div align="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\left[ \begin{array}{rr}x_{i-1} & y_{i-1} \\
+x_i & y_i \end{array}
+\right]
+\end{displaymath}
+ -->
+
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img5.gif" alt="\begin{displaymath}
+\left[ \begin{array}{rr}x_{i-1} &amp; y_{i-1} \\
+x_i &amp; y_i \end{array}\right]
+\end{displaymath}" height="45" width="106" border="0">
+</div><br clear="ALL">
+<p></p>
+
+<p>
+as as a vector so that the square shown in Figure <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#fig:square">1</a> is the result
+of drawing the vectors shown in Figure <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#fig:vector">2</a>.
+
+</p><p>
+
+</p><p></p>
+<div align="CENTER"><a name="fig:vector"></a><a name="44"></a>
+<table>
+<caption align="BOTTOM"><strong>Figure 2:</strong>
+The Vectors in A Square</caption>
+<tbody><tr><td><div align="CENTER"><img src="Representing%202D%20Transformations%20as%20Matrices_files/img6.gif" alt="\includegraphics[width=2.0in]{vectors.eps}" align="BOTTOM" height="199" width="200" border="0">
+</div></td></tr>
+</tbody></table>
+</div><p></p>
+
+<p>
+
+</p><h1><a name="SECTION00020000000000000000">
+2 Rotation</a>
+</h1>
+
+<p>
+Suppose we wish to rotate a figure around the origin of our 2D coordinate
+system. Figure <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#fig:math-rotate">3</a> shows the point
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img7.gif" alt="$(x,y)$" align="MIDDLE" height="32" width="38" border="0"> being rotated <img src="Representing%202D%20Transformations%20as%20Matrices_files/img8.gif" alt="$\theta$" align="BOTTOM" height="14" width="9" border="0"> degrees (by convention, counter clock-wise direction
+is positive)  about the origin.
+
+</p><p>
+
+</p><p></p>
+<div align="CENTER"><a name="fig:math-rotate"></a><a name="51"></a>
+<table>
+<caption align="BOTTOM"><strong>Figure 3:</strong>
+Rotating a Point About the Origin</caption>
+<tbody><tr><td><div align="CENTER"><img src="Representing%202D%20Transformations%20as%20Matrices_files/img9.gif" alt="\includegraphics[width=2.0in]{math-rotate.eps}" align="BOTTOM" height="185" width="225" border="0">
+</div></td></tr>
+</tbody></table>
+</div><p></p>
+
+<p>
+The equations for changes in the <img src="Representing%202D%20Transformations%20as%20Matrices_files/img10.gif" alt="$x$" align="BOTTOM" height="13" width="10" border="0"> and <img src="Representing%202D%20Transformations%20as%20Matrices_files/img11.gif" alt="$y$" align="MIDDLE" height="29" width="10" border="0"> coordinates are:
+
+</p><p>
+<br>
+</p><div align="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\begin{array}{l}
+x^{\prime} = x \times cos(\theta) - y \times sin(\theta) \\
+y^{\prime} = x \times sin(\theta) + y \times cos(\theta)
+\end{array}
+\end{equation}
+ -->
+<table align="CENTER" width="100%">
+<tbody><tr valign="MIDDLE"><td align="CENTER" nowrap="nowrap"><a name="eqn:rotate"></a><img src="Representing%202D%20Transformations%20as%20Matrices_files/img12.gif" alt="\begin{displaymath}
+\begin{array}{l}
+x^{\prime} = x \times cos(\theta) - y \time...
+...rime} = x \times sin(\theta) + y \times cos(\theta)
+\end{array}\end{displaymath}" height="45" width="204" border="0"></td>
+<td align="RIGHT" width="10">
+(1)</td></tr>
+</tbody></table>
+<br clear="ALL"></div><p></p>
+
+<p>
+If we consider the coordinates of the point <img src="Representing%202D%20Transformations%20as%20Matrices_files/img7.gif" alt="$(x,y)$" align="MIDDLE" height="32" width="38" border="0"> as a one row
+two column matrix <!-- MATH
+ $\left[ \begin{array}{ll} x & y \end{array} \right]$
+ -->
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img13.gif" alt="$\left[ \begin{array}{ll} x &amp; y \end{array} \right]$" align="MIDDLE" height="35" width="62" border="0"> and the matrix
+<br></p><p></p>
+<div align="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\left[ \begin{array}{rr}
+cos(\theta) & sin(\theta) \\
+- sin(\theta) & cos(\theta) \end{array} \right]
+\end{displaymath}
+ -->
+
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img14.gif" alt="\begin{displaymath}
+\left[ \begin{array}{rr}
+cos(\theta) &amp; sin(\theta) \\
+- sin(\theta) &amp; cos(\theta) \end{array} \right]
+\end{displaymath}" height="45" width="144" border="0">
+</div><br clear="ALL">
+<p></p>
+
+<p>
+then, given the J definition for matrix product, <code>mp =: +/ . *</code>,
+we can write Equations (<a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#eqn:rotate">1</a>) as the matrix equation
+
+</p><p>
+<br>
+</p><div align="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\left[ \begin{array}{ll} x^{\prime} & y^{\prime} \end{array} \right] =
+\left[ \begin{array}{ll} x & y \end{array} \right] \texttt{mp} \left[ \begin{array}{rr}
+cos(\theta) & sin(\theta) \\
+- sin(\theta) & cos(\theta) \end{array} \right]
+\end{equation}
+ -->
+<table align="CENTER" width="100%">
+<tbody><tr valign="MIDDLE"><td align="CENTER" nowrap="nowrap"><a name="eqn:matrotate"></a><img src="Representing%202D%20Transformations%20as%20Matrices_files/img15.gif" alt="\begin{displaymath}
+\left[ \begin{array}{ll} x^{\prime} &amp; y^{\prime} \end{array}...
+...in(\theta) \\
+- sin(\theta) &amp; cos(\theta) \end{array} \right]
+\end{displaymath}" height="45" width="321" border="0"></td>
+<td align="RIGHT" width="10">
+(2)</td></tr>
+</tbody></table>
+<br clear="ALL"></div><p></p>
+
+<p>
+We can define a J monad, <code>rotate</code>, which produces the
+rotation matrix.  This monad is applied to an angle, expressed
+in degrees.  Positive angles are measured in a counter-clockwise
+direction by convention.
+
+</p><p>
+</p><pre>   rotate =: monad def '2 2 $ 1 1 _1 1 * 2 1 1 2 o. (o. y.) % 180'
+   rotate 90
+ 0 1
+_1 0
+   rotate 360
+          1 _2.44921e_16
+2.44921e_16            1
+</pre>
+
+<p>
+We can rotate the square of Figure <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#fig:square">1</a> by:
+
+</p><p>
+</p><pre>   square mp rotate 90
+  0  0
+  0 10
+_10 10
+_10  0
+  0  0
+</pre>
+
+<p>
+producing the rectangle shown in Figure <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#fig:rotate">4</a>.
+
+</p><p>
+
+</p><p></p>
+<div align="CENTER"><a name="fig:rotate"></a><a name="94"></a>
+<table>
+<caption align="BOTTOM"><strong>Figure 4:</strong>
+The Square, Rotated 90 Degrees</caption>
+<tbody><tr><td><div align="CENTER"><img src="Representing%202D%20Transformations%20as%20Matrices_files/img16.gif" alt="\includegraphics[width=2.0in]{rotate.eps}" align="BOTTOM" height="200" width="200" border="0">
+</div></td></tr>
+</tbody></table>
+</div><p></p>
+
+<p>
+
+</p><h1><a name="SECTION00030000000000000000">
+3 Scaling</a>
+</h1>
+
+<p>
+Next we consider the problem of scaling (changing the size of) a 2D line drawing.
+Size changes are always made from the origin of the coordinate system.
+The equations for changes in the <img src="Representing%202D%20Transformations%20as%20Matrices_files/img10.gif" alt="$x$" align="BOTTOM" height="13" width="10" border="0"> and <img src="Representing%202D%20Transformations%20as%20Matrices_files/img11.gif" alt="$y$" align="MIDDLE" height="29" width="10" border="0"> coordinates are:
+
+</p><p>
+<br>
+</p><div align="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\begin{array}{l}
+x^{\prime} = x \times S_x \\
+y^{\prime} = y \times S_y
+\end{array}
+\end{equation}
+ -->
+<table align="CENTER" width="100%">
+<tbody><tr valign="MIDDLE"><td align="CENTER" nowrap="nowrap"><a name="eqn:scale"></a><img src="Representing%202D%20Transformations%20as%20Matrices_files/img17.gif" alt="\begin{displaymath}
+\begin{array}{l}
+x^{\prime} = x \times S_x \\
+y^{\prime} = y \times S_y
+\end{array}\end{displaymath}" height="45" width="89" border="0"></td>
+<td align="RIGHT" width="10">
+(3)</td></tr>
+</tbody></table>
+<br clear="ALL"></div><p></p>
+
+<p>
+As before, we consider the coordinates of the point <img src="Representing%202D%20Transformations%20as%20Matrices_files/img7.gif" alt="$(x,y)$" align="MIDDLE" height="32" width="38" border="0"> as a one row
+two column matrix <!-- MATH
+ $\left[ \begin{array}{ll} x & y \end{array} \right]$
+ -->
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img13.gif" alt="$\left[ \begin{array}{ll} x &amp; y \end{array} \right]$" align="MIDDLE" height="35" width="62" border="0"> and the matrix
+<br></p><p></p>
+<div align="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\left[ \begin{array}{ll}
+S_x & 0 \\
+0 & S_y \end{array} \right]
+\end{displaymath}
+ -->
+
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img18.gif" alt="\begin{displaymath}
+\left[ \begin{array}{ll}
+S_x &amp; 0 \\
+0 &amp; S_y \end{array} \right]
+\end{displaymath}" height="45" width="81" border="0">
+</div><br clear="ALL">
+<p></p>
+
+<p>
+then, we can write Equations (<a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#eqn:scale">3</a>) as the matrix equation
+
+</p><p>
+<br>
+</p><div align="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\left[ \begin{array}{ll} x^{\prime} & y^{\prime} \end{array} \right] =
+\left[ \begin{array}{ll} x & y \end{array} \right] \texttt{mp} \left[ \begin{array}{ll}
+S_x & 0 \\
+0 & S_y \end{array} \right]
+\end{equation}
+ -->
+<table align="CENTER" width="100%">
+<tbody><tr valign="MIDDLE"><td align="CENTER" nowrap="nowrap"><a name="eqn:matscale"></a><img src="Representing%202D%20Transformations%20as%20Matrices_files/img19.gif" alt="\begin{displaymath}
+\left[ \begin{array}{ll} x^{\prime} &amp; y^{\prime} \end{array}...
+...eft[ \begin{array}{ll}
+S_x &amp; 0 \\
+0 &amp; S_y \end{array} \right]
+\end{displaymath}" height="45" width="258" border="0"></td>
+<td align="RIGHT" width="10">
+(4)</td></tr>
+</tbody></table>
+<br clear="ALL"></div><p></p>
+
+<p>
+We next define a J monad, <code>scale</code>, which produces the scale matrix.  This
+monad is applied to a list of two scale factors for <img src="Representing%202D%20Transformations%20as%20Matrices_files/img10.gif" alt="$x$" align="BOTTOM" height="13" width="10" border="0"> and <img src="Representing%202D%20Transformations%20as%20Matrices_files/img11.gif" alt="$y$" align="MIDDLE" height="29" width="10" border="0"> respectively.
+
+</p><p>
+</p><pre>   scale =: monad def '2 2 $ (0 { y.),0,0,(1 { y.)'
+   scale 2 3
+2 0
+0 3
+</pre>
+
+<p>
+We can now scale the square of Figure <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#fig:square">1</a> by:
+
+</p><p>
+</p><pre>   square mp scale 2 3
+ 0  0
+20  0
+20 30
+ 0 30
+ 0  0
+</pre>
+
+<p>
+producing the square shown in Figure <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#fig:scale">5</a>.
+
+</p><p>
+
+</p><p></p>
+<div align="CENTER"><a name="fig:scale"></a><a name="138"></a>
+<table>
+<caption align="BOTTOM"><strong>Figure 5:</strong>
+Scaling a Square</caption>
+<tbody><tr><td><div align="CENTER"><img src="Representing%202D%20Transformations%20as%20Matrices_files/img20.gif" alt="\includegraphics[width=2.0in]{scale.eps}" align="BOTTOM" height="244" width="199" border="0">
+</div></td></tr>
+</tbody></table>
+</div><p></p>
+
+<p>
+
+</p><h1><a name="SECTION00040000000000000000">
+4 Translation</a>
+</h1>
+
+<p>
+The third 2D graphics transformation we consider is that of translating
+a 2D line drawing by an amount <img src="Representing%202D%20Transformations%20as%20Matrices_files/img21.gif" alt="$T_x$" align="MIDDLE" height="30" width="18" border="0"> along the <img src="Representing%202D%20Transformations%20as%20Matrices_files/img10.gif" alt="$x$" align="BOTTOM" height="13" width="10" border="0"> axis and <img src="Representing%202D%20Transformations%20as%20Matrices_files/img22.gif" alt="$T_y$" align="MIDDLE" height="30" width="19" border="0"> along
+the <img src="Representing%202D%20Transformations%20as%20Matrices_files/img11.gif" alt="$y$" align="MIDDLE" height="29" width="10" border="0"> axis.  The translation equations may be written as:
+
+</p><p>
+<br>
+</p><div align="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\begin{array}{l}
+x^{\prime} = x + T_x \\
+y^{\prime} = y + T_y
+\end{array}
+\end{equation}
+ -->
+<table align="CENTER" width="100%">
+<tbody><tr valign="MIDDLE"><td align="CENTER" nowrap="nowrap"><a name="eqn:translate"></a><img src="Representing%202D%20Transformations%20as%20Matrices_files/img23.gif" alt="\begin{displaymath}
+\begin{array}{l}
+x^{\prime} = x + T_x \\
+y^{\prime} = y + T_y
+\end{array}\end{displaymath}" height="45" width="88" border="0"></td>
+<td align="RIGHT" width="10">
+(5)</td></tr>
+</tbody></table>
+<br clear="ALL"></div><p></p>
+
+<p>
+We wish to write the Equations <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#eqn:translate">5</a> as a single matrix
+equation.  This requires that we find a 2 by 2 matrix,
+
+</p><p>
+<br></p><p></p>
+<div align="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\left[
+\begin{array}{cc}
+a & b \\
+c & d
+\end{array}
+\right]
+\end{displaymath}
+ -->
+
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img24.gif" alt="\begin{displaymath}
+\left[
+\begin{array}{cc}
+a &amp; b \\
+c &amp; d
+\end{array}\right]
+\end{displaymath}" height="45" width="62" border="0">
+</div><br clear="ALL">
+<p></p>
+
+<p>
+such that <!-- MATH
+ $x \times a + y \times c = x + T_x$
+ -->
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img25.gif" alt="$x \times a + y \times c = x + T_x$" align="MIDDLE" height="30" width="158" border="0">.  From this it is
+clear that <img src="Representing%202D%20Transformations%20as%20Matrices_files/img26.gif" alt="$a = 1$" align="BOTTOM" height="13" width="39" border="0"> and <img src="Representing%202D%20Transformations%20as%20Matrices_files/img27.gif" alt="$c = 0$" align="BOTTOM" height="13" width="37" border="0">, but there is no way to obtain the
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img21.gif" alt="$T_x$" align="MIDDLE" height="30" width="18" border="0"> term required in the first equation of Equations <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#eqn:translate">5</a>. 
+Similarly we must have <!-- MATH
+ $x \times b + y \times d = y + T_y$
+ -->
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img28.gif" alt="$x \times b + y \times d = y + T_y$" align="MIDDLE" height="30" width="159" border="0">.  Therefore,
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img29.gif" alt="$b = 0$" align="BOTTOM" height="14" width="37" border="0"> and <img src="Representing%202D%20Transformations%20as%20Matrices_files/img30.gif" alt="$d = 1$" align="BOTTOM" height="14" width="39" border="0">, and there is no way to obtain the
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img22.gif" alt="$T_y$" align="MIDDLE" height="30" width="19" border="0"> term required in the second equation of Equations <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#eqn:translate">5</a>.
+
+</p><p>
+
+</p><h2><a name="SECTION00041000000000000000">
+4.1 Homogenous Coordinates</a>
+</h2>
+
+<p>
+From the above argument we now see the impossibility of representing
+a translation transformation as a 2 by 2 matrix.  What is required at
+this point is to change the setting (2D coordinate space) in which we
+phrased our original problem.  In geometry, when one encounters difficulty
+when trying to solve a problem in <img src="Representing%202D%20Transformations%20as%20Matrices_files/img4.gif" alt="$n$" align="BOTTOM" height="13" width="11" border="0"> space, it is customary to attempt
+to re-phrase and solve the problem in <img src="Representing%202D%20Transformations%20as%20Matrices_files/img3.gif" alt="$n+1$" align="MIDDLE" height="29" width="38" border="0"> space.  In our case this means that we
+should look at our 2D problem in 3 dimensional space.  But how can we
+do this?  Consider that, given a point <img src="Representing%202D%20Transformations%20as%20Matrices_files/img7.gif" alt="$(x,y)$" align="MIDDLE" height="32" width="38" border="0"> in 2 space, we map that
+point to <img src="Representing%202D%20Transformations%20as%20Matrices_files/img31.gif" alt="$(x,y,1)$" align="MIDDLE" height="32" width="53" border="0">.  That is, we inject each point in the 2D plane into
+the corresponding point in 3 space in the plane <img src="Representing%202D%20Transformations%20as%20Matrices_files/img32.gif" alt="$z=1$" align="BOTTOM" height="13" width="39" border="0">.  If we are able
+to solve our problem in this plane and find that the solution lies in
+the plane <img src="Representing%202D%20Transformations%20as%20Matrices_files/img32.gif" alt="$z=1$" align="BOTTOM" height="13" width="39" border="0">, then we may project this solution back to 2 space by
+mapping each point <img src="Representing%202D%20Transformations%20as%20Matrices_files/img31.gif" alt="$(x,y,1)$" align="MIDDLE" height="32" width="53" border="0"> to <img src="Representing%202D%20Transformations%20as%20Matrices_files/img7.gif" alt="$(x,y)$" align="MIDDLE" height="32" width="38" border="0">.
+
+</p><p>
+To summarize, we inject the 2D plane into 3 space by the mapping
+
+</p><p>
+<br>
+</p><div align="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+(x,y) \rightarrow (x,y,1)
+\end{equation}
+ -->
+<table align="CENTER" width="100%">
+<tbody><tr valign="MIDDLE"><td align="CENTER" nowrap="nowrap"><a name="eqn:inject"></a><img src="Representing%202D%20Transformations%20as%20Matrices_files/img33.gif" alt="\begin{displaymath}
+(x,y) \rightarrow (x,y,1)
+\end{displaymath}" height="28" width="114" border="0"></td>
+<td align="RIGHT" width="10">
+(6)</td></tr>
+</tbody></table>
+<br clear="ALL"></div><p></p>
+
+<p>
+Then we solve our problem, ensuring that our solution lies in the
+plane <img src="Representing%202D%20Transformations%20as%20Matrices_files/img32.gif" alt="$z=1$" align="BOTTOM" height="13" width="39" border="0">.  Our final answer is obtained by the projection of the
+plane <img src="Representing%202D%20Transformations%20as%20Matrices_files/img32.gif" alt="$z=1$" align="BOTTOM" height="13" width="39" border="0"> on 2 space by the mapping
+
+</p><p>
+<br>
+</p><div align="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+(x,y,1) \rightarrow (x,y)
+\end{equation}
+ -->
+<table align="CENTER" width="100%">
+<tbody><tr valign="MIDDLE"><td align="CENTER" nowrap="nowrap"><a name="eqn:project"></a><img src="Representing%202D%20Transformations%20as%20Matrices_files/img34.gif" alt="\begin{displaymath}
+(x,y,1) \rightarrow (x,y)
+\end{displaymath}" height="28" width="114" border="0"></td>
+<td align="RIGHT" width="10">
+(7)</td></tr>
+</tbody></table>
+<br clear="ALL"></div><p></p>
+
+<p>
+This process is referred to as using <i>homogeneous</i> coordinates.  In the context
+of our problem (finding matrix representations of rotation, scaling and
+translation transformations) we must inject our 2D line drawings into
+the plane <img src="Representing%202D%20Transformations%20as%20Matrices_files/img32.gif" alt="$z=1$" align="BOTTOM" height="13" width="39" border="0">.  In J we do this by using <code>stitch</code>, <code>,.</code>.
+
+</p><p>
+</p><pre>   square ,. 1
+ 0  0 1
+10  0 1
+10 10 1
+ 0 10 1
+ 0  0 1
+</pre>
+
+<p>
+We now must rewrite the Equations <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#eqn:translate">5</a> as
+
+</p><p>
+<br>
+</p><div align="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\begin{array}{l}
+x^{\prime} = x + T_x \\
+y^{\prime} = y + T_y \\
+z^{\prime} = z
+\end{array}
+\end{equation}
+ -->
+<table align="CENTER" width="100%">
+<tbody><tr valign="MIDDLE"><td align="CENTER" nowrap="nowrap"><a name="eqn:translatehomo"></a><img src="Representing%202D%20Transformations%20as%20Matrices_files/img35.gif" alt="\begin{displaymath}
+\begin{array}{l}
+x^{\prime} = x + T_x \\
+y^{\prime} = y + T_y \\
+z^{\prime} = z
+\end{array}\end{displaymath}" height="64" width="88" border="0"></td>
+<td align="RIGHT" width="10">
+(8)</td></tr>
+</tbody></table>
+<br clear="ALL"></div><p></p>
+
+<p>
+Consider the 3 by 3 matrix
+
+</p><p>
+<br></p><p></p>
+<div align="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\left[
+\begin{array}{lll}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+T_x & T_y & 1
+\end{array}
+\right]
+\end{displaymath}
+ -->
+
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img36.gif" alt="\begin{displaymath}
+\left[
+\begin{array}{lll}
+1 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 \\
+T_x &amp; T_y &amp; 1
+\end{array}\right]
+\end{displaymath}" height="64" width="107" border="0">
+</div><br clear="ALL">
+<p></p>
+
+<p>
+We now see that the Equations <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#eqn:translatehomo">8</a> may be written as
+the matrix equation
+
+</p><p>
+<br>
+</p><div align="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\left[ \begin{array}{lll} x^{\prime} & y^{\prime} & 1 \end{array} \right] =
+\left[ \begin{array}{lll} x & y & 1 \end{array} \right] \texttt{mp}
+\left[
+\begin{array}{lll}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+T_x & T_y & 1
+\end{array}
+\right]
+\end{equation}
+ -->
+<table align="CENTER" width="100%">
+<tbody><tr valign="MIDDLE"><td align="CENTER" nowrap="nowrap"><a name="eqn:mattranslate"></a><img src="Representing%202D%20Transformations%20as%20Matrices_files/img37.gif" alt="\begin{displaymath}
+\left[ \begin{array}{lll} x^{\prime} &amp; y^{\prime} &amp; 1 \end{a...
+...}
+1 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 \\
+T_x &amp; T_y &amp; 1
+\end{array}\right]
+\end{displaymath}" height="64" width="332" border="0"></td>
+<td align="RIGHT" width="10">
+(9)</td></tr>
+</tbody></table>
+<br clear="ALL"></div><p></p>
+
+<p>
+We define the J monad <code>translate</code>, which is applied to a list of
+two translate values <!-- MATH
+ $\begin{array}{ll} T_x & T_y \end{array}$
+ -->
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img38.gif" alt="$\begin{array}{ll} T_x &amp; T_y \end{array}$" align="MIDDLE" height="35" width="60" border="0">.
+
+</p><p>
+</p><pre>   translate =: monad def '3 3 $ 1 0 0  0 1 0  , y. , 1'
+   translate 10 _10
+ 1   0 0
+ 0   1 0
+10 _10 1
+</pre>
+
+<p>
+We translate the square of Figure <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#fig:square">1</a> by
+
+</p><p>
+</p><pre>   (square ,. 1) mp translate 10 _10
+10 _10 1
+20 _10 1
+20   0 1
+10   0 1
+10 _10 1
+</pre>
+
+<p>
+
+</p><h2><a name="SECTION00042000000000000000">
+4.2 Efficiency of Transformations</a>
+</h2>
+
+<p>
+Notice that the translate matrix (having a last column 0 0 1) always produces
+a result which lies in the plane <img src="Representing%202D%20Transformations%20as%20Matrices_files/img32.gif" alt="$z=1$" align="BOTTOM" height="13" width="39" border="0">.  We can perform the translation operation
+and project the result back on the 2D plane (saving computation time by not
+doing unnecessary multiplications and additions) by
+
+</p><p>
+</p><pre>   (square ,. 1) mp 3 2 {. translate 10 _10
+10 _10
+20 _10
+20   0
+10   0
+10 _10
+</pre>
+
+<p>
+producing the translated square shown in Figure <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#fig:translate">6</a>
+
+</p><p>
+
+</p><p></p>
+<div align="CENTER"><a name="fig:translate"></a><a name="213"></a>
+<table>
+<caption align="BOTTOM"><strong>Figure 6:</strong>
+Translating a Square</caption>
+<tbody><tr><td><div align="CENTER"><img src="Representing%202D%20Transformations%20as%20Matrices_files/img39.gif" alt="\includegraphics[width=2.0in]{translate.eps}" align="BOTTOM" height="169" width="202" border="0">
+</div></td></tr>
+</tbody></table>
+</div><p></p>
+
+<p>
+
+</p><h1><a name="SECTION00050000000000000000">
+5 Scaling and Rotation
+<br>Using Homogeneous Coordinates</a>
+</h1>
+
+<p>
+We want to be able to combine sequences of rotations, scaling and translations
+together as a single 2D graphics transformation.  We accomplish this by
+simply multiplying the matrix representations of each transformation
+using matrix multiplication.  However, to do this, we must go back and
+rewrite the Equations <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#eqn:rotate">1</a> and <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#eqn:scale">3</a> as the following:
+
+</p><p>
+<br>
+</p><div align="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\begin{array}{l}
+x^{\prime} = x \times cos(\theta) - y \times sin(\theta) \\
+y^{\prime} = x \times sin(\theta) + y \times cos(\theta) \\
+z^{\prime} = z
+\end{array}
+\end{equation}
+ -->
+<table align="CENTER" width="100%">
+<tbody><tr valign="MIDDLE"><td align="CENTER" nowrap="nowrap"><a name="eqn:rotatehomo"></a><img src="Representing%202D%20Transformations%20as%20Matrices_files/img40.gif" alt="\begin{displaymath}
+\begin{array}{l}
+x^{\prime} = x \times cos(\theta) - y \time...
+...n(\theta) + y \times cos(\theta) \\
+z^{\prime} = z
+\end{array}\end{displaymath}" height="64" width="204" border="0"></td>
+<td align="RIGHT" width="10">
+(10)</td></tr>
+</tbody></table>
+<br clear="ALL"></div><p></p>
+
+<p>
+<br>
+</p><div align="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\begin{array}{l}
+x^{\prime} = x \times S_x \\
+y^{\prime} = y \times S_y \\
+z^{\prime} = z
+\end{array}
+\end{equation}
+ -->
+<table align="CENTER" width="100%">
+<tbody><tr valign="MIDDLE"><td align="CENTER" nowrap="nowrap"><a name="eqn:scalehomo"></a><img src="Representing%202D%20Transformations%20as%20Matrices_files/img41.gif" alt="\begin{displaymath}
+\begin{array}{l}
+x^{\prime} = x \times S_x \\
+y^{\prime} = y \times S_y \\
+z^{\prime} = z
+\end{array}\end{displaymath}" height="64" width="89" border="0"></td>
+<td align="RIGHT" width="10">
+(11)</td></tr>
+</tbody></table>
+<br clear="ALL"></div><p></p>
+
+<p>
+Similarly we rewrite the matrix Equations <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#eqn:matrotate">2</a> and <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#eqn:matscale">4</a>
+as:
+
+</p><p>
+<br>
+</p><div align="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\left[ \begin{array}{lll} x^{\prime} & y^{\prime} & 1 \end{array} \right] =
+\left[ \begin{array}{lll} x & y & 1 \end{array} \right] \texttt{mp} \left[ \begin{array}{rrr}
+cos(\theta) & sin(\theta) & 0 \\
+- sin(\theta) & cos(\theta) & 0 \\
+0 & 0 & 1 \end{array} \right]
+\end{equation}
+ -->
+<table align="CENTER" width="100%">
+<tbody><tr valign="MIDDLE"><td align="CENTER" nowrap="nowrap"><a name="eqn:matrotatehomo"></a><img src="Representing%202D%20Transformations%20as%20Matrices_files/img42.gif" alt="\begin{displaymath}
+\left[ \begin{array}{lll} x^{\prime} &amp; y^{\prime} &amp; 1 \end{a...
+...in(\theta) &amp; cos(\theta) &amp; 0 \\
+0 &amp; 0 &amp; 1 \end{array} \right]
+\end{displaymath}" height="64" width="396" border="0"></td>
+<td align="RIGHT" width="10">
+(12)</td></tr>
+</tbody></table>
+<br clear="ALL"></div><p></p>
+
+<p>
+<br>
+</p><div align="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\left[ \begin{array}{rrr} x^{\prime} & y^{\prime} & 1 \end{array} \right] =
+\left[ \begin{array}{rrr} x & y & 1 \end{array} \right] \texttt{mp} \left[ \begin{array}{rrr}
+S_x & 0 & 0 \\
+0 & S_y & 0 \\
+0 & 0 & 1 \end{array} \right]
+\end{equation}
+ -->
+<table align="CENTER" width="100%">
+<tbody><tr valign="MIDDLE"><td align="CENTER" nowrap="nowrap"><a name="eqn:matscalehomo"></a><img src="Representing%202D%20Transformations%20as%20Matrices_files/img43.gif" alt="\begin{displaymath}
+\left[ \begin{array}{rrr} x^{\prime} &amp; y^{\prime} &amp; 1 \end{a...
+...
+S_x &amp; 0 &amp; 0 \\
+0 &amp; S_y &amp; 0 \\
+0 &amp; 0 &amp; 1 \end{array} \right]
+\end{displaymath}" height="64" width="333" border="0"></td>
+<td align="RIGHT" width="10">
+(13)</td></tr>
+</tbody></table>
+<br clear="ALL"></div><p></p>
+
+<p>
+We extend our earlier J definitions of <code>rotate</code> and <code>scale</code> to the
+homogenous coordinate system.
+
+</p><p>
+</p><pre>   rotate =: monad def '((2 2 $ 1 1 _1 1 * 2 1 1 2 o. (o. y.) % 180),.0),0 0 1'
+   rotate 180
+_1  0 0
+ 0 _1 0
+ 0  0 1
+   (square ,. 1) mp 3 2 {. rotate 180
+  0   0
+_10   0
+_10 _10
+  0 _10
+  0   0
+</pre>
+
+<p>
+
+</p><p></p>
+<div align="CENTER"><a name="fig:rotate180"></a><a name="273"></a>
+<table>
+<caption align="BOTTOM"><strong>Figure 7:</strong>
+Rotating a Square 180 Degrees</caption>
+<tbody><tr><td><div align="CENTER"><img src="Representing%202D%20Transformations%20as%20Matrices_files/img44.gif" alt="\includegraphics[width=2.0in]{rotate180.eps}" align="BOTTOM" height="200" width="200" border="0">
+</div></td></tr>
+</tbody></table>
+</div><p></p>
+
+<p>
+</p><pre>   scale =: monad def '3 3 $ (0 { y.), 0 0 0 , (1 { y.), 0 0 0 1'
+      scale 2 3
+2 0 0
+0 3 0
+0 0 1
+   (square ,. 1) mp 3 2 {. scale 2 3
+ 0  0
+20  0
+20 30
+ 0 30
+ 0  0
+</pre>
+
+<p>
+Figure <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#fig:scale">5</a> shows the resulting scaled square.
+
+</p><p>
+
+</p><h1><a name="SECTION00060000000000000000">
+6 Combining Transformations</a>
+</h1>
+
+<p>
+We can now combine together two transformations to form a single graphics
+operation.  For example, suppose we wish to first rotate an object 90 degrees
+and then scale the object by 2 along the <img src="Representing%202D%20Transformations%20as%20Matrices_files/img10.gif" alt="$x$" align="BOTTOM" height="13" width="10" border="0"> axis.
+
+</p><p>
+The rotation would be expressed as:
+
+</p><p>
+</p><pre>    [r =: rotate 90                
+ 0 1 0
+_1 0 0
+ 0 0 1
+</pre>
+
+<p>
+Then the scaling operation would be expressed as:
+
+</p><p>
+</p><pre>   [s =: scale 2 1
+2 0 0
+0 1 0
+0 0 1
+</pre>
+
+<p>
+Applying these operations to the square, we have:
+
+</p><p>
+</p><pre>   (((square ,. 1) mp 3 2 {. r) ,. 1) mp 3 2 {. s
+  0  0
+  0 10
+_20 10
+_20  0
+  0  0
+</pre>
+
+<p>
+
+</p><h2><a name="SECTION00061000000000000000">
+6.1 Efficiency of Operations</a>
+</h2>
+
+<p>
+However, notice that
+
+</p><p>
+</p><pre>   (square ,. 1) mp 3 2 {. r mp s
+  0  0
+  0 10
+_20 10
+_20  0
+  0  0
+</pre>
+
+<p>
+produces the same result using far fewer multiplications and additions.
+Figure <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#fig:rotatescale">8</a> shows the rotated and scaled square.
+
+</p><p>
+
+</p><p></p>
+<div align="CENTER"><a name="fig:rotatescale"></a><a name="292"></a>
+<table>
+<caption align="BOTTOM"><strong>Figure 8:</strong>
+Rotated and Scaled Square</caption>
+<tbody><tr><td><div align="CENTER"><img src="Representing%202D%20Transformations%20as%20Matrices_files/img45.gif" alt="\includegraphics[width=2.0in]{rotatescale.eps}" align="BOTTOM" height="190" width="201" border="0">
+</div></td></tr>
+</tbody></table>
+</div><p></p>
+
+<p>
+We are allowed to perform the matrix multiplications of <code>r</code> and <code>s</code> before
+multiplying by <code>square ,. 1</code> because matrix multiplication is associative.
+
+</p><p>
+Be careful!  Matrix multiplication is <i>not</i> commumative.
+
+</p><p>
+</p><pre>   r mp s
+ 0 1 0
+_2 0 0
+ 0 0 1
+   s mp r
+ 0 2 0
+_1 0 0
+ 0 0 1
+</pre>
+
+<p>
+This means we must be careful about the order of application of
+graphics transformations.
+
+</p><p>
+One might be concerned about whether or not multiplying rotation, scaling and/or
+translation matrices produces a transformation which leaves our 2D lines in the
+plane <img src="Representing%202D%20Transformations%20as%20Matrices_files/img32.gif" alt="$z=1$" align="BOTTOM" height="13" width="39" border="0">.  We can answer this question by observing that each of these matrices
+has a last column of <!-- MATH
+ $\begin{array}{lll} 0 & 0 & 1 \end{array}$
+ -->
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img46.gif" alt="$\begin{array}{lll} 0 &amp; 0 &amp; 1 \end{array}$" align="MIDDLE" height="35" width="65" border="0">.  Hence, when multiplying
+any two of these matrices, the product matrix has a last
+column of <!-- MATH
+ $\begin{array}{lll} 0 & 0 & 1 \end{array}$
+ -->
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img46.gif" alt="$\begin{array}{lll} 0 &amp; 0 &amp; 1 \end{array}$" align="MIDDLE" height="35" width="65" border="0">.
+
+</p><p>
+
+</p><h1><a name="SECTION00070000000000000000">
+7 Rotating an Object About a Point</a>
+</h1>
+
+<p>
+As a final example, suppose we wish to rotate the square of Figure <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#fig:square">1</a>
+90 degrees about its upper right corner.  We must first translate the point
+<img src="Representing%202D%20Transformations%20as%20Matrices_files/img47.gif" alt="$(10,10)$" align="MIDDLE" height="32" width="52" border="0"> to the origin.  This is the matrix
+
+</p><p>
+</p><pre>   translate _10 _10
+  1   0 0
+  0   1 0
+_10 _10 1
+</pre>
+
+<p>
+Then we must rotate 90 degrees
+
+</p><p>
+</p><pre>   rotate 90
+ 0 1 0
+_1 0 0
+ 0 0 1
+</pre>
+
+<p>
+Finally, we translate the square back with the matrix
+
+</p><p>
+</p><pre>   translate 10 10
+ 1  0 0
+ 0  1 0
+10 10 1
+</pre>
+
+<p>
+Putting this all together we have:
+
+</p><p>
+</p><pre>   [xform =: (translate _10 _10) mp (rotate 90) mp translate 10 10
+ 0 1 0
+_1 0 0
+20 0 1
+   (square ,. 1) mp 3 2 {. xform
+20  0
+20 10
+10 10
+10  0
+20  0
+</pre>
+
+<p>
+which is shown in Figure <a href="http://www.cs.trinity.edu/%7Ejhowland/cs2322/2d/2d/2d.html#fig:rotate1010">9</a>.
+
+</p><p>
+
+</p><p></p>
+<div align="CENTER"><a name="fig:rotate1010"></a><a name="317"></a>
+<table>
+<caption align="BOTTOM"><strong>Figure 9:</strong>
+Rotating a Square 90 Degrees About (10,10)</caption>
+<tbody><tr><td><div align="CENTER"><img src="Representing%202D%20Transformations%20as%20Matrices_files/img48.gif" alt="\includegraphics[width=2.0in]{rotate1010.eps}" align="BOTTOM" height="171" width="202" border="0">
+</div></td></tr>
+</tbody></table>
+</div><p></p>
+
+<p>
+ 
+</p><h2><a name="SECTION00080000000000000000">
+Bibliography</a>
+</h2><dl compact="compact"><dd>
+
+
+<p>
+</p></dd></dl><br><hr>
+
+
+</body></html>

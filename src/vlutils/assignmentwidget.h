@@ -10,7 +10,7 @@ class CAssignmentWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CAssignmentWidget(QWidget *parent = 0);
+    explicit CAssignmentWidget(const QString &pluginpath, QWidget *parent = 0);
     void retranslateUi();
     void setHtmlFromFile(const QString & filename);
 

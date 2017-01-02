@@ -2,18 +2,13 @@
 #define CNEWTAB_H
 
 #include "tabs.h"
+#include "selectiontreemodel.h"
 
 #include <QLabel>
 #include <QTextEdit>
 #include <QTreeView>
 #include <QPushButton>
 #include <QVBoxLayout>
-
-enum class Tasks {
-    MOVEMENT2D,
-    HAMMING,
-    INDEPENDENCE
-};
 
 class CNewTab : public ITabs
 {
@@ -38,6 +33,7 @@ private:
     QVBoxLayout m_centerLayout;
     QVBoxLayout m_rightLayout;
     bool m_isDescriptionPresent;
+    CSelectionTreeModel* m_model = nullptr;
 
 private slots:
     void treeViewItemSelected();
@@ -45,7 +41,7 @@ private slots:
     void onLoadTaskClicked();
 
 signals:
-    void openTask(Tasks task);
+    void openTask(const QString &pluginpath, const QString &name);
 };
 
 #endif // CNEWTAB_H

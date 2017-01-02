@@ -1,5 +1,7 @@
 #include "selectiontreeitem.h"
 
+#include <QVector>
+
 CSelectionTreeItem::CSelectionTreeItem(const QList<QVariant> &data, CSelectionTreeItem *parent)
     : m_parent(parent), m_itemData(data)
 {
@@ -39,6 +41,30 @@ int CSelectionTreeItem::columnCount() const
 QVariant CSelectionTreeItem::data(int column) const
 {
     return m_itemData.value(column);
+}
+
+bool CSelectionTreeItem::removeChildren(int position, int count)
+{
+    if (position < 0 || position + count > m_children.size())
+        return false;
+
+    for (int row = 0; row < count; ++row)
+        delete m_children.takeAt(position);
+
+    return true;
+}
+
+bool CSelectionTreeItem::insertChildren(int position, int count, int columns, const QList<QVariant> &data)
+{
+    if (position < 0 || position > m_children.size())
+        return false;
+
+    for (int row = 0; row < count; ++row) {
+        CSelectionTreeItem *item = new CSelectionTreeItem(data, this);
+        m_children.insert(position, item);
+    }
+
+    return true;
 }
 
 int CSelectionTreeItem::row() const

@@ -8,8 +8,11 @@
 #include <QFrame>
 #include <QPropertyAnimation>
 
-COutputWidget::COutputWidget(QWidget *parent) : QWidget(parent)
+COutputWidget::COutputWidget(TaskWidgets widgets, QWidget *parent) : QWidget(parent)
 {
+    m_referenceView = widgets.referenceWidget;
+    m_studentView = widgets.studentWidget;
+    m_taskControlPanel = widgets.controlPanel;
     createUiElements();
     retranslateUi();
 }
@@ -19,6 +22,12 @@ void COutputWidget::retranslateUi()
     m_leftLabel->setText(tr("Student's implementation"));
     m_rightLabel->setText(tr("Reference implementation"));
     m_toolboxLabel->setText(tr("Toolbox"));
+    if(m_missingStudentImplementationLabel) {
+        m_missingStudentImplementationLabel->setText(tr("Implementation missing"));
+    }
+    if(m_missingImplementationLabel) {
+        m_missingImplementationLabel->setText(tr("Implementation missing"));
+    }
 }
 
 void COutputWidget::setReferenceView(QWidget *referenceView)
@@ -31,6 +40,21 @@ void COutputWidget::setStudentView(QWidget *studentView)
     m_studentView = studentView;
 }
 
+void COutputWidget::onStudentCodeCompiled()
+{
+    //delete m_leftLayout;
+    while (QLayoutItem* item = m_leftLayout->takeAt(1)) {
+        if (QWidget* widget = item->widget()) {
+            widget->deleteLater();
+        }
+        delete item;
+    }
+    m_studentView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_leftLayout->addWidget(m_leftLabel, 0, Qt::AlignTop | Qt::AlignCenter);
+    m_leftLayout->addWidget(m_studentView);
+    m_leftLayout->update();
+}
+
 void COutputWidget::createUiElements()
 {
     QFont font;
@@ -38,7 +62,7 @@ void COutputWidget::createUiElements()
 
     m_outputLayout = new QHBoxLayout;
 
-    QVBoxLayout *leftLayout = new QVBoxLayout;
+    m_leftLayout = new QVBoxLayout;
     QVBoxLayout *rightLayout = new QVBoxLayout;
     QVBoxLayout *toolsLayout = new QVBoxLayout;
 
@@ -47,7 +71,7 @@ void COutputWidget::createUiElements()
     m_leftLabel->setFont(font);
     m_rightLabel->setFont(font);
 
-    leftLayout->addWidget(m_leftLabel, 0, Qt::AlignTop | Qt::AlignCenter);
+    m_leftLayout->addWidget(m_leftLabel, 0, Qt::AlignTop | Qt::AlignCenter);
     rightLayout->addWidget(m_rightLabel, 0, Qt::AlignTop | Qt::AlignCenter);
 
     QPushButton *hideToolsButton = new QPushButton(">>");
@@ -82,6 +106,7 @@ void COutputWidget::createUiElements()
 
 
     if(m_referenceView != nullptr) {
+        m_referenceView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         rightLayout->addWidget(m_referenceView);
     } else {
         m_missingImplementationLabel = new QLabel(tr("Implementation missing"));
@@ -90,23 +115,24 @@ void COutputWidget::createUiElements()
         rightLayout->addWidget(m_missingImplementationLabel, 0, Qt::AlignCenter | Qt::AlignHCenter);
         rightLayout->addStretch();
     }
-    if(m_studentView != nullptr) {
-        leftLayout->addWidget(m_studentView);
-    } else {
-        m_missingStudentImplementationLabel = new QLabel(tr("Implementation missing"));
-        m_missingStudentImplementationLabel->setFont(font);
-        leftLayout->addStretch();
-        leftLayout->addWidget(m_missingStudentImplementationLabel, 0, Qt::AlignCenter | Qt::AlignHCenter);
-        leftLayout->addStretch();
+
+    m_missingStudentImplementationLabel = new QLabel(tr("Implementation missing"));
+    m_missingStudentImplementationLabel->setFont(font);
+    m_leftLayout->addStretch();
+    m_leftLayout->addWidget(m_missingStudentImplementationLabel, 0, Qt::AlignCenter | Qt::AlignHCenter);
+    m_leftLayout->addStretch();
+
+    if(m_taskControlPanel != nullptr) {
+        toolsLayout->addWidget(m_taskControlPanel);
     }
 
-    m_referenceView = new QWidget;
-    m_referenceView->setLayout(rightLayout);
-    m_studentView = new QWidget;
-    m_studentView->setLayout(leftLayout);
+    m_referenceWidget = new QWidget;
+    m_referenceWidget->setLayout(rightLayout);
+    m_studentWidget = new QWidget;
+    m_studentWidget->setLayout(m_leftLayout);
 
-    m_outputLayout->addWidget(m_studentView, 1);
-    m_outputLayout->addWidget(m_referenceView, 1);
+    m_outputLayout->addWidget(m_studentWidget, 1);
+    m_outputLayout->addWidget(m_referenceWidget, 1);
     m_outputLayout->addWidget(m_toolboxArea);
 
     setLayout(m_outputLayout);
@@ -116,7 +142,7 @@ void COutputWidget::createUiElements()
     connect(m_studentSolutionsButton, &QPushButton::clicked, this, &COutputWidget::onStudentViewSelected);
     connect(m_referenceSolutionsButton, &QPushButton::clicked, this, &COutputWidget::onReferenceViewSelected);
 
-
+    retranslateUi();
     m_minimizedToolbox = new QFrame;
     QPushButton *showToolboxButton = new QPushButton("<<");
     QVBoxLayout *minimizedToolboxLayout = new QVBoxLayout;
@@ -147,8 +173,8 @@ void COutputWidget::createUiElements()
 
 void COutputWidget::onBothViewsSelected()
 {
-    m_referenceView->setHidden(false);
-    m_studentView->setHidden(false);
+    m_referenceWidget->setHidden(false);
+    m_studentWidget->setHidden(false);
     m_bothSolutionsButtonMinimized->setDown(true);
     m_referenceSolutionsButtonMinimized->setDown(false);
     m_studentSolutionsButtonMinimized->setDown(false);
@@ -159,8 +185,8 @@ void COutputWidget::onBothViewsSelected()
 
 void COutputWidget::onStudentViewSelected()
 {
-    m_referenceView->setHidden(true);
-    m_studentView->setHidden(false);
+    m_referenceWidget->setHidden(true);
+    m_studentWidget->setHidden(false);
     m_bothSolutionsButtonMinimized->setDown(false);
     m_referenceSolutionsButtonMinimized->setDown(false);
     m_studentSolutionsButtonMinimized->setDown(true);
@@ -171,8 +197,8 @@ void COutputWidget::onStudentViewSelected()
 
 void COutputWidget::onReferenceViewSelected()
 {
-    m_referenceView->setHidden(false);
-    m_studentView->setHidden(true);
+    m_referenceWidget->setHidden(false);
+    m_studentWidget->setHidden(true);
     m_bothSolutionsButtonMinimized->setDown(false);
     m_referenceSolutionsButtonMinimized->setDown(true);
     m_studentSolutionsButtonMinimized->setDown(false);
