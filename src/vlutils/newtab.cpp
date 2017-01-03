@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QDebug>
 #include <QFileDialog>
+#include <QMessageBox>
 
 
 CNewTab::CNewTab(QWidget *parent) : ITabs(parent)
@@ -147,6 +148,11 @@ void CNewTab::onLoadTaskClicked()
     qDebug() << path;
     QFileInfo info(path);
     QFile xml(path + "/" + info.baseName() + ".xml");
-    xml.open(QIODevice::ReadOnly);
+    if(!xml.open(QIODevice::ReadOnly)) {
+        QMessageBox msgBox;
+        msgBox.setText("The selected folder does not appear to be a correct task plugin.");
+        msgBox.exec();
+        return;
+    }
     m_model->addNewNode(info.baseName(), xml.readAll(), info.baseName() + ".xml");
 }
