@@ -54,6 +54,7 @@
     <name>CMainWindow</name>
     <message>
         <location filename="src/vlutils/mainwindow.cpp" line="48"/>
+        <location filename="src/vlutils/mainwindow.cpp" line="55"/>
         <source>New</source>
         <translation>Nový</translation>
     </message>
@@ -73,54 +74,67 @@
 <context>
     <name>CMenuBar</name>
     <message>
-        <location filename="src/vlutils/menubar.cpp" line="40"/>
+        <location filename="src/vlutils/menubar.cpp" line="56"/>
         <source>File</source>
         <translation>Soubor</translation>
     </message>
     <message>
-        <location filename="src/vlutils/menubar.cpp" line="41"/>
+        <location filename="src/vlutils/menubar.cpp" line="57"/>
         <source>Tools</source>
         <translation>Nástroje</translation>
     </message>
     <message>
-        <location filename="src/vlutils/menubar.cpp" line="42"/>
+        <location filename="src/vlutils/menubar.cpp" line="58"/>
         <source>Help</source>
         <translation>Nápověda</translation>
     </message>
     <message>
-        <location filename="src/vlutils/menubar.cpp" line="43"/>
         <source>New assignement</source>
-        <translation>Nová úloha</translation>
+        <translation type="vanished">Nová úloha</translation>
     </message>
     <message>
-        <location filename="src/vlutils/menubar.cpp" line="44"/>
+        <source>New</source>
+        <translation type="vanished">Nový</translation>
+    </message>
+    <message>
+        <location filename="src/vlutils/menubar.cpp" line="59"/>
+        <source>Assignement selection</source>
+        <translation>Výběr úkolu</translation>
+    </message>
+    <message>
+        <location filename="src/vlutils/menubar.cpp" line="60"/>
         <source>Exit</source>
         <translation>Ukončit</translation>
     </message>
     <message>
-        <location filename="src/vlutils/menubar.cpp" line="45"/>
+        <location filename="src/vlutils/menubar.cpp" line="61"/>
         <source>About</source>
         <translation>O Aplikaci</translation>
     </message>
     <message>
-        <location filename="src/vlutils/menubar.cpp" line="46"/>
+        <location filename="src/vlutils/menubar.cpp" line="62"/>
         <source>Options</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="src/vlutils/menubar.cpp" line="47"/>
+        <location filename="src/vlutils/menubar.cpp" line="63"/>
         <source>Close current tab</source>
         <oldsource>Close current</oldsource>
         <translation>Zavřít aktuální záložku</translation>
     </message>
     <message>
-        <location filename="src/vlutils/menubar.cpp" line="48"/>
-        <location filename="src/vlutils/menubar.cpp" line="65"/>
-        <source>Save current tab</source>
-        <translation>Uložit aktuální záložk</translation>
+        <location filename="src/vlutils/menubar.cpp" line="64"/>
+        <source>&amp;Save current task</source>
+        <oldsource>&amp;Save current tab</oldsource>
+        <translation>Uložit aktuální úlohu</translation>
     </message>
     <message>
-        <location filename="src/vlutils/menubar.cpp" line="68"/>
+        <location filename="src/vlutils/menubar.cpp" line="81"/>
+        <source>Save current tab</source>
+        <translation>Uložit aktuální záložku</translation>
+    </message>
+    <message>
+        <location filename="src/vlutils/menubar.cpp" line="84"/>
         <source>Tab successfully saved in file</source>
         <translation>Záložka úspěšně uložena v souboru</translation>
     </message>
@@ -128,39 +142,38 @@
 <context>
     <name>CNewTab</name>
     <message>
-        <location filename="src/vlutils/newtab.cpp" line="34"/>
-        <location filename="src/vlutils/newtab.cpp" line="52"/>
+        <location filename="src/vlutils/newtab.cpp" line="36"/>
+        <location filename="src/vlutils/newtab.cpp" line="54"/>
         <source>Select assignement</source>
         <translation>Výběr úlohy</translation>
     </message>
     <message>
-        <location filename="src/vlutils/newtab.cpp" line="35"/>
-        <location filename="src/vlutils/newtab.cpp" line="73"/>
+        <location filename="src/vlutils/newtab.cpp" line="37"/>
+        <location filename="src/vlutils/newtab.cpp" line="75"/>
         <source>Task overview</source>
         <translation>Přehled úlohy</translation>
     </message>
     <message>
-        <location filename="src/vlutils/newtab.cpp" line="36"/>
-        <location filename="src/vlutils/newtab.cpp" line="81"/>
+        <location filename="src/vlutils/newtab.cpp" line="38"/>
+        <location filename="src/vlutils/newtab.cpp" line="83"/>
         <source>Open</source>
         <translation>Otevřít</translation>
     </message>
     <message>
-        <location filename="src/vlutils/newtab.cpp" line="37"/>
-        <location filename="src/vlutils/newtab.cpp" line="99"/>
+        <location filename="src/vlutils/newtab.cpp" line="39"/>
+        <location filename="src/vlutils/newtab.cpp" line="101"/>
         <source>Load task from file</source>
         <translation>Načíst úlohu ze souboru</translation>
     </message>
     <message>
-        <location filename="src/vlutils/newtab.cpp" line="38"/>
-        <location filename="src/vlutils/newtab.cpp" line="63"/>
-        <location filename="src/vlutils/newtab.cpp" line="102"/>
-        <source>Add new task</source>
-        <oldsource>Load task</oldsource>
-        <translation>Načíst úlohu</translation>
+        <location filename="src/vlutils/newtab.cpp" line="40"/>
+        <location filename="src/vlutils/newtab.cpp" line="65"/>
+        <location filename="src/vlutils/newtab.cpp" line="104"/>
+        <source>Add new assignement</source>
+        <translation>Přidat novou úlohu</translation>
     </message>
     <message>
-        <location filename="src/vlutils/newtab.cpp" line="143"/>
+        <location filename="src/vlutils/newtab.cpp" line="145"/>
         <source>Select folder with task</source>
         <translation>Vyberte složku s příkladem</translation>
     </message>
@@ -254,10 +267,25 @@
     <message>
         <location filename="src/vlutils/outputwidget.cpp" line="26"/>
         <location filename="src/vlutils/outputwidget.cpp" line="29"/>
-        <location filename="src/vlutils/outputwidget.cpp" line="112"/>
-        <location filename="src/vlutils/outputwidget.cpp" line="119"/>
+        <location filename="src/vlutils/outputwidget.cpp" line="127"/>
+        <location filename="src/vlutils/outputwidget.cpp" line="134"/>
         <source>Implementation missing</source>
         <translation>Chybějící implementace</translation>
+    </message>
+    <message>
+        <location filename="src/vlutils/outputwidget.cpp" line="83"/>
+        <source>Both solutions</source>
+        <translation>Obě řešení</translation>
+    </message>
+    <message>
+        <location filename="src/vlutils/outputwidget.cpp" line="84"/>
+        <source>Student&apos;s solution</source>
+        <translation>Studentovo řešení</translation>
+    </message>
+    <message>
+        <location filename="src/vlutils/outputwidget.cpp" line="85"/>
+        <source>Reference solution</source>
+        <translation>Referenční řešení</translation>
     </message>
 </context>
 <context>
@@ -314,20 +342,20 @@
 <context>
     <name>CTaskWidget</name>
     <message>
-        <location filename="src/vlutils/taskwidget.cpp" line="30"/>
-        <location filename="src/vlutils/taskwidget.cpp" line="46"/>
+        <location filename="src/vlutils/taskwidget.cpp" line="27"/>
+        <location filename="src/vlutils/taskwidget.cpp" line="60"/>
         <source>Assignement</source>
-        <translation>Úloha</translation>
+        <translation>Zadání</translation>
     </message>
     <message>
-        <location filename="src/vlutils/taskwidget.cpp" line="31"/>
-        <location filename="src/vlutils/taskwidget.cpp" line="47"/>
+        <location filename="src/vlutils/taskwidget.cpp" line="28"/>
+        <location filename="src/vlutils/taskwidget.cpp" line="61"/>
         <source>Implementation</source>
         <translation>Implementace</translation>
     </message>
     <message>
-        <location filename="src/vlutils/taskwidget.cpp" line="32"/>
-        <location filename="src/vlutils/taskwidget.cpp" line="48"/>
+        <location filename="src/vlutils/taskwidget.cpp" line="29"/>
+        <location filename="src/vlutils/taskwidget.cpp" line="62"/>
         <source>Output</source>
         <translation>Výstup</translation>
     </message>
@@ -336,61 +364,52 @@
         <translation type="vanished">Nahrát řešení</translation>
     </message>
     <message>
-        <location filename="src/vlutils/taskwidget.cpp" line="51"/>
         <source>Compile</source>
-        <translation>Zkompilovat</translation>
+        <translation type="vanished">Zkompilovat</translation>
     </message>
     <message>
-        <location filename="src/vlutils/taskwidget.cpp" line="52"/>
         <source>Solution</source>
-        <translation>Řešení</translation>
+        <translation type="vanished">Řešení</translation>
     </message>
     <message>
-        <location filename="src/vlutils/taskwidget.cpp" line="53"/>
         <source>Compiler output</source>
-        <translation>Výstup kompilátoru</translation>
+        <translation type="vanished">Výstup kompilátoru</translation>
     </message>
     <message>
         <source>Inputs</source>
         <translation type="vanished">Vstupy</translation>
     </message>
     <message>
-        <location filename="src/vlutils/taskwidget.cpp" line="50"/>
         <source>Open solution</source>
-        <translation>Otevřít řešení</translation>
+        <translation type="vanished">Otevřít řešení</translation>
     </message>
     <message>
-        <location filename="src/vlutils/taskwidget.cpp" line="54"/>
         <source>Input data</source>
-        <translation>Vstupní data</translation>
+        <translation type="vanished">Vstupní data</translation>
     </message>
     <message>
-        <location filename="src/vlutils/taskwidget.cpp" line="55"/>
         <source>Load inputs</source>
-        <translation>Nahrát vstupy</translation>
+        <translation type="vanished">Nahrát vstupy</translation>
     </message>
     <message>
-        <location filename="src/vlutils/taskwidget.cpp" line="56"/>
         <source>Student&apos;s implementation</source>
-        <translation>Studentova implementace</translation>
+        <translation type="vanished">Studentova implementace</translation>
     </message>
     <message>
-        <location filename="src/vlutils/taskwidget.cpp" line="57"/>
         <source>Reference implementation</source>
-        <translation>Referenční implementace</translation>
+        <translation type="vanished">Referenční implementace</translation>
     </message>
     <message>
-        <location filename="src/vlutils/taskwidget.cpp" line="58"/>
         <source>Toolbox</source>
-        <translation>Toolbox</translation>
+        <translation type="vanished">Toolbox</translation>
     </message>
     <message>
-        <location filename="src/vlutils/taskwidget.cpp" line="219"/>
+        <location filename="src/vlutils/taskwidget.cpp" line="229"/>
         <source>Open cpp solution file</source>
         <translation>Otevřít zdrojový kód s řešenmí</translation>
     </message>
     <message>
-        <location filename="src/vlutils/taskwidget.cpp" line="225"/>
+        <location filename="src/vlutils/taskwidget.cpp" line="235"/>
         <source>Select input file</source>
         <translation>Výběr vstupního souboru</translation>
     </message>
