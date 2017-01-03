@@ -24,6 +24,7 @@ CNewTab::CNewTab(QWidget *parent) : ITabs(parent)
     layout->addLayout(&m_centerLayout, 3);
     //layout->addLayout(&m_rightLayout, 1);
 
+    connect(m_view, &QTreeView::doubleClicked, this, &CNewTab::onOpenTaskClicked);
     connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &CNewTab::treeViewItemSelected);
     connect(&m_openTaskButton, &QPushButton::clicked, this, &CNewTab::onOpenTaskClicked);
     connect(&m_loadTaskButton, &QPushButton::clicked, this, &CNewTab::onLoadTaskClicked);

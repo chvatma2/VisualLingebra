@@ -56,12 +56,12 @@ void CMenuBar::retranslateUi()
     m_file.setTitle(tr("File"));
     m_tools.setTitle(tr("Tools"));
     m_help.setTitle(tr("Help"));
-    m_newAssignement.setText(tr("New"));
+    m_newAssignement.setText(tr("Assignement selection"));
     m_exit.setText(tr("Exit"));
     m_about.setText(tr("About"));
     m_options.setText(tr("Options"));
     m_closeCurrent.setText(tr("Close current tab"));
-    m_saveTab.setText(tr("&Save current tab"));
+    m_saveTab.setText(tr("&Save current task"));
 }
 
 void CMenuBar::enableSave(bool enable)
