@@ -54,6 +54,9 @@ void CMainWindow::addNewTab()
 void CMainWindow::closeCurrent()
 {
     m_tabWidget->removeTab(m_tabWidget->currentIndex());
+    if(m_tabWidget->count() == 0) {
+        onLastTabClosed();
+    }
 }
 
 void CMainWindow::loadLanguages()
