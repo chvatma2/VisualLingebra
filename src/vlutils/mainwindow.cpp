@@ -44,6 +44,12 @@ void CMainWindow::setupUi()
 
 void CMainWindow::addNewTab()
 {
+    for(int i = 0; i < m_tabWidget->count(); ++i) {
+        if(m_tabWidget->tabText(i) == tr("New")) {
+            m_tabWidget->setCurrentIndex(i);
+            return;
+        }
+    }
     CNewTab *newTab = new CNewTab;
     newTab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     int index = m_tabWidget->addTab(newTab, QIcon(), tr("New"));
@@ -115,6 +121,12 @@ void CMainWindow::changeLanguage(const QString &language)
 
 void CMainWindow::onOpenTask(const QString &pluginpath, const QString &name)
 {
+    for(int i = 0; i < m_tabWidget->count(); ++i) {
+        if(m_tabWidget->tabText(i) == name) {
+            m_tabWidget->setCurrentIndex(i);
+            return;
+        }
+    }
     int index = m_tabWidget->currentIndex();
     m_tabWidget->removeTab(index);
     CTaskWidget *taskWidget = new CTaskWidget(pluginpath);

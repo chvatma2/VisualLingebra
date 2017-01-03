@@ -7,6 +7,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QDir>
+#include <QMessageBox>
 
 CAssignmentWidget::CAssignmentWidget(const QString &pluginpath, QWidget *parent) : QWidget(parent)
 {
@@ -22,7 +23,12 @@ void CAssignmentWidget::retranslateUi()
 void CAssignmentWidget::setHtmlFromFile(const QString &filename)
 {
     QFile input(filename);
-    input.open(QIODevice::ReadOnly);
+    if(!input.open(QIODevice::ReadOnly)) {
+        QMessageBox msg;
+        msg.setText("Selected task is not implemented in this demo version.");
+        msg.exec();
+        return;
+    }
     m_page->setHtml(input.readAll());
 }
 
