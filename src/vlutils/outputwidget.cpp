@@ -80,6 +80,9 @@ void COutputWidget::createUiElements()
     m_bothSolutionsButton = new QPushButton(QIcon("../assets/bothwindows.png"), "");
     m_studentSolutionsButton = new QPushButton(QIcon("../assets/studentwindow.png"), "");
     m_referenceSolutionsButton = new QPushButton(QIcon("../assets/referencewindow.png"), "");
+    m_bothSolutionsButton->setToolTip(tr("Both solutions"));
+    m_studentSolutionsButton->setToolTip(tr("Student's solution"));
+    m_referenceSolutionsButton->setToolTip(tr("Reference solution"));
 
     QHBoxLayout *showPartOfScreenButtonsLayout = new QHBoxLayout;
     showPartOfScreenButtonsLayout->addWidget(m_bothSolutionsButton);
@@ -88,13 +91,16 @@ void COutputWidget::createUiElements()
     showPartOfScreenButtonsLayout->addWidget(m_referenceSolutionsButton);
     showPartOfScreenButtonsLayout->addStretch();
 
+    m_displayButtonsLabel = new QLabel("Display");
     QHBoxLayout *labelLayout = new QHBoxLayout;
     m_toolboxLabel = new QLabel;
+    font.setPointSize(12);
     m_toolboxLabel->setFont(font);
     hideToolsButton->setMaximumWidth(40);
     labelLayout->addWidget(m_toolboxLabel);
     labelLayout->addWidget(hideToolsButton, 0, Qt::AlignRight);
     toolsLayout->addLayout(labelLayout);
+    toolsLayout->addWidget(m_displayButtonsLabel);
     toolsLayout->addLayout(showPartOfScreenButtonsLayout);
     toolsLayout->addStretch();
 

@@ -26,14 +26,18 @@ CMenuBar::CMenuBar(QWidget *parent) : QMenuBar(parent)
 
     m_help.addAction(&m_about);
 
-    QShortcut *newShortcut = new QShortcut(QKeySequence("Ctrl+N"), this);
-    connect(newShortcut, &QShortcut::activated, &m_newAssignement, &QAction::trigger);
+    //QShortcut *newShortcut = new QShortcut(QKeySequence("Ctrl+N"), this);
+    //connect(newShortcut, &QShortcut::activated, &m_newAssignement, &QAction::trigger);
 
-    QShortcut *quitShortcut = new QShortcut(QKeySequence("Ctrl+Q"), this);
-    connect(quitShortcut, &QShortcut::activated, &m_exit, &QAction::trigger);
+    //QShortcut *quitShortcut = new QShortcut(QKeySequence("Ctrl+Q"), this);
+    //connect(quitShortcut, &QShortcut::activated, &m_exit, &QAction::trigger);
 
-    QShortcut *saveShortcut = new QShortcut(QKeySequence("Ctrl+S"), this);
-    connect(saveShortcut, &QShortcut::activated, &m_saveTab, &QAction::trigger);
+    //QShortcut *saveShortcut = new QShortcut(QKeySequence("Ctrl+S"), this);
+    //connect(saveShortcut, &QShortcut::activated, &m_saveTab, &QAction::trigger);
+
+    m_saveTab.setShortcut(QKeySequence::Save);
+    m_exit.setShortcut(QKeySequence::Quit);
+    m_newAssignement.setShortcut(QKeySequence::New);
 
     connect(&m_newAssignement, &QAction::triggered, this, &CMenuBar::newTaskClicked);
     connect(&m_closeCurrent, &QAction::triggered, this, &CMenuBar::closeCurrentClicked);
@@ -52,12 +56,12 @@ void CMenuBar::retranslateUi()
     m_file.setTitle(tr("File"));
     m_tools.setTitle(tr("Tools"));
     m_help.setTitle(tr("Help"));
-    m_newAssignement.setText(tr("New assignement"));
+    m_newAssignement.setText(tr("New"));
     m_exit.setText(tr("Exit"));
     m_about.setText(tr("About"));
     m_options.setText(tr("Options"));
     m_closeCurrent.setText(tr("Close current tab"));
-    m_saveTab.setText(tr("Save current tab"));
+    m_saveTab.setText(tr("&Save current tab"));
 }
 
 void CMenuBar::enableSave(bool enable)

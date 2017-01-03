@@ -42,6 +42,7 @@ private:
     QLabel *m_toolboxLabel = nullptr;
     QLabel* m_missingImplementationLabel = nullptr;
     QLabel* m_missingStudentImplementationLabel = nullptr;
+    QLabel *m_displayButtonsLabel = nullptr;
     QPushButton* m_bothSolutionsButton = nullptr;
     QPushButton* m_studentSolutionsButton = nullptr;
     QPushButton* m_referenceSolutionsButton = nullptr;

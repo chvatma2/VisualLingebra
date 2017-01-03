@@ -36,7 +36,7 @@ void CNewTab::retranslateUi()
     m_selectionDescriptionLabel.setText(tr("Task overview"));
     m_openTaskButton.setText(tr("Open"));
     m_loadTaskTitle.setText(tr("Load task from file"));
-    m_loadTaskButton.setText(tr("Add new task"));
+    m_loadTaskButton.setText(tr("Add new assignement"));
 
 
     //CSelectionTreeModel *model = new CSelectionTreeModel;
@@ -61,7 +61,7 @@ void CNewTab::setupLeftLayout()
     m_leftLayout.addWidget(&m_selectionLabel, 0, Qt::AlignCenter | Qt::AlignTop);
     m_leftLayout.addWidget(m_view);
 
-    m_loadTaskButton.setText(tr("Add new task"));
+    m_loadTaskButton.setText(tr("Add new assignement"));
     m_leftLayout.addWidget(&m_loadTaskButton);
     //m_leftLayout.addStretch();
 }
@@ -100,7 +100,7 @@ void CNewTab::setupRightLayout()
     m_loadTaskTitle.setText(tr("Load task from file"));
     m_loadTaskTitle.setFont(font);
 
-    m_loadTaskButton.setText(tr("Add new task"));
+    m_loadTaskButton.setText(tr("Add new assignement"));
 
     m_rightLayout.addWidget(&m_loadTaskTitle, 0, Qt::AlignCenter | Qt::AlignTop);
     m_rightLayout.addWidget(&m_loadTaskButton);
