@@ -100,8 +100,15 @@ void COutputWidget::createUiElements()
     labelLayout->addWidget(m_toolboxLabel);
     labelLayout->addWidget(hideToolsButton, 0, Qt::AlignRight);
     toolsLayout->addLayout(labelLayout);
-    toolsLayout->addWidget(m_displayButtonsLabel);
-    toolsLayout->addLayout(showPartOfScreenButtonsLayout);
+
+    QFrame *displayFrame = new QFrame;
+    QVBoxLayout* displayLayout = new QVBoxLayout;
+    displayLayout->addWidget(m_displayButtonsLabel);
+    displayLayout->addLayout(showPartOfScreenButtonsLayout);
+    displayFrame->setLayout(displayLayout);
+    displayFrame->setFrameStyle(QFrame::Panel | QFrame::Raised);
+    displayFrame->setLineWidth(2);
+    toolsLayout->addWidget(displayFrame);
     toolsLayout->addStretch();
 
     m_toolboxArea = new QScrollArea;
@@ -109,6 +116,8 @@ void COutputWidget::createUiElements()
     m_toolboxArea->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
     m_toolboxArea->setFrameStyle(QFrame::Panel);
     m_toolboxArea->setLayout(toolsLayout);
+    m_toolboxArea->setFrameStyle(QFrame::Box | QFrame::Raised);
+    m_toolboxArea->setLineWidth(1);
 
 
     if(m_referenceView != nullptr) {
